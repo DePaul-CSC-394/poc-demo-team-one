@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:14
+    container_name: postgres_universe_container
+    environment:
+      POSTGRES_USER: universe_user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: universe_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - webapp_network
+
+  web:
+    build:
+      context: .
+    container_name: django_universe_web_app
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DJANGO_DB_NAME=universe_db
+      - DJANGO_DB_USER=universe_user
+      - DJANGO_DB_PASSWORD=password
+      - DJANGO_DB_HOST=db
+      - DJANGO_DB_PORT=5432
+      - DEBUG=1
+    networks:
+      - webapp_network
+
+volumes:
+  postgres_data:
+
+networks:
+  webapp_network:
