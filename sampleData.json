@@ -17,5 +17,167 @@
 {"type": "Feature", "properties": {"hash": "640cf7bb568292d4", "number": "8837", "street": "S ANTHONY AVE", "unit": "", "city": "", "district": "", "region": "", "postcode": "", "id": ""}, "geometry": {"type": "Point", "coordinates": [-87.5647039, 41.7346377]}},
 {"type": "Feature", "properties": {"hash": "465199f64fa3774c", "number": "8839", "street": "S ANTHONY AVE", "unit": "", "city": "", "district": "", "region": "", "postcode": "", "id": ""}, "geometry": {"type": "Point", "coordinates": [-87.5646379, 41.7345902]}},
 {"type": "Feature", "properties": {"hash": "fd93af50336b5993", "number": "8841", "street": "S ANTHONY AVE", "unit": "", "city": "", "district": "", "region": "", "postcode": "", "id": ""}, "geometry": {"type": "Point", "coordinates": [-87.5645719, 41.7345426]}},
-{"type": "Feature", "properties": {"hash": "d43d6100de069c76", "number": "8843", "street": "S ANTHONY AVE", "unit": "", "city": "", "district": "", "region": "", "postcode": "", "id": ""}, "geometry": {"type": "Point", "coordinates": [-87.5645059, 41.7344951]}}
+{"type": "Feature", "properties": {"hash": "d43d6100de069c76", "number": "8843", "street": "S ANTHONY AVE", "unit": "", "city": "", "district": "", "region": "", "postcode": "", "id": ""}, "geometry": {"type": "Point", "coordinates": [-87.5645059, 41.7344951]}},
+{
+    "type": "Feature",
+    "properties": {
+    "hash": "lp001",
+    "number": "1500",
+    "street": "N Clark St",
+    "unit": "",
+    "city": "Chicago",
+    "district": "Lincoln Park",
+    "region": "IL",
+    "postcode": "",
+    "id": ""
+    },
+    "geometry": {
+    "type": "Point",
+    "coordinates": [-87.6500, 41.9250]
+    }
+},
+{
+    "type": "Feature",
+    "properties": {
+    "hash": "lp002",
+    "number": "2300",
+    "street": "N Lincoln Ave",
+    "unit": "",
+    "city": "Chicago",
+    "district": "Lincoln Park",
+    "region": "IL",
+    "postcode": "",
+    "id": ""
+    },
+    "geometry": {
+    "type": "Point",
+    "coordinates": [-87.6620, 41.9300]
+    }
+},
+{
+    "type": "Feature",
+    "properties": {
+    "hash": "lp003",
+    "number": "1000",
+    "street": "N Milwaukee Ave",
+    "unit": "",
+    "city": "Chicago",
+    "district": "Lincoln Park",
+    "region": "IL",
+    "postcode": "",
+    "id": ""
+    },
+    "geometry": {
+    "type": "Point",
+    "coordinates": [-87.6780, 41.9200]
+    }
+},
+{
+    "type": "Feature",
+    "properties": {
+    "hash": "loop001",
+    "number": "200",
+    "street": "S Michigan Ave",
+    "unit": "",
+    "city": "Chicago",
+    "district": "Downtown Loop",
+    "region": "IL",
+    "postcode": "",
+    "id": ""
+    },
+    "geometry": {
+    "type": "Point",
+    "coordinates": [-87.6250, 41.8780]
+    }
+},
+{
+    "type": "Feature",
+    "properties": {
+    "hash": "loop002",
+    "number": "233",
+    "street": "S Wacker Dr",
+    "unit": "",
+    "city": "Chicago",
+    "district": "Downtown Loop",
+    "region": "IL",
+    "postcode": "",
+    "id": ""
+    },
+    "geometry": {
+    "type": "Point",
+    "coordinates": [-87.6350, 41.8830]
+    }
+},
+{
+    "type": "Feature",
+    "properties": {
+    "hash": "loop003",
+    "number": "150",
+    "street": "S State St",
+    "unit": "",
+    "city": "Chicago",
+    "district": "Downtown Loop",
+    "region": "IL",
+    "postcode": "",
+    "id": ""
+    },
+    "geometry": {
+    "type": "Point",
+    "coordinates": [-87.6300, 41.8840]
+    }
+},
+{
+    "type": "Feature",
+    "properties": {
+    "hash": "austin001",
+    "number": "1115",
+    "street": "W 35th St",
+    "unit": "",
+    "city": "Chicago",
+    "district": "Austin",
+    "region": "IL",
+    "postcode": "",
+    "id": ""
+    },
+    "geometry": {
+    "type": "Point",
+    "coordinates": [-87.7610, 41.8700]
+    }
+},
+{
+    "type": "Feature",
+    "properties": {
+    "hash": "austin002",
+    "number": "1300",
+    "street": "W 35th St",
+    "unit": "",
+    "city": "Chicago",
+    "district": "Austin",
+    "region": "IL",
+    "postcode": "",
+    "id": ""
+    },
+    "geometry": {
+    "type": "Point",
+    "coordinates": [-87.7630, 41.8700]
+    }
+},
+{
+    "type": "Feature",
+    "properties": {
+    "hash": "austin003",
+    "number": "900",
+    "street": "W 31st St",
+    "unit": "",
+    "city": "Chicago",
+    "district": "Austin",
+    "region": "IL",
+    "postcode": "",
+    "id": ""
+    },
+    "geometry": {
+    "type": "Point",
+    "coordinates": [-87.7550, 41.8700]
+    }
+}
 ]
