@@ -18,6 +18,8 @@ class Command(BaseCommand):
         # Get or create a user to associate with the listings
         user, created = User.objects.get_or_create(username='admin', defaults={'email': 'admin@example.com', 'password': 'admin'})
 
+        renter, renterCreated = User.objects.get_or_create(username='renter', defaults={'email': 'renter@example.com', 'password': 'renter'})
+
         with open(json_file_path, 'r') as file:
             data = json.load(file)  # Parse the entire file as a JSON array
             for item in data:
@@ -41,7 +43,7 @@ class Command(BaseCommand):
                     end_date=start_date + timedelta(days=random.randint(1,14)) + relativedelta(months=random.randint(1,4))
 
                     HousingBooking.objects.create(
-                        user=user,
+                        user=renter,
                         listing=listing,
                         start_date=start_date,
                         end_date=end_date
