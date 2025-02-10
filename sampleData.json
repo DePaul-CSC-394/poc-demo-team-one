@@ -22,8 +22,8 @@
     "type": "Feature",
     "properties": {
     "hash": "lp001",
-    "number": "1500",
-    "street": "N Clark St",
+    "number": "2377",
+    "street": "N Chalmers St",
     "unit": "",
     "city": "Chicago",
     "district": "Lincoln Park",
@@ -40,8 +40,8 @@
     "type": "Feature",
     "properties": {
     "hash": "lp002",
-    "number": "2300",
-    "street": "N Lincoln Ave",
+    "number": "2639",
+    "street": "N Wayne Ave",
     "unit": "",
     "city": "Chicago",
     "district": "Lincoln Park",
