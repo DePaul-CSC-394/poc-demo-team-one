@@ -3,49 +3,61 @@
 {% block title %}Find Your Next Home{% endblock %}
 
 {% block content %}
-    <!-- Search Bar -->
-    <div class="search-bar d-none d-md-flex align-items-center">
-        <input type="text" class="form-control me-2" placeholder="Where - Search destinations">
-        <input type="number" class="form-control me-2" placeholder="Radius (Miles)" min="0" max="10">
-        <input type="text" class="form-control me-2" placeholder="Check-in" onfocus="(this.type='date')">
-        <input type="text" class="form-control me-2" placeholder="Check-out" onfocus="(this.type='date')">
-        <select class="form-select me-2">
-            <option selected>Home Types</option>
-            <option>Apartment</option>
-            <option>House</option>
-            <option>Condo</option>
-            <option>Townhouse</option>
-            <option>Studio</option>
-            <option>Loft</option>
-        </select>
-        <button class="btn">Search</button>
-    </div>
 
-    <!-- Hamburger Menu -->
-    <div class="hamburger-menu d-md-none">
-        <button class="btn btn-secondary w-100" onclick="toggleMenu()">☰ Start Your Search</button>
-        <div class="menu-items">
-            <input type="text" class="form-control mb-2" placeholder="Where - Search destinations">
-            <input type="number" class="form-control me-2" placeholder="Radius (Miles)" min="0" max="10">
-            <input type="text" class="form-control mb-2" placeholder="Check-in" onfocus="(this.type='date')">
-            <input type="text" class="form-control mb-2" placeholder="Check-out" onfocus="(this.type='date')">
-            <select class="form-select mb-2">
-                <option selected>Home Types</option>
-                <option>Apartment</option>
-                <option>House</option>
-                <option>Condo</option>
-                <option>Townhouse</option>
-                <option>Studio</option>
-                <option>Loft</option>
-            </select>
-            <button class="btn w-100">Search</button>
-        </div>
-    </div>
+
+            <!-- Search Bar -->
+            <div class="search-form">
+                <form method="POST" action="{% url 'search' %}">
+                    {% csrf_token %}
+                    <div class="search-bar d-none d-md-flex align-items-center">
+                        <input type="text" class="form-control me-2" placeholder="Where - Search destinations" name="location">
+                        <input type="number" class="form-control me-2" placeholder="Radius (Miles)" min="0" max="10" name="mile-radius">
+                        <input type="text" class="form-control me-2" placeholder="Check-in" onfocus="(this.type='date')">
+                        <input type="text" class="form-control me-2" placeholder="Check-out" onfocus="(this.type='date')">
+                        <select class="form-select me-2">
+                            <option selected>Home Types</option>
+                            <option>Apartment</option>
+                            <option>House</option>
+                            <option>Condo</option>
+                            <option>Townhouse</option>
+                            <option>Studio</option>
+                            <option>Loft</option>
+                        </select>
+                        <button type="submit" class="btn">Search</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Hamburger Menu -->
+            <div class="search-form">
+                <form method="POST" action="{% url 'search' %}">
+                    {% csrf_token %}
+                    <div class="hamburger-menu d-md-none">
+                        <button class="btn btn-secondary w-100" onclick="toggleMenu()">☰ Start Your Search</button>
+                        <div class="menu-items">
+                            <input type="text" class="form-control mb-2" placeholder="Where - Search destinations" name="location">
+                            <input type="number" class="form-control me-2" placeholder="Radius (Miles)" min="0" max="10" name="mile-radius">
+                            <input type="text" class="form-control mb-2" placeholder="Check-in" onfocus="(this.type='date')">
+                            <input type="text" class="form-control mb-2" placeholder="Check-out" onfocus="(this.type='date')">
+                            <select class="form-select mb-2">
+                                <option selected>Home Types</option>
+                                <option>Apartment</option>
+                                <option>House</option>
+                                <option>Condo</option>
+                                <option>Townhouse</option>
+                                <option>Studio</option>
+                                <option>Loft</option>
+                            </select>
+                            <button type="submit" class="btn w-100">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
 
     <hr>
     
         <!--Hard Coded Listings Section -->
-    <div class="listings">
+    {% comment %} <div class="listings">
         <div class="listing">
             <h3>Cozy Apartment</h3>
             <p>2 beds • 1 bath • 850 sqft</p>
@@ -60,7 +72,7 @@
             <h3>Modern Condo</h3>
             <p>3 beds • 2 baths • 1,200 sqft</p>
             <p>$2,300/month</p>
-        </div>
+        </div> {% endcomment %}
 
         
 
