@@ -33,7 +33,7 @@
                 <form method="POST" action="{% url 'search' %}">
                     {% csrf_token %}
                     <div class="hamburger-menu d-md-none">
-                        <button class="btn btn-secondary w-100" onclick="toggleMenu()">☰ Start Your Search</button>
+                        <button type="button" class="btn btn-secondary w-100" onclick="toggleMenu()">☰ Start Your Search</button>
                         <div class="menu-items">
                             <input type="text" class="form-control mb-2" placeholder="Where - Search destinations" name="location">
                             <input type="number" class="form-control me-2" placeholder="Radius (Miles)" min="0" max="10" name="mile-radius">
