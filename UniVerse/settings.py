@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'UniVerse.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': os.getenv('DJANGO_DB_NAME', 'universe_db'),
         'USER': os.getenv('DJANGO_DB_USER', 'universe_user'),
         'PASSWORD': os.getenv('DJANGO_DB_PASSWORD', 'password'),
@@ -89,6 +89,9 @@ DATABASES = {
         'PORT': os.getenv('DJANGO_DB_PORT', '5432'),
     }
 }
+
+USE_POSTGIS = os.getenv("USE_POSTGIS", "False") == "True"
+GDAL_LIBRARY_PATH = '/lib/aarch64-linux-gnu/libgdal.so'
 
 
 # Password validation
