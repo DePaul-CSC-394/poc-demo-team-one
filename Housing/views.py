@@ -3,7 +3,7 @@ from .models import HousingListing
 from geopy.geocoders import Nominatim
 from math import radians, cos, sin, asin, sqrt
 from datetime import datetime
-from django.db.models import F, Func, FloatField, Value
+from geopy.exc import GeocoderUnavailable, GeocoderTimedOut
 
 # Create your views here.
 
@@ -55,7 +55,11 @@ def haversine(lat1, lon1, lat2, lon2):
 
 def get_nearby_listings(location_name, radius_miles=10):
     geolocator = Nominatim(user_agent="my_geocoder")
-    location = geolocator.geocode(location_name)
+    try:
+        location = geolocator.geocode(location_name)
+    except GeocoderUnavailable or GeocoderTimedOut:
+        print("Error")
+        return HousingListing.objects.none()
     
     if not location:
         return HousingListing.objects.none()
