@@ -1,9 +1,16 @@
 from django.shortcuts import render
+
+from UniVerse import settings
 from .models import HousingListing
 from geopy.geocoders import Nominatim
 from math import radians, cos, sin, asin, sqrt
 from datetime import datetime
 from geopy.exc import GeocoderUnavailable, GeocoderTimedOut
+from django.contrib.gis.geos import Point
+from django.contrib.gis.db.models.functions import Distance
+import time
+from django.contrib.gis.measure import D
+
 
 # Create your views here.
 
@@ -28,8 +35,21 @@ def search(request):
             mileRadiusFlt = float(mileRadius)
         else:
             mileRadiusFlt = 0
-        print(location)
-        listings = get_nearby_listings(location, mileRadiusFlt)
+        # Test haversine (ensure it's not using PostGIS)
+        # settings.USE_POSTGIS = False
+        # start = time.time()
+        # listings_haversine = get_nearby_listings(location, mileRadiusFlt)
+        # elapsed_haversine = time.time() - start
+        # print(f"Haversine method took {elapsed_haversine:.4f} seconds")
+
+        # Test PostGIS (toggle the flag)
+        settings.USE_POSTGIS = True
+        # start = time.time()
+        listings_postgis = get_nearby_listings(location, mileRadiusFlt)
+        # elapsed_postgis = time.time() - start
+        # print(f"PostGIS method took {elapsed_postgis:.4f} seconds")
+
+        listings = listings_postgis
         
         if start_date_str and end_date_str:
             try:
@@ -57,7 +77,7 @@ def get_nearby_listings(location_name, radius_miles=10):
     geolocator = Nominatim(user_agent="my_geocoder")
     try:
         location = geolocator.geocode(location_name)
-    except GeocoderUnavailable or GeocoderTimedOut:
+    except (GeocoderUnavailable, GeocoderTimedOut) as e:
         print("Error")
         return HousingListing.objects.none()
     
@@ -67,14 +87,18 @@ def get_nearby_listings(location_name, radius_miles=10):
     lat, lon = location.latitude, location.longitude
     print(lat,lon)
 
-    # Filter using Haversine formula in Python
-    listings = HousingListing.objects.all()
-    nearby_listings = [
-        listing for listing in listings 
-        if haversine(lat, lon, float(listing.latitude), float(listing.longitude)) <= radius_miles
-    ]
-    
-    return nearby_listings
+    if settings.USE_POSTGIS:
+        user_location = Point(lon, lat, srid=4326)
+        return HousingListing.objects.annotate(
+            distance=Distance("location", user_location)
+        ).filter(distance__lte=D(mi=radius_miles))
+    else:
+        listings = HousingListing.objects.all()
+        nearby_listings = [
+            listing for listing in listings 
+            if haversine(lat, lon, float(listing.latitude), float(listing.longitude)) <= radius_miles
+        ]
+        return nearby_listings
 
 
 
