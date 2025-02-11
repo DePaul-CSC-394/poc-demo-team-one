@@ -5,56 +5,66 @@
 {% block content %}
 
 
-            <!-- Search Bar -->
-            <div class="search-form">
-                <form method="POST" action="{% url 'search' %}">
-                    {% csrf_token %}
-                    <div class="search-bar d-none d-md-flex align-items-center">
-                        <input type="text" class="form-control me-2" placeholder="Where - Search destinations" name="location">
-                        <input type="number" class="form-control me-2" placeholder="Radius (Miles)" min="0" max="10" name="mile-radius">
-                        <input type="text" class="form-control me-2" placeholder="Check-in" name="start_date" onfocus="(this.type='date')">
-                        <input type="text" class="form-control me-2" placeholder="Check-out" name="end_date" onfocus="(this.type='date')">
-                        <select class="form-select me-2">
-                            <option selected>Home Types</option>
-                            <option>Apartment</option>
-                            <option>House</option>
-                            <option>Condo</option>
-                            <option>Townhouse</option>
-                            <option>Studio</option>
-                            <option>Loft</option>
-                        </select>
-                        <button type="submit" class="btn">Search</button>
-                    </div>
-                </form>
-            </div>
+<!-- Search Bar -->
+<div class="search-form">
+    <form id="search-form" method="POST" action="{% url 'search' %}">
+        {% csrf_token %}
+        <div class="search-bar d-none d-md-flex align-items-center">
+            <input type="text" class="form-control me-2" placeholder="Where - Search destinations" name="location">
+            <input type="number" class="form-control me-2" placeholder="Radius (Miles)" min="0" max="10" name="mile-radius">
+            <input type="text" class="form-control me-2" placeholder="Check-in" name="start_date" onfocus="(this.type='date')">
+            <input type="text" class="form-control me-2" placeholder="Check-out" name="end_date" onfocus="(this.type='date')">
+            <select class="form-select me-2" name="home_type">
+                <option selected>Home Types</option>
+                <option>Apartment</option>
+                <option>House</option>
+                <option>Condo</option>
+                <option>Townhouse</option>
+                <option>Studio</option>
+                <option>Loft</option>
+            </select>
+            <button type="submit" class="btn me-2">Search</button>
+            <button type="button" class="btn btn-secondary" onclick="clearForm()">Clear</button>
+        </div>
+    </form>
+</div>
 
-            <!-- Hamburger Menu -->
-            <div class="search-form">
-                <form method="POST" action="{% url 'search' %}">
-                    {% csrf_token %}
-                    <div class="hamburger-menu d-md-none">
-                        <button type="button" class="btn btn-secondary w-100" onclick="toggleMenu()">☰ Start Your Search</button>
-                        <div class="menu-items">
-                            <input type="text" class="form-control mb-2" placeholder="Where - Search destinations" name="location">
-                            <input type="number" class="form-control me-2" placeholder="Radius (Miles)" min="0" max="10" name="mile-radius">
-                            <input type="text" class="form-control mb-2" placeholder="Check-in" name="start_date" onfocus="(this.type='date')">
-                            <input type="text" class="form-control mb-2" placeholder="Check-out" name="end_date" onfocus="(this.type='date')">
-                            <select class="form-select mb-2">
-                                <option selected>Home Types</option>
-                                <option>Apartment</option>
-                                <option>House</option>
-                                <option>Condo</option>
-                                <option>Townhouse</option>
-                                <option>Studio</option>
-                                <option>Loft</option>
-                            </select>
-                            <button type="submit" class="btn w-100">Search</button>
-                        </div>
-                    </div>
-                </form>
+<!-- Hamburger Menu -->
+<div class="search-form">
+    <form id="hamburger-search-form" method="POST" action="{% url 'search' %}">
+        {% csrf_token %}
+        <div class="hamburger-menu d-md-none">
+            <button type="button" class="btn btn-secondary w-100" onclick="toggleMenu()">☰ Start Your Search</button>
+            <div class="menu-items">
+                <input type="text" class="form-control mb-2" placeholder="Where - Search destinations" name="location">
+                <input type="number" class="form-control me-2" placeholder="Radius (Miles)" min="0" max="10" name="mile-radius">
+                <input type="text" class="form-control mb-2" placeholder="Check-in" name="start_date" onfocus="(this.type='date')">
+                <input type="text" class="form-control mb-2" placeholder="Check-out" name="end_date" onfocus="(this.type='date')">
+                <select class="form-select mb-2" name="home_type">
+                    <option selected>Home Types</option>
+                    <option>Apartment</option>
+                    <option>House</option>
+                    <option>Condo</option>
+                    <option>Townhouse</option>
+                    <option>Studio</option>
+                    <option>Loft</option>
+                </select>
+                <button type="submit" class="btn w-100 mb-2">Search</button>
+                <button type="button" class="btn btn-secondary w-100" onclick="clearForm()">Clear Filters</button>
             </div>
+        </div>
+    </form>
+</div>
 
-    <hr>
+<script>
+    function clearForm() {
+        document.getElementById('search-form').reset();
+        document.getElementById('hamburger-search-form').reset();
+        window.location.href = '/';
+    }
+</script>
+
+<hr>
     
         <!--Hard Coded Listings Section -->
     {% comment %} <div class="listings">
@@ -76,19 +86,19 @@
 
         
 
-    <!-- Databse Listings Section (Might have to make changes for it to work once the database is there) -->
-    <div class="listings">
-        {% for listing in listings %}
-            <div class="listing">
-                {% if listing.photo_1 %}
-                    <img src="{{ listing.photo_1.url }}" alt="Listing Image" class="img-fluid">
-                {% endif %}
-                <h3>{{ listing.description|default:"No description provided" }}</h3>
-                <p>{{ listing.bedrooms }} beds • {{ listing.bathrooms }} baths • {{ listing.sqFeet }} sqft</p>
-                <p>${{ listing.price }}/month</p>
-            </div>
-        {% empty %}
-            <p>No listings available.</p>
-        {% endfor %}
-    </div>
+<!-- Database Listings Section -->
+<div class="listings">
+    {% for listing in listings %}
+        <div class="listing">
+            {% if listing.photo_1 %}
+                <img src="{{ listing.photo_1.url }}" alt="Listing Image" class="img-fluid">
+            {% endif %}
+            <h3>{{ listing.description|default:"No description provided" }}</h3>
+            <p>{{ listing.bedrooms }} beds • {{ listing.bathrooms }} baths • {{ listing.sqFeet }} sqft</p>
+            <p>${{ listing.price }}/month</p>
+        </div>
+    {% empty %}
+        <p>No listings available.</p>
+    {% endfor %}
+</div>
 {% endblock %}
