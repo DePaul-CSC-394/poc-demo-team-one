@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
+import ctypes.util
 import os
 
 from pathlib import Path
@@ -91,8 +92,6 @@ DATABASES = {
 }
 
 USE_POSTGIS = os.getenv("USE_POSTGIS", "False") == "True"
-GDAL_LIBRARY_PATH = '/lib/aarch64-linux-gnu/libgdal.so'
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
