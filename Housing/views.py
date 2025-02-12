@@ -42,14 +42,18 @@ def search(request):
         # elapsed_haversine = time.time() - start
         # print(f"Haversine method took {elapsed_haversine:.4f} seconds")
 
-        # Test PostGIS (toggle the flag)
-        settings.USE_POSTGIS = True
-        # start = time.time()
-        listings_postgis = get_nearby_listings(location, mileRadiusFlt)
-        # elapsed_postgis = time.time() - start
-        # print(f"PostGIS method took {elapsed_postgis:.4f} seconds")
 
-        listings = listings_postgis
+        if not location:
+            listings = HousingListing.objects.all()
+        else:
+            # Test PostGIS (toggle the flag)
+            settings.USE_POSTGIS = True
+            # start = time.time()
+            listings_postgis = get_nearby_listings(location, mileRadiusFlt)
+            # elapsed_postgis = time.time() - start
+            # print(f"PostGIS method took {elapsed_postgis:.4f} seconds")
+
+            listings = listings_postgis
         
         if start_date_str and end_date_str:
             try:
