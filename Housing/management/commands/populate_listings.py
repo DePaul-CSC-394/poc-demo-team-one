@@ -5,6 +5,7 @@ from Housing.models import HousingListing, HousingBooking
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 import random
+from django.utils.timezone import make_aware
 
 class Command(BaseCommand):
     help = 'Populates the HousingListing and HousingBooking models with data from a JSON file'
@@ -26,6 +27,8 @@ class Command(BaseCommand):
                 try:
                     properties = item['properties']
                     geometry = item['geometry']
+                    bookings = item.get('bookings',[])
+
 
                     # Create a HousingListing instance
                     listing=HousingListing.objects.create(
@@ -36,20 +39,28 @@ class Command(BaseCommand):
                         bathrooms=1.0,  # Default value, update as needed
                         price=0.0,  # Default value, update as needed
                         sqFeet=0.0,  # Default value, update as needed
+                        home_type=properties['home_type'],
                         description=f"Address: {properties['number']} {properties['street']}",  
                     )
 
-                    start_date=datetime.now() + timedelta(days=random.randint(1,30)) + relativedelta(months=random.randint(0,3))
-                    end_date=start_date + timedelta(days=random.randint(1,14)) + relativedelta(months=random.randint(1,4))
 
-                    HousingBooking.objects.create(
+                    for booking in bookings:
+                        HousingBooking.objects.create(
                         user=renter,
                         listing=listing,
-                        start_date=start_date,
-                        end_date=end_date
+                        start_date=make_aware(datetime.fromisoformat(booking["start_date"])),
+                        end_date=make_aware(datetime.fromisoformat(booking["end_date"]))
                     )
+                   
+
 
                 except KeyError as e:
                     self.stdout.write(self.style.ERROR(f"Missing key in JSON: {e}"))
+                except Exception as e:
+                    self.stdout.write(self.style.ERROR(f"An unexpected error occurred: {e}"))
+
+
 
         self.stdout.write(self.style.SUCCESS('Successfully populated HousingListing and HousingBooking data'))
+
+
