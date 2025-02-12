@@ -96,6 +96,7 @@
             <h3>{{ listing.description|default:"No description provided" }}</h3>
             <p>{{ listing.bedrooms }} beds • {{ listing.bathrooms }} baths • {{ listing.sqFeet }} sqft</p>
             <p>${{ listing.price }}/month</p>
+            <p>{{ listing.home_type }}</p>
         </div>
     {% empty %}
         <p>No listings available.</p>
