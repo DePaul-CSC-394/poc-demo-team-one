@@ -30,11 +30,12 @@ def search(request):
         mileRadius = request.POST['mile-radius']
         start_date_str = request.POST['start_date']
         end_date_str = request.POST['end_date']
+        home_type = request.POST['home_type']
         
         if mileRadius:
             mileRadiusFlt = float(mileRadius)
         else:
-            mileRadiusFlt = 0
+            mileRadiusFlt = 1
         # Test haversine (ensure it's not using PostGIS)
         # settings.USE_POSTGIS = False
         # start = time.time()
@@ -42,14 +43,18 @@ def search(request):
         # elapsed_haversine = time.time() - start
         # print(f"Haversine method took {elapsed_haversine:.4f} seconds")
 
-        # Test PostGIS (toggle the flag)
-        settings.USE_POSTGIS = True
-        # start = time.time()
-        listings_postgis = get_nearby_listings(location, mileRadiusFlt)
-        # elapsed_postgis = time.time() - start
-        # print(f"PostGIS method took {elapsed_postgis:.4f} seconds")
 
-        listings = listings_postgis
+        if not location:
+            listings = HousingListing.objects.all()
+        else:
+            # Test PostGIS (toggle the flag)
+            settings.USE_POSTGIS = True
+            # start = time.time()
+            listings_postgis = get_nearby_listings(location, mileRadiusFlt)
+            # elapsed_postgis = time.time() - start
+            # print(f"PostGIS method took {elapsed_postgis:.4f} seconds")
+
+            listings = listings_postgis
         
         if start_date_str and end_date_str:
             try:
@@ -58,6 +63,9 @@ def search(request):
                 listings = get_available_listings(listings, desired_start_date, desired_end_date)
             except ValueError as e:
                 print(f"Date parsing error: {e}")
+
+        if home_type and home_type !="Home Types":
+            listings=get_type_listings(listings, home_type)
 
         context={
             'listings': listings,
@@ -117,3 +125,14 @@ def get_available_listings(nearby_listings, desired_start_date, desired_end_date
         ).exists():
             available_listings.append(listing)
     return available_listings
+
+
+def get_type_listings(listings, home_type):
+    type_listings=[]
+
+    for listing in listings:
+        if listing.home_type==home_type:
+            type_listings.append(listing)
+
+
+    return type_listings

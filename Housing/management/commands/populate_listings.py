@@ -6,7 +6,10 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 import random
 from django.utils.timezone import make_aware
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 
 class Command(BaseCommand):
     help = 'Populates the HousingListing and HousingBooking models with data from a JSON file'
@@ -40,6 +43,7 @@ class Command(BaseCommand):
                         bathrooms=1.0,  # Default value, update as needed
                         price=0.0,  # Default value, update as needed
                         sqFeet=0.0,  # Default value, update as needed
+                        home_type=properties['home_type'],
                         description=f"Address: {properties['number']} {properties['street']}",  
                     )
 
