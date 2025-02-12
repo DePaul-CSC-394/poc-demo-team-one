@@ -30,6 +30,7 @@ def search(request):
         mileRadius = request.POST['mile-radius']
         start_date_str = request.POST['start_date']
         end_date_str = request.POST['end_date']
+        home_type = request.POST['home_type']
         
         if mileRadius:
             mileRadiusFlt = float(mileRadius)
@@ -62,6 +63,9 @@ def search(request):
                 listings = get_available_listings(listings, desired_start_date, desired_end_date)
             except ValueError as e:
                 print(f"Date parsing error: {e}")
+
+        if home_type and home_type !="Home Types":
+            listings=get_type_listings(listings, home_type)
 
         context={
             'listings': listings,
@@ -121,3 +125,14 @@ def get_available_listings(nearby_listings, desired_start_date, desired_end_date
         ).exists():
             available_listings.append(listing)
     return available_listings
+
+
+def get_type_listings(listings, home_type):
+    type_listings=[]
+
+    for listing in listings:
+        if listing.home_type==home_type:
+            type_listings.append(listing)
+
+
+    return type_listings

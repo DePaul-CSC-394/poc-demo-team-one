@@ -7,6 +7,15 @@ from django.contrib.gis.geos import Point
 # Create your models here.
 
 class HousingListing(models.Model):
+
+    class HomeType(models.TextChoices):
+        APARTMENT= 'Apartment', 'Apartment'
+        HOUSE= 'House', 'House',
+        CONDO= 'Condo', 'Condo',
+        TOWNHOUSE= 'Townhouse', 'Townhouse',
+        STUDIO= 'Studio', 'Studio',
+        LOFT= 'Loft', 'Loft'
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
@@ -18,6 +27,12 @@ class HousingListing(models.Model):
     photo_1 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
     photo_2 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
     location = gis_models.PointField(null=True, blank=True, geography=True)
+
+    home_type= models.CharField(
+        max_length=20,
+        choices=HomeType.choices,
+        default=HomeType.APARTMENT
+    )
 
     #chatGPT helped figure out how to automatically add a point field based on provided lat long
     def save(self, *args, **kwargs):
