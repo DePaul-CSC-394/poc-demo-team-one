@@ -34,7 +34,7 @@ def search(request):
         if mileRadius:
             mileRadiusFlt = float(mileRadius)
         else:
-            mileRadiusFlt = 0
+            mileRadiusFlt = 1
         # Test haversine (ensure it's not using PostGIS)
         # settings.USE_POSTGIS = False
         # start = time.time()
