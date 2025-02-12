@@ -96,7 +96,9 @@ def get_nearby_listings(location_name, radius_miles=10):
     print(lat,lon)
 
     if settings.USE_POSTGIS:
+        #https://alldjango.com/articles/searching-within-area-geodjango-postgis
         user_location = Point(lon, lat, srid=4326)
+        #annotate adds extra distance column
         return HousingListing.objects.annotate(
             distance=Distance("location", user_location)
         ).filter(distance__lte=D(mi=radius_miles))
