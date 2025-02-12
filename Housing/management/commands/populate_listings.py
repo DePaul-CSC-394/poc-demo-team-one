@@ -6,10 +6,7 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 import random
 from django.utils.timezone import make_aware
-<<<<<<< HEAD
 
-=======
->>>>>>> main
 
 class Command(BaseCommand):
     help = 'Populates the HousingListing and HousingBooking models with data from a JSON file'
