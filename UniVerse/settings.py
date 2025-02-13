@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'Accounts.apps.AccountsConfig',
     'Dashboard.apps.DashboardConfig',
     'Pages.apps.PagesConfig',
-    'Roomates.apps.RoomatesConfig',
+    'Roommates.apps.RoommatesConfig',
     'Supplies.apps.SuppliesConfig',
 ]
 
