@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+    <div>
+        {% if listing %}
+            <h1>{{listing.description}}</h1>
+            <p>{{listing.home_type}}</p>
+        {% endif %}
+    </div>
+
+{% endblock %}
