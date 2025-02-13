@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class RoomatesConfig(AppConfig):
+class RoommatesConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'Roomates'
+    name = 'Roommates'
