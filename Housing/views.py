@@ -1,8 +1,11 @@
+from decimal import Decimal
+import random
 from django.shortcuts import get_object_or_404, render
 from UniVerse import settings
 from .models import HousingListing
 from .helpers import get_available_listings, get_nearby_listings, get_type_listings
 import datetime
+import folium
 
 # Create your views here.
 
@@ -71,8 +74,36 @@ def detail (request, listing_id):
 
     listing = get_object_or_404(HousingListing, pk=listing_id)
 
+    offset_range = 0.01
+
+    # make the location "approximate"
+    center_lat = listing.latitude  + Decimal(random.uniform(-offset_range, offset_range))
+    center_lon = listing.longitude + Decimal(random.uniform(-offset_range, offset_range))
+
+
+    # Create the map object
+    m = folium.Map(location=[center_lat, center_lon], zoom_start=13, zoom_control=False, scrollWheelZoom=False, tiles="openstreetmap", dragging=False, doubleClickZoom=False)
+
+    # Add markers (optional, for specific locations)
+    # folium.Marker([listing.latitude, listing.longitude], popup="Location Name").add_to(m)
+    radius = 100
+    folium.CircleMarker(
+        location=[center_lat, center_lon],
+        radius=radius,
+        color="cornflowerblue",
+        fill=True,
+        fill_opacity=0.6,
+        opacity=1,
+    ).add_to(m)
+
+    # Get the HTML representation of the map
+    map_html = m._repr_html_()
+
+
+
     context = {
-        'listing' : listing
+        'listing' : listing,
+        'map_html': map_html,
     }
 
     return render(request, 'Housing/listing_details.html', context)
