@@ -1,13 +1,44 @@
 {% extends 'base.html' %}
-
+{% load static %}
 
 {% block content %}
 
     <div>
         {% if listing %}
-            <h1>{{listing.description}}</h1>
-            <p>{{listing.home_type}}</p>
+            <div class="image-row">
+                <img src="https://images.unsplash.com/photo-1515263487990-61b07816b324?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Example Image">
+                <img src="https://images.unsplash.com/photo-1515263487990-61b07816b324?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Example Image">
+            </div>
+            <div class="details-row mt-3">
+                <div class="info-block">
+                    <p>{{listing.description}}</p>
+                </div>
+                <div class='right-block'>
+                    <div class="info-col">
+                        <div class="icon-val">
+                            <div class="icon-col">
+                                <i class="fa-solid fa-ruler-combined"></i>
+                                <i class="fa-solid fa-dollar-sign"></i>
+                                <i class="fa-solid fa-house"></i>
+                            </div>
+                            <div class="data-col">
+                                <p>{{listing.sqFeet}} Sq. Feet</p>
+                                <p>{{listing.price}}</p>
+                                <p>{{listing.home_type}}</p>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary book-btn">Book</button>
+                    </div>
+                    <div class="map">
+                        {{ map_html|safe }}
+                    </div>
+                </div>
+            </div>
         {% endif %}
     </div>
 
+{% endblock %}
+
+{% block extrastyle %}
+    <link rel="stylesheet" href="{%static 'css/listing_details.css' %}" />
 {% endblock %}

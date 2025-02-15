@@ -3,6 +3,7 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from django.contrib.gis.db import models as gis_models
 from django.contrib.gis.geos import Point
+from geopy.geocoders import Nominatim
 
 # Create your models here.
 
@@ -27,6 +28,7 @@ class HousingListing(models.Model):
     photo_1 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
     photo_2 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
     location = gis_models.PointField(null=True, blank=True, geography=True)
+    city_state = models.TextField(blank=True)
 
     home_type= models.CharField(
         max_length=20,
@@ -38,6 +40,13 @@ class HousingListing(models.Model):
     def save(self, *args, **kwargs):
         if self.latitude and self.longitude:
             self.location = Point(float(self.longitude), float(self.latitude), srid=4326)
+
+        geolocator = Nominatim(user_agent="my_app")
+        location = geolocator.reverse(f"{self.latitude}, {self.longitude}", exactly_one=True)
+        address = location.raw.get('address', {})
+        city = address.get('city') or address.get('town') or address.get('village') or ""
+        state = address.get('state') or ""
+        self.city_state =  f"{city}, {state}"
         super().save(*args, **kwargs)
 
 class HousingBooking(models.Model):
