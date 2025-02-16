@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+  Checkout Housing Page
+{% endblock %}
+
+{% block content %}
+<div class="checkout-container row">
+  <!-- LEFT SECTION: Pricing & Details -->
+  <div class="left-section col-md-4 mb-3">
+    <div class="branding d-flex align-items-center mb-3">
+      <img src="https://w7.pngwing.com/pngs/544/860/png-transparent-computer-icons-heart-house-instagramm-love-heart-logo.png" alt="UniVerse Logo" class="me-2" style="height:50px;">
+      <h2 class="mb-0">UniVerse</h2>
+    </div>
+
+    <!-- Pricing info -->
+    <div class="pricing-info">
+      <h3 class="price-per-unit">$129 Per Week</h3>
+      <p class="text-muted">Home 1 Example</p>
+
+      <div class="mt-4">
+        <!-- New horizontal rule above the Subtotal -->
+        <hr>
+        <p class="mb-1">Subtotal: <strong>$129</strong></p>
+
+        <label for="promo-code" class="form-label mb-1">Add Promotional Code</label>
+        <input type="text" id="promo-code" class="form-control mb-2" placeholder="Enter code">
+
+        <p class="mb-1">Taxes: <strong>$10</strong></p>
+        <hr>
+        <p class="fw-bold">Total Due: $144</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT SECTION: Payment & Shipping Form -->
+  <div class="right-section col-md-7 ms-auto">
+    <!-- Apple Pay Button (placeholder) -->
+    <div class="d-flex justify-content-end mb-3">
+      <button type="button" class="apple-pay-btn">
+        <i class="fab fa-apple"></i> Pay
+      </button>
+    </div>
+
+    <form id="checkout-form" novalidate>
+      <!-- Shipping Information -->
+      <h4>Shipping Information</h4>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" required placeholder="Email">
+        <p class="error-message" id="email-error"></p>
+      </div>
+      <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control" id="name" required placeholder="Full Name">
+        <p class="error-message" id="name-error"></p>
+      </div>
+      <div class="mb-3">
+        <label for="address" class="form-label">Address</label>
+        <input type="text" class="form-control" id="address" required placeholder="Street Address">
+        <p class="error-message" id="address-error"></p>
+      </div>
+      <div class="mb-3">
+        <label for="country" class="form-label">Country</label>
+        <input type="text" class="form-control" id="country" required placeholder="Country">
+        <p class="error-message" id="country-error"></p>
+      </div>
+
+      <!-- Contact Information -->
+      <h4>Contact Information</h4>
+      <div class="mb-3">
+        <label for="phone" class="form-label">Phone (optional)</label>
+        <input type="tel" class="form-control" id="phone" placeholder="(555) 123-4567">
+        <p class="error-message" id="phone-error"></p>
+      </div>
+
+      <!-- Checkin / Checkout Dates -->
+      <h4>Checkin / Checkout Dates</h4>
+      <div class="mb-3">
+        <label for="checkin" class="form-label">Check-in</label>
+        <input type="date" class="form-control" id="checkin" required>
+        <p class="error-message" id="checkin-error"></p>
+      </div>
+      <div class="mb-3">
+        <label for="checkout" class="form-label">Check-out</label>
+        <input type="date" class="form-control" id="checkout" required>
+        <p class="error-message" id="checkout-error"></p>
+      </div>
+
+      <!-- Payment Method -->
+      <h4>Payment Method</h4>
+      <div class="mb-3">
+        <!-- Payment method icons (placeholder) -->
+        <i class="fab fa-cc-apple-pay fa-2x me-2"></i>
+        <i class="fab fa-cc-visa fa-2x me-2"></i>
+        <i class="fab fa-cc-mastercard fa-2x me-2"></i>
+        <i class="fab fa-cc-amex fa-2x me-2"></i>
+      </div>
+
+      <!-- Card Info -->
+      <div class="mb-3">
+        <label for="card-number" class="form-label">Card Number</label>
+        <input type="text" class="form-control" id="card-number" required placeholder="1234 5678 9012 3456">
+        <p class="error-message" id="card-number-error"></p>
+      </div>
+      <div class="row g-2 mb-3">
+        <div class="col">
+          <label for="expiration" class="form-label">Expiration (MM/YY)</label>
+          <input type="text" class="form-control" id="expiration" required placeholder="MM/YY">
+          <p class="error-message" id="expiration-error"></p>
+        </div>
+        <div class="col">
+          <label for="cvc" class="form-label">CVC</label>
+          <input type="text" class="form-control" id="cvc" required placeholder="123">
+          <p class="error-message" id="cvc-error"></p>
+        </div>
+      </div>
+
+      <!-- Checkbox for "Billing same as shipping" -->
+      <div class="form-check mb-3">
+        <input class="form-check-input" type="checkbox" id="billing-same">
+        <label class="form-check-label" for="billing-same">
+          Billing info is the same as shipping
+        </label>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn pay-btn">Pay</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block extrastyle %}
+<style>
+.checkout-container {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+.left-section, .right-section {
+  background: var(--listing-bg);
+  color: var(--text);
+  border-radius: 7px;
+  padding: 1rem;
+}
+
+.apple-pay-btn {
+  background-color: #000; /* Apple Pay style */
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.apple-pay-btn i {
+  font-size: 1.2rem;
+}
+
+.pay-btn {
+  background: var(--btn-bg);
+  color: var(--text);
+  border: none;
+}
+.pay-btn:hover {
+  background: var(--btn-hover);
+}
+
+/* Form controls: dark background, light text, etc. */
+.form-control {
+  background: var(--input-bg);
+  color: var(--text);
+  border: 1px solid #555;
+}
+.form-control::placeholder {
+  color: #aaa;
+}
+
+/* Error messages */
+.error-message {
+  color: red;
+  font-size: 0.85rem;
+  min-height: 1em;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .apple-pay-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+</style>
+{% endblock %}

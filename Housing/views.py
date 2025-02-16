@@ -107,3 +107,8 @@ def detail (request, listing_id):
     }
 
     return render(request, 'Housing/listing_details.html', context)
+
+
+def checkout(request):
+    # For now, we just render the checkout page.
+    return render(request, 'Housing/checkout.html')
