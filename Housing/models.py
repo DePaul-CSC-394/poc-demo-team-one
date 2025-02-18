@@ -54,4 +54,5 @@ class HousingBooking(models.Model):
     listing = models.ForeignKey(HousingListing, on_delete=models.CASCADE)
     start_date = models.DateTimeField(default=datetime.now, blank=True)
     end_date = models.DateTimeField(blank=True)
+    is_pending=models.BooleanField(blank=True, default=True)
 
