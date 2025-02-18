@@ -1,12 +1,18 @@
 from django.shortcuts import get_object_or_404, render
 from UniVerse import settings
 from Housing.models import HousingListing, HousingBooking
+from django.contrib.auth.models import User
 
 
 # Create your views here.
 
 def dashboard(request):
-    # listings = HousingListing.objects.all()
+    # temp logic
+
+    user = User.objects.get(username='admin') 
+    request.user = user
+
+
     user=request.user
 
     if not user.is_authenticated:

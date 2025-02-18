@@ -5,3 +5,25 @@
     padding-bottom: 20px;
 }
 
+.card-body {
+    display:flex;
+    /* justify-content: space-between; */
+    gap:20px;
+}
+
+.card-body .col-md-4 {
+    flex-shrink:0;
+}
+
+.second {
+    padding-top: 20px;
+}
+
+.data-row {
+    display:flex;
+    gap:6px;
+}
+
+i {
+    padding-top: 4px;
+}
