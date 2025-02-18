@@ -4,6 +4,30 @@
 
 {% block content %}
 
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Find Your Next Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Roommate</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Supplies</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
 <!-- Search Bar -->
 <div class="search-form">
@@ -65,26 +89,6 @@
 </script>
 
 <hr>
-    
-        <!--Hard Coded Listings Section -->
-    {% comment %} <div class="listings">
-        <div class="listing">
-            <h3>Cozy Apartment</h3>
-            <p>2 beds • 1 bath • 850 sqft</p>
-            <p>$1,200/month</p>
-        </div>
-        <div class="listing">
-            <h3>Modern Condo</h3>
-            <p>3 beds • 2 baths • 1,200 sqft</p>
-            <p>$2,300/month</p>
-        </div>
-        <div class="listing">
-            <h3>Modern Condo</h3>
-            <p>3 beds • 2 baths • 1,200 sqft</p>
-            <p>$2,300/month</p>
-        </div> {% endcomment %}
-
-        
 
 <!-- Database Listings Section -->
 <div class="listings">
@@ -107,5 +111,5 @@
 {% endblock %}
 
 {% block extrastyle %}
-    <link rel="stylesheet" href="{%static 'css/listings.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/listings.css' %}" />
 {% endblock %}
