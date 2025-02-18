@@ -20,7 +20,6 @@ def dashboard(request):
         
     user_listings=HousingListing.objects.filter(user=user)
 
-    pending={}
     for listing in user_listings:
         listing.pendings=list(
             HousingBooking.objects.filter(listing=listing, is_pending=True)
@@ -30,8 +29,7 @@ def dashboard(request):
     user_bookings=HousingBooking.objects.filter(user=user)
 
     return render(request, 'Dashboard/dashboard.html', {'user_listings': user_listings, 
-        'user_bookings': user_bookings,
-        'pending': pending})
+        'user_bookings': user_bookings})
 
 
 
