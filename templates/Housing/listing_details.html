@@ -27,7 +27,7 @@
                                 <p>{{listing.home_type}}</p>
                             </div>
                         </div>
-                        <button class="btn btn-secondary book-btn">Book</button>
+                        <a href="{% url 'checkout' listing.id %}" class="btn btn-secondary book-btn">Book</a>
                     </div>
                     <div class="map">
                         {{ map_html|safe }}
