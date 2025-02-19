@@ -95,9 +95,11 @@
     {% for listing in listings %}
         <a href="/listing-details/{{listing.id}}">
             <div class="listing">
-                {% if listing.photo_1 %}
-                    <img src="{{ listing.photo_1.url }}" alt="Listing Image" class="img-fluid">
-                {% endif %}
+                <div class="image-row">
+                    {% if listing.photo_1 %}
+                        <img src="{{ listing.photo_1 }}" alt="Listing Image" class="img-fluid">
+                    {% endif %}
+                </div>
                 <h3>{{ listing.city_state|default:"" }}</h3>
                 <p>{{ listing.bedrooms }} beds • {{ listing.bathrooms }} baths • {{ listing.sqFeet }} sqft</p>
                 <p>${{ listing.price }}/month</p>
