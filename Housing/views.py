@@ -84,8 +84,9 @@ def detail (request, listing_id):
     # make the location "approximate"
     center_lat = listing.latitude  + Decimal(random.uniform(-offset_range, offset_range))
     center_lon = listing.longitude + Decimal(random.uniform(-offset_range, offset_range))
+    
 
-
+    #from documentation: https://python-visualization.github.io/folium/latest/user_guide.html
     # Create the map object
     m = folium.Map(location=[center_lat, center_lon], zoom_start=13, zoom_control=False, scrollWheelZoom=False, tiles="openstreetmap", dragging=False, doubleClickZoom=False)
 

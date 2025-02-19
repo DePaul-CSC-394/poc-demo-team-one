@@ -42,6 +42,8 @@ class Command(BaseCommand):
                         sqFeet=0.0,  # Default value, update as needed
                         home_type=properties['home_type'],
                         description=item['desc'],  
+                        photo_1=item['photo1'],
+                        photo_2=item['photo2'],
                     )
 
 
