@@ -7,7 +7,7 @@
     <title>{% block title %}UniVerse{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    
+
     <style>
         :root {
             --bg: #000; --text: #fff; --search-bg: #1b1b1b; --input-bg: #222;
@@ -20,7 +20,9 @@
         .hero-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
                      color: #fff; font-size: 5.5rem; font-weight: bold; text-align: left; font-family: Arial, Helvetica, sans-serif; }
         .listings { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 10px; }
+
         .listing { background: var(--listing-bg); color: var(--text); padding: 60px; border-radius: 7px; transition: transform 0.2s; text-align: center; }
+
         .listing:hover { transform: scale(1.02); }
         .footer { background: #151515; color: grey; padding: 10px 0; font-size: 12px; text-align: center; }
 
@@ -142,6 +144,7 @@
     </section>
 <hr>
     <div class="container mt-4">
+
         {% block content %}{% endblock %}
     </div>
 

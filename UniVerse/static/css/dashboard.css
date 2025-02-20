@@ -1,0 +1,36 @@
+.container {
+    padding-top:20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+}
+
+.card-body {
+    /* display:flex; */
+    /* justify-content: space-between; */
+    gap:20px;
+}
+
+.card-body .col-md-4 {
+    flex-shrink:0;
+}
+
+.second {
+    padding-top: 20px;
+}
+
+.data-row {
+    display:flex;
+    gap:6px;
+}
+
+i {
+    padding-top: 4px;
+}
+
+.listing-card img {
+    flex: 1;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}

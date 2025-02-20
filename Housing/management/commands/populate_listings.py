@@ -41,7 +41,9 @@ class Command(BaseCommand):
                         price=0.0,  # Default value, update as needed
                         sqFeet=0.0,  # Default value, update as needed
                         home_type=properties['home_type'],
-                        description=f"Address: {properties['number']} {properties['street']}",  
+                        description=item['desc'],  
+                        photo_1=item['photo1'],
+                        photo_2=item['photo2'],
                     )
 
 
