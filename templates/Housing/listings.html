@@ -1,33 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block title %}Find Your Next Home{% endblock %}
 
 {% block content %}
-
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Find Your Next Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Roommate</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Supplies</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
 
 <!-- Search Bar -->
 <div class="search-form">
@@ -47,7 +23,7 @@
                 <option>Studio</option>
                 <option>Loft</option>
             </select>
-            <button type="submit" class="btn me-2">Search</button>
+            <button type="submit" class="btn btn-secondary">Search</button>
             <button type="button" class="btn btn-secondary" onclick="clearForm()">Clear</button>
         </div>
     </form>
@@ -61,7 +37,7 @@
             <button type="button" class="btn btn-secondary w-100" onclick="toggleMenu()">☰ Start Your Search</button>
             <div class="menu-items">
                 <input type="text" class="form-control mb-2" placeholder="Where - Search destinations" name="location">
-                <input type="number" class="form-control me-2" placeholder="Radius (Miles)" min="0" max="10" name="mile-radius">
+                <input type="number" class="form-control mb-2" placeholder="Radius (Miles)" min="0" max="10" name="mile-radius">
                 <input type="text" class="form-control mb-2" placeholder="Check-in" name="start_date" onfocus="(this.type='date')">
                 <input type="text" class="form-control mb-2" placeholder="Check-out" name="end_date" onfocus="(this.type='date')">
                 <select class="form-select mb-2" name="home_type">
@@ -73,7 +49,7 @@
                     <option>Studio</option>
                     <option>Loft</option>
                 </select>
-                <button type="submit" class="btn w-100 mb-2">Search</button>
+                <button type="submit" class="btn btn-secondary w-100 mb-2">Search</button>
                 <button type="button" class="btn btn-secondary w-100" onclick="clearForm()">Clear Filters</button>
             </div>
         </div>
@@ -95,11 +71,13 @@
     {% for listing in listings %}
         <a href="/listing-details/{{listing.id}}">
             <div class="listing">
+
                 <div class="image-row">
                     {% if listing.photo_1 %}
                         <img src="{{ listing.photo_1 }}" alt="Listing Image" class="img-fluid">
                     {% endif %}
                 </div>
+
                 <h3>{{ listing.city_state|default:"" }}</h3>
                 <p>{{ listing.bedrooms }} beds • {{ listing.bathrooms }} baths • {{ listing.sqFeet }} sqft</p>
                 <p>${{ listing.price }}/month</p>
@@ -111,7 +89,7 @@
     {% endfor %}
 </div>
 {% endblock %}
-
 {% block extrastyle %}
     <link rel="stylesheet" href="{% static 'css/listings.css' %}" />
 {% endblock %}
+
