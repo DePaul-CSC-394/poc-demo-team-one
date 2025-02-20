@@ -31,5 +31,23 @@ def dashboard(request):
     return render(request, 'Dashboard/dashboard.html', {'user_listings': user_listings, 
         'user_bookings': user_bookings})
 
+def add_listing(request):
+    if request.method == 'POST':
+        # Handle form submission
+        photo1 = request.FILES.get('photo1')
+        photo2 = request.FILES.get('photo2')
+        full_name = request.POST.get('fullName')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        home_type = request.POST.get('homeType')
+        description = request.POST.get('description')
+        price = request.POST.get('price')
 
+        if photo1:
+            default_storage.save(photo1.name, photo1)
+        if photo2:
+            default_storage.save(photo2.name, photo2)
 
+        return render(request, 'Dashboard/dashboard.html')  # Redirect to dashboard after submission
+
+    return render(request, 'Dashboard/add_listing.html')
