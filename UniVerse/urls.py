@@ -21,5 +21,6 @@ from Housing import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('Housing.urls')),
-    path('', include('Dashboard.urls'))
+    path('', include('Dashboard.urls')),
+    path('', include('Accounts.urls'))
 ]
