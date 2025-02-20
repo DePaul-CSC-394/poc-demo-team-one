@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Payment Successful{% endblock %}
+
+{% block extrastyle %}
+<style>
+  /* Additional styles for the success page */
+  .success-card {
+    background: var(--listing-bg);
+    color: var(--text);
+    border: none;
+  }
+  .success-card .card-body {
+    padding: 2rem;
+  }
+  .success-btn {
+    background: var(--btn-bg);
+    color: var(--text);
+    border: none;
+  }
+  .success-btn:hover {
+    background: var(--btn-hover);
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="card text-center success-card">
+    <div class="card-body">
+      <h1 class="card-title">Payment Successful!</h1>
+      <p class="card-text">Thank you for your subscription. Your payment has been processed successfully.</p>
+      <a href="/" class="btn success-btn">Return Home</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

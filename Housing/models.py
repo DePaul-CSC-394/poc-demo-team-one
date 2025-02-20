@@ -25,8 +25,8 @@ class HousingListing(models.Model):
     price = models.DecimalField(max_digits=8, decimal_places=2)
     sqFeet = models.FloatField(default=0)
     description = models.TextField(blank=True)
-    photo_1 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
-    photo_2 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
+    photo_1 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True, max_length=255)
+    photo_2 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True, max_length=255)
     location = gis_models.PointField(null=True, blank=True, geography=True)
     city_state = models.TextField(blank=True)
 

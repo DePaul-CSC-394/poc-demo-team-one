@@ -1,11 +1,16 @@
 from decimal import Decimal
 import random
-from django.shortcuts import get_object_or_404, render
+from django.conf import settings
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from UniVerse import settings
 from .models import HousingListing
 from .helpers import get_available_listings, get_nearby_listings, get_type_listings
 import datetime
 import folium
+import stripe
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 # Create your views here.
 
@@ -79,8 +84,9 @@ def detail (request, listing_id):
     # make the location "approximate"
     center_lat = listing.latitude  + Decimal(random.uniform(-offset_range, offset_range))
     center_lon = listing.longitude + Decimal(random.uniform(-offset_range, offset_range))
+    
 
-
+    #from documentation: https://python-visualization.github.io/folium/latest/user_guide.html
     # Create the map object
     m = folium.Map(location=[center_lat, center_lon], zoom_start=13, zoom_control=False, scrollWheelZoom=False, tiles="openstreetmap", dragging=False, doubleClickZoom=False)
 
@@ -107,3 +113,45 @@ def detail (request, listing_id):
     }
 
     return render(request, 'Housing/listing_details.html', context)
+
+
+def create_checkout_session(request, listing_id):
+    listing = get_object_or_404(HousingListing, pk=listing_id)
+    # Checkout session using data from listings
+    line_items = [
+        {
+            'price_data': {
+                'currency': 'usd',
+                'unit_amount': int(listing.price)*100, 
+                'recurring': {
+                    'interval': 'month',  # monthly subscription
+                },
+                'product_data': {
+                    'name': listing.description or "Housing Subscription",
+                    # You can add more product details here if you want
+                },
+            },
+            'quantity': 1,
+        }
+    ]
+    
+    # Checkout Session
+    session = stripe.checkout.Session.create(
+        payment_method_types=['card'],  
+        line_items=line_items,
+        mode='subscription',
+        allow_promotion_codes=True,  # displays "Add promotion code" link
+        billing_address_collection='required',
+        success_url=request.build_absolute_uri(reverse('success')),
+        cancel_url=request.build_absolute_uri(reverse('listing-details', kwargs={'listing_id': listing_id})),
+        # shipping_address_collection={'allowed_countries': ['US']},
+        # automatic_tax={'enabled': True}, # if using Stripe Tax
+    )
+
+    return redirect(session.url, code=303)
+
+def success(request):
+    return render(request, 'Housing/checkout_success.html')
+
+
+

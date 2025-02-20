@@ -6,8 +6,8 @@
     <div>
         {% if listing %}
             <div class="image-row">
-                <img src="https://images.unsplash.com/photo-1515263487990-61b07816b324?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Example Image">
-                <img src="https://images.unsplash.com/photo-1515263487990-61b07816b324?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Example Image">
+                <img src={{listing.photo_1}} alt="Example Image">
+                <img src={{listing.photo_2}} alt="Example Image">
             </div>
             <div class="details-row mt-3">
                 <div class="info-block">
@@ -27,7 +27,7 @@
                                 <p>{{listing.home_type}}</p>
                             </div>
                         </div>
-                        <button class="btn btn-secondary book-btn">Book</button>
+                        <a href="{% url 'checkout' listing.id %}" class="btn btn-secondary book-btn">Book</a>
                     </div>
                     <div class="map">
                         {{ map_html|safe }}
