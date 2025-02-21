@@ -127,8 +127,9 @@ def create_checkout_session(request, listing_id):
                     'interval': 'month',  # monthly subscription
                 },
                 'product_data': {
-                    'name': listing.description or "Housing Subscription",
+                    'name': str(listing.home_type) + " "+ str(listing_id),
                     # You can add more product details here if you want
+                    'images': [listing.photo_1] if listing.photo_1 else [],
                 },
             },
             'quantity': 1,
