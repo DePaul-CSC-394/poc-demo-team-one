@@ -55,4 +55,5 @@ class HousingBooking(models.Model):
     start_date = models.DateTimeField(default=datetime.now, blank=True)
     end_date = models.DateTimeField(blank=True)
     is_pending=models.BooleanField(blank=True, default=True)
+    was_denied=models.BooleanField(blank=True, default=True)
 
