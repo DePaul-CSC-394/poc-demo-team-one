@@ -18,9 +18,25 @@ class Command(BaseCommand):
         json_file_path = kwargs['json_file']
 
         # Get or create a user to associate with the listings
-        user, created = User.objects.get_or_create(username='admin', defaults={'email': 'admin@example.com', 'password': 'admin'})
+        user, created = User.objects.get_or_create(
+        username='admin',
+        defaults={'email': 'admin@example.com'}
+        )
+        if created:
+         user.set_password('admin')  # Hashes the password correctly
+         user.save()
 
-        renter, renterCreated = User.objects.get_or_create(username='renter', defaults={'email': 'renter@example.com', 'password': 'renter'})
+
+        
+        # Get or create a user to associate with the listings
+        renter, renterCreated = User.objects.get_or_create(
+        username='renter',
+        defaults={'email': 'renter@example.com'}
+        )
+        if renterCreated:
+         renter.set_password('renter')  # Hashes the password correctly
+         renter.save()
+
 
         with open(json_file_path, 'r') as file:
             data = json.load(file)  # Parse the entire file as a JSON array
