@@ -59,9 +59,9 @@
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>
                     {% comment %} <li class="nav-item"><a class="btn btn-outline-light btn-signin" href="{% url 'login' %}">Sign In</a></li> {% endcomment %}
                     {% if user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>
                         <li class="nav-item"><a class="btn btn-outline-light btn-signin" href="{% url 'signout' %}">Sign Out</a></li>
                     {% else %}
                         <li class="nav-item"><a class="btn btn-outline-light btn-signin" href="{% url 'login' %}">Sign In</a></li>

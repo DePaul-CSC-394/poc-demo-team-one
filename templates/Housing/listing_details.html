@@ -39,8 +39,10 @@
                             <button id="book-btn" class="btn btn-secondary book-btn">Book</button>
                         </div> {% endcomment %}
 
-                    <button id="book-btn" data-bs-toggle="modal" data-bs-target="#bookingModal" class="btn btn-secondary book-btn">Book</button>
 
+                    {% if user.is_authenticated %}
+                        <button id="book-btn" data-bs-toggle="modal" data-bs-target="#bookingModal" class="btn btn-secondary book-btn">Book</button>
+                    {% endif %}
 
                     {% comment %} Book Modal {% endcomment %}
                     {% comment %} https://getbootstrap.com/docs/5.3/components/modal/ {% endcomment %}
