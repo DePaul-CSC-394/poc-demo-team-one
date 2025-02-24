@@ -86,7 +86,7 @@
         {% csrf_token %}
         <div class="hamburger-menu d-md-none">
             <button type="button" class="btn btn-secondary w-100" onclick="toggleMenu()">☰ Start Your Search</button>
-            <div class="menu-items">
+            <div class="menu-items" id="searchMenu" style="display: none;">        
                 <input type="text" class="form-control mb-2" placeholder="Where - Search destinations" name="location">
                 <input type="number" class="form-control mb-2" placeholder="Radius (Miles)" min="0" max="10" name="mile-radius">
                 <input type="text" class="form-control mb-2" placeholder="Check-in" name="start_date" onfocus="(this.type='date')">
@@ -140,6 +140,18 @@
         restoreScrollPosition();
     });
 </script>
+
+<script>
+    function toggleMenu() {
+        const menu = document.getElementById("searchMenu");
+        if (menu.style.display === "none" || menu.style.display === "") {
+            menu.style.display = "block"; // Show menu
+        } else {
+            menu.style.display = "none"; // Hide menu
+        }
+    }
+</script>
+
 
 <!-- Database Listings Section -->
  <br>
