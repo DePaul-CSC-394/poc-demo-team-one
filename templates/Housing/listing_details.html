@@ -29,7 +29,7 @@
                             </div>
                         </div>
                         
-                        <div class="booking-section">
+                        {% comment %} <div class="booking-section">
                             <label for="checkin">Check-in:</label>
                             <input type="date" id="checkin" required>
 
@@ -37,7 +37,36 @@
                             <input type="date" id="checkout" required>
                         
                             <button id="book-btn" class="btn btn-secondary book-btn">Book</button>
+                        </div> {% endcomment %}
+
+                    <button id="book-btn" data-bs-toggle="modal" data-bs-target="#bookingModal" class="btn btn-secondary book-btn">Book</button>
+
+
+                    {% comment %} Book Modal {% endcomment %}
+                    {% comment %} https://getbootstrap.com/docs/5.3/components/modal/ {% endcomment %}
+                    <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Book Listing</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <label for="checkin">Check-in:</label>
+                                    <input type="date" id="checkin" class="form-control"required>
+
+                                    <label class="mt-3"for="checkout">Check-out:</label>
+                                    <input type="date" id="checkout" class="form-control"required>
+                                </div>
+                                 <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="button" id="confirm-book-btn" class="confirm-book-btn btn">Checkout</button>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                        
+                    </div>
                     <div class="map">
                         {{ map_html|safe }}
                     </div>
@@ -46,13 +75,26 @@
         {% endif %}
     </div>
 
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
     <script>
-        document.getElementById("book-btn").addEventListener("click", function(event) {
+        
+        document.getElementById("confirm-book-btn").addEventListener("click", function(event) {
             const checkin = document.getElementById("checkin").value;
             const checkout = document.getElementById("checkout").value;
         
             if (!checkin || !checkout) {
-                alert("Please select check-in and check-out dates.");
+                // https://github.com/apvarun/toastify-js/blob/master/README.md
+                Toastify({
+                    text: "Please select check-in and check-out dates.",
+                    duration: 3000,
+                    gravity: "top",
+                    position: "center",
+                    style: {
+                        background: "#e74c3c"
+                    }
+                }).showToast();
                 return;
             }
         
@@ -68,7 +110,16 @@
                     window.location.href = `/create-checkout-session/${listingId}/?checkin=${checkin}&checkout=${checkout}`;
                 })
                 .catch(error => {
-                    alert(error.message);  // Show error message to the user
+                    //https://github.com/apvarun/toastify-js/blob/master/README.md
+                    Toastify({
+                    text: error.message,
+                    duration: 3000,
+                    gravity: "top",
+                    position: "center",
+                    style: {
+                        background: "#e74c3c"
+                    }
+                }).showToast();  // Show error message to the user
                 });
         });
         </script>
