@@ -9,7 +9,6 @@ from UniVerse import settings
 from .models import HousingBooking, HousingListing
 from .helpers import get_available_listings, get_nearby_listings, get_type_listings
 from datetime import datetime
-from dateutil.relativedelta import relativedelta
 from django.utils.timezone import make_aware
 import folium
 import stripe
@@ -139,6 +138,9 @@ def create_checkout_session(request, listing_id):
     # Calculate the total number of days user is looking to stay
     num_days = (checkout_date_dt - checkin_date_dt).days
     
+    if num_days == 0:
+        num_days = 1
+        
     # Calculate the total price for the stay
     total_price = int(listing.price * num_days * 100)
 
@@ -174,8 +176,8 @@ def create_checkout_session(request, listing_id):
         
         metadata={
             'listing_id': listing_id,
-            'checkin_date': checkin_date_dt,
-            'checkout_date': checkout_date_dt,
+            'checkin_date': checkin_date,
+            'checkout_date': checkout_date,
         }
         
         # shipping_address_collection={'allowed_countries': ['US']},
