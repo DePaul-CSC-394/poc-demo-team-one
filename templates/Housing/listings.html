@@ -3,11 +3,17 @@
 
 {% block title %}Find Your Next Home{% endblock %}
 
+
+
+{% block hero %}
+<div class="hero-section">
+    <img src="https://news.airbnb.com/wp-content/uploads/sites/4/2022/09/Newsroom-About.jpg?w=3000" alt="">
+    <div class="hero-text">Where Student Life Meets Home Comfort!</div>
+</div>
+{% endblock %}
 {% block content %}
 
-
-
-<!-- Search Bar -->
+<!-- Search Bar for listings -->
 <div class="search-form">
     <form id="search-form" method="POST" action="{% url 'search' %}">
         {% csrf_token %}
@@ -51,7 +57,7 @@
                     <option>Studio</option>
                     <option>Loft</option>
                 </select>
-                <button type="submit" class="btn btn-secondary w-100 mb-2">Search</button>
+                <button type="submit" class="btn btn-secondary w-100">Search</button>
                 <button type="button" class="btn btn-secondary w-100" onclick="clearForm()">Clear Filters</button>
             </div>
         </div>
@@ -66,6 +72,45 @@
     }
 </script>
 
+<hr>
+<!-- Fake Reviews Section -->
+<section class="reviews-section">
+    <h2 class="reviews-title">Reviews from Our Users</h2>
+    <div class="reviews-grid">
+        <div class="review-card">
+            <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User Profile">
+            <div class="review-text">
+                <strong>John Doe</strong><br>
+                "UniVerse helped me find the perfect apartment near my university. Highly recommended!"
+                <br>★★★★★
+            </div>
+        </div>
+        <div class="review-card">
+            <img src="https://randomuser.me/api/portraits/women/2.jpg" alt="User Profile">
+            <div class="review-text">
+                <strong>Jane Smith</strong><br>
+                "I found an amazing roommate through UniVerse. It's super easy and reliable!"
+                <br> ★★★★★
+            </div>
+        </div>
+        <div class="review-card">
+            <img src="https://randomuser.me/api/portraits/men/3.jpg" alt="User Profile">
+            <div class="review-text">
+                <strong>Mike Johnson</strong><br>
+                "Best platform for students looking for affordable housing. 10/10 experience!"
+                <br>★★★★
+            </div>
+        </div>
+        <div class="review-card">
+            <img src="https://randomuser.me/api/portraits/women/4.jpg" alt="User Profile">
+            <div class="review-text">
+                <strong>Emily White</strong><br>
+                "Easy to use and lots of options! I found my dream home in just a few days!"
+                <br>★★★★★
+            </div>
+        </div>
+    </div>
+</section>
 <hr>
 
 <!-- Database Listings Section -->
@@ -90,8 +135,10 @@
         <p>No listings available.</p>
     {% endfor %}
 </div>
+
+<hr>
+
 {% endblock %}
 {% block extrastyle %}
     <link rel="stylesheet" href="{% static 'css/listings.css' %}" />
 {% endblock %}
-
