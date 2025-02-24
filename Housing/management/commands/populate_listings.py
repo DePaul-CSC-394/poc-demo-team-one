@@ -52,10 +52,10 @@ class Command(BaseCommand):
                         user=user,
                         latitude=geometry['coordinates'][1],  # latitude
                         longitude=geometry['coordinates'][0],  # longitude
-                        bedrooms=0,  # Default value, update as needed
-                        bathrooms=1.0,  # Default value, update as needed
-                        price=0.0,  # Default value, update as needed
-                        sqFeet=0.0,  # Default value, update as needed
+                        bedrooms=item['bedrooms'],
+                        bathrooms=item['bathrooms'],
+                        price=item['price'],
+                        sqFeet=item['sqFeet'],
                         home_type=properties['home_type'],
                         description=item['desc'],  
                         photo_1=item['photo1'],
