@@ -9,6 +9,7 @@ from UniVerse import settings
 from .models import HousingBooking, HousingListing
 from .helpers import get_available_listings, get_nearby_listings, get_type_listings
 from datetime import datetime
+from dateutil.relativedelta import relativedelta
 from django.utils.timezone import make_aware
 import folium
 import stripe
@@ -134,6 +135,12 @@ def create_checkout_session(request, listing_id):
         checkout_date_dt = make_aware(datetime.strptime(checkout_date, "%Y-%m-%d"))
     except ValueError as e:
         return JsonResponse({'error': f"Invalid date format: {e}"}, status=400)
+    
+    # Calculate the total number of days user is looking to stay
+    num_days = (checkout_date_dt - checkin_date_dt).days
+    
+    # Calculate the total price for the stay
+    total_price = int(listing.price * num_days * 100)
 
     # Check for booking conflicts
     if is_booking_conflict(listing_id, checkin_date_dt, checkout_date_dt):
@@ -144,10 +151,7 @@ def create_checkout_session(request, listing_id):
         {
             'price_data': {
                 'currency': 'usd',
-                'unit_amount': int(listing.price)*100, 
-                'recurring': {
-                    'interval': 'month',  # monthly subscription
-                },
+                'unit_amount': total_price, 
                 'product_data': {
                     'name': str(listing.home_type) + " #"+ str(listing_id),
                     # You can add more product details here if you want
@@ -162,7 +166,7 @@ def create_checkout_session(request, listing_id):
     session = stripe.checkout.Session.create(
         payment_method_types=['card'],  
         line_items=line_items,
-        mode='subscription',
+        mode='payment',
         allow_promotion_codes=True,  # displays "Add promotion code" link
         billing_address_collection='required',
         success_url=request.build_absolute_uri(reverse('success')) + "?session_id={CHECKOUT_SESSION_ID}",
@@ -170,8 +174,8 @@ def create_checkout_session(request, listing_id):
         
         metadata={
             'listing_id': listing_id,
-            'checkin_date': checkin_date,
-            'checkout_date': checkout_date,
+            'checkin_date': checkin_date_dt,
+            'checkout_date': checkout_date_dt,
         }
         
         # shipping_address_collection={'allowed_countries': ['US']},
@@ -242,6 +246,7 @@ def is_booking_conflict(listing_id, checkin_date, checkout_date):
     ).exists()
 
     return conflicting_bookings
+
 
 
 
