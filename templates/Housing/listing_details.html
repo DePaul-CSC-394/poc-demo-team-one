@@ -85,6 +85,15 @@
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
     <script>
+
+        // Set the min attribute for check-in and checkout dates to today's date
+        function setMinDates() {
+            const today = new Date().toISOString().split("T")[0];
+            document.getElementById("checkin").setAttribute("min", today);
+            document.getElementById("checkout").setAttribute("min", today);
+        }
+        // Call the function when the modal is shown
+        document.getElementById('bookingModal').addEventListener('shown.bs.modal', setMinDates);
         
         document.getElementById("confirm-book-btn").addEventListener("click", function(event) {
             const checkin = document.getElementById("checkin").value;
