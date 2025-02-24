@@ -28,8 +28,16 @@
                                 <p>{{listing.home_type}}</p>
                             </div>
                         </div>
-                        <a href="{% url 'checkout' listing.id %}" class="btn btn-secondary book-btn">Book</a>
-                    </div>
+                        
+                        <div class="booking-section">
+                            <label for="checkin">Check-in:</label>
+                            <input type="date" id="checkin" required>
+
+                            <label for="checkout">Check-out:</label>
+                            <input type="date" id="checkout" required>
+                        
+                            <button id="book-btn" class="btn btn-secondary book-btn">Book</button>
+                        </div>
                     <div class="map">
                         {{ map_html|safe }}
                     </div>
@@ -37,6 +45,33 @@
             </div>
         {% endif %}
     </div>
+
+    <script>
+        document.getElementById("book-btn").addEventListener("click", function(event) {
+            const checkin = document.getElementById("checkin").value;
+            const checkout = document.getElementById("checkout").value;
+        
+            if (!checkin || !checkout) {
+                alert("Please select check-in and check-out dates.");
+                return;
+            }
+        
+            const listingId = "{{ listing.id }}";  
+            fetch(`/create-checkout-session/${listingId}/?checkin=${checkin}&checkout=${checkout}`)
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(error => { throw new Error(error.error); });
+                    }
+                    return response;
+                })
+                .then(() => {
+                    window.location.href = `/create-checkout-session/${listingId}/?checkin=${checkin}&checkout=${checkout}`;
+                })
+                .catch(error => {
+                    alert(error.message);  // Show error message to the user
+                });
+        });
+        </script>
 
 {% endblock %}
 

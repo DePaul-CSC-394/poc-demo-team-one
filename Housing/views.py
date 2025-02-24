@@ -1,14 +1,18 @@
 from decimal import Decimal
 import random
+from django.db.models import Q
 from django.conf import settings
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from UniVerse import settings
-from .models import HousingListing
+from .models import HousingBooking, HousingListing
 from .helpers import get_available_listings, get_nearby_listings, get_type_listings
-import datetime
+from datetime import datetime
+from django.utils.timezone import make_aware
 import folium
 import stripe
+from django.contrib.auth.models import User
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -115,8 +119,26 @@ def detail (request, listing_id):
     return render(request, 'Housing/listing_details.html', context)
 
 
-def create_checkout_session(request, listing_id):
+def create_checkout_session(request, listing_id):    
     listing = get_object_or_404(HousingListing, pk=listing_id)
+    
+    checkin_date = request.GET.get('checkin')
+    checkout_date = request.GET.get('checkout')
+    
+    if not checkin_date or not checkout_date:
+        return JsonResponse({'error': 'Missing check-in or check-out date'}, status=400)
+    
+    # Convert naive datetime strings to time zone-aware datetime objects
+    try:
+        checkin_date_dt = make_aware(datetime.strptime(checkin_date, "%Y-%m-%d"))
+        checkout_date_dt = make_aware(datetime.strptime(checkout_date, "%Y-%m-%d"))
+    except ValueError as e:
+        return JsonResponse({'error': f"Invalid date format: {e}"}, status=400)
+
+    # Check for booking conflicts
+    if is_booking_conflict(listing_id, checkin_date_dt, checkout_date_dt):
+        return JsonResponse({'error': 'Booking dates conflict with an existing booking.'}, status=400)
+    
     # Checkout session using data from listings
     line_items = [
         {
@@ -127,8 +149,9 @@ def create_checkout_session(request, listing_id):
                     'interval': 'month',  # monthly subscription
                 },
                 'product_data': {
-                    'name': listing.description or "Housing Subscription",
+                    'name': str(listing.home_type) + " #"+ str(listing_id),
                     # You can add more product details here if you want
+                    'images': [listing.photo_1] if listing.photo_1 else [],
                 },
             },
             'quantity': 1,
@@ -142,16 +165,83 @@ def create_checkout_session(request, listing_id):
         mode='subscription',
         allow_promotion_codes=True,  # displays "Add promotion code" link
         billing_address_collection='required',
-        success_url=request.build_absolute_uri(reverse('success')),
+        success_url=request.build_absolute_uri(reverse('success')) + "?session_id={CHECKOUT_SESSION_ID}",
         cancel_url=request.build_absolute_uri(reverse('listing-details', kwargs={'listing_id': listing_id})),
+        
+        metadata={
+            'listing_id': listing_id,
+            'checkin_date': checkin_date,
+            'checkout_date': checkout_date,
+        }
+        
         # shipping_address_collection={'allowed_countries': ['US']},
         # automatic_tax={'enabled': True}, # if using Stripe Tax
     )
-
+    
     return redirect(session.url, code=303)
 
 def success(request):
-    return render(request, 'Housing/checkout_success.html')
+    # Retrieve the session ID from the query parameters
+    session_id = request.GET.get('session_id')
+    if not session_id:
+        return HttpResponse("Session ID not found.", status=400)
+
+    # Retrieve the session from Stripe
+    try:
+        session = stripe.checkout.Session.retrieve(session_id)
+    except Exception as e:
+        return HttpResponse(f"Error retrieving session: {e}", status=400)
+
+    # Extract metadata
+    listing_id = session.metadata.get('listing_id')
+    checkin_date_str = session.metadata.get('checkin_date')
+    checkout_date_str = session.metadata.get('checkout_date')
+
+    if not listing_id or not checkin_date_str or not checkout_date_str:
+        return HttpResponse("Invalid metadata.", status=400)
+    
+    try:
+        checkin_date = make_aware(datetime.strptime(checkin_date_str, "%Y-%m-%d"))
+        checkout_date = make_aware(datetime.strptime(checkout_date_str, "%Y-%m-%d"))
+    except ValueError as e:
+        return HttpResponse(f"Invalid date format: {e}", status=400)
+    
+    # Check for booking conflicts
+    if is_booking_conflict(listing_id, checkin_date, checkout_date):
+        return HttpResponse("Booking dates conflict with an existing booking.", status=400)
+
+    # Get the user and listing
+    try:
+        user = request.user  # Ensure the user is authenticated
+        listing = HousingListing.objects.get(id=listing_id)
+
+        # Create the booking
+        HousingBooking.objects.create(
+            user=user,
+            listing=listing,
+            start_date=checkin_date,
+            end_date=checkout_date,
+            is_pending=True
+        )
+        return render(request, 'Housing/checkout_success.html')
+    except HousingListing.DoesNotExist:
+        return HttpResponse("Listing not found.", status=404)
+    except Exception as e:
+        return HttpResponse(f"Error creating booking: {e}", status=500)
+
+
+def is_booking_conflict(listing_id, checkin_date, checkout_date):
+    """
+    Check if there is a booking conflict for the given listing and dates.
+    """
+    # Query for overlapping bookings
+    conflicting_bookings = HousingBooking.objects.filter(
+        listing_id=listing_id,
+        start_date__lt=checkout_date,  # Existing booking starts before the new booking ends
+        end_date__gt=checkin_date,     # Existing booking ends after the new booking starts
+    ).exists()
+
+    return conflicting_bookings
 
 
 
