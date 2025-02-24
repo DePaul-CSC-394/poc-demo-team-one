@@ -4,6 +4,8 @@ from Housing.models import HousingListing, HousingBooking
 from django.contrib.auth.models import User
 from django.core.files.storage import default_storage
 from django.core.mail import send_mail
+from geopy.geocoders import Nominatim
+from geopy.exc import GeocoderTimedOut
 
 # Create your views here.
 
@@ -32,10 +34,14 @@ def add_listing(request):
         # Handle form submission
         photo1 = request.FILES.get('photo1')
         photo2 = request.FILES.get('photo2')
-        full_name = request.POST.get('fullName')
-        email = request.POST.get('email')
-        phone = request.POST.get('phone')
+        # full_name = request.POST.get('fullName')
+        # email = request.POST.get('email')
+        # phone = request.POST.get('phone')
         home_type = request.POST.get('homeType')
+        address = request.POST.get('address')
+        bedrooms = request.POST.get('bedrooms')
+        bathrooms = request.POST.get('bathrooms')
+        sqFeet = request.POST.get('sqFeet')
         description = request.POST.get('description')
         price = request.POST.get('price')
 
@@ -44,7 +50,44 @@ def add_listing(request):
         if photo2:
             default_storage.save(photo2.name, photo2)
 
-        return render(request, 'Dashboard/dashboard.html')  # Redirect to dashboard after submission
+        # Geocode the address to get latitude and longitude
+        geolocator = Nominatim(user_agent="my_app")
+        try:
+            location = geolocator.geocode(address, timeout=10)  # Geocode the address
+            if location:
+                latitude = location.latitude
+                longitude = location.longitude
+            else:
+                # Handle case where address cannot be geocoded
+                return render(request, 'Dashboard/add_listing.html', {
+                    'error': 'Unable to geocode the provided address. Please check the address and try again.'
+                })
+        except GeocoderTimedOut:
+            return render(request, 'Dashboard/add_listing.html', {
+                'error': 'Geocoding service timed out. Please try again.'
+            })
+
+        listing = HousingListing(
+            user=request.user,
+            photo_1=photo1,
+            photo_2=photo2,
+            # full_name=full_name,
+            # email=email,
+            # phone=phone,
+            home_type=home_type,
+            latitude=latitude,
+            longitude=longitude,
+            # address=address,
+            bedrooms=bedrooms,
+            bathrooms=bathrooms,
+            sqFeet=sqFeet,
+            description=description,
+            price=price
+        )
+
+        listing.save()
+
+        return redirect('dashboard')  # Redirect to dashboard after submission
 
     return render(request, 'Dashboard/add_listing.html')
 
@@ -83,4 +126,14 @@ def approve_or_deny (request):
         )
         return redirect('dashboard')
 
+    return redirect('dashboard')
+
+def delete_listing(request, listing_id):
+    # Ensure the user can only delete their own listings
+    listing = get_object_or_404(HousingListing, id=listing_id, user=request.user)
+
+    # Delete the listing
+    listing.delete()
+
+    # Redirect back to the dashboard
     return redirect('dashboard')
