@@ -82,7 +82,7 @@
 
 <!-- Hamburger Menu -->
 <div class="search-form">
-    <form id="hamburger-search-form" method="POST" action="{% url 'search' %}">
+    <form id="hamburger-search-form" method="POST" action="{% url 'search' %} #listings-section">
         {% csrf_token %}
         <div class="hamburger-menu d-md-none">
             <button type="button" class="btn btn-secondary w-100" onclick="toggleMenu()">☰ Start Your Search</button>
@@ -109,10 +109,36 @@
 
 <script>
     function clearForm() {
+        sessionStorage.setItem("scrollPos", window.scrollY); // Save scroll position
         document.getElementById('search-form').reset();
         document.getElementById('hamburger-search-form').reset();
         window.location.href = '/';
     }
+    document.addEventListener("DOMContentLoaded", function() {
+        const searchForm = document.getElementById("search-form");
+        const hamburgerSearchForm = document.getElementById("hamburger-search-form");
+
+        function saveScrollPosition() {
+            sessionStorage.setItem("scrollPos", window.scrollY);
+        }
+
+        function restoreScrollPosition() {
+            const scrollPos = sessionStorage.getItem("scrollPos");
+            if (scrollPos !== null) {
+                window.scrollTo(0, parseInt(scrollPos));
+                sessionStorage.removeItem("scrollPos"); // Clear after restoring
+            }
+        }
+
+        if (searchForm) {
+            searchForm.addEventListener("submit", saveScrollPosition);
+        }
+        if (hamburgerSearchForm) {
+            hamburgerSearchForm.addEventListener("submit", saveScrollPosition);
+        }
+
+        restoreScrollPosition();
+    });
 </script>
 
 <!-- Database Listings Section -->
