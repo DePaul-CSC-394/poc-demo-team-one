@@ -48,6 +48,7 @@ body { background: var(--bg); color: var(--text); overflow-x: hidden; }
     background-color: var(--btn-bg);
     color: var(--bg);
     transition: background-color 0.3s ease;
+    border-color: black;
 }
 
 .login-form .btn:hover {
