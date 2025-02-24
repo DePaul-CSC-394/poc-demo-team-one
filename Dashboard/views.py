@@ -127,3 +127,13 @@ def approve_or_deny (request):
         return redirect('dashboard')
 
     return redirect('dashboard')
+
+def delete_listing(request, listing_id):
+    # Ensure the user can only delete their own listings
+    listing = get_object_or_404(HousingListing, id=listing_id, user=request.user)
+
+    # Delete the listing
+    listing.delete()
+
+    # Redirect back to the dashboard
+    return redirect('dashboard')
