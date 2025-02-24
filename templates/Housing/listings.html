@@ -13,9 +13,52 @@
 {% endblock %}
 {% block content %}
 
+<hr>
+<!-- Fake Reviews Section -->
+<section class="reviews-section">
+    <h2 class="reviews-title">Reviews from Our Users</h2>
+    <div class="reviews-grid">
+        <div class="review-card">
+            <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User Profile">
+            <div class="review-text">
+                <strong>John Doe</strong><br>
+                "UniVerse helped me find the perfect apartment near my university. Highly recommended!"
+                <br>★★★★★
+            </div>
+        </div>
+        <div class="review-card">
+            <img src="https://randomuser.me/api/portraits/women/2.jpg" alt="User Profile">
+            <div class="review-text">
+                <strong>Jane Smith</strong><br>
+                "I found an amazing roommate through UniVerse. It's super easy and reliable!"
+                <br> ★★★★★
+            </div>
+        </div>
+        <div class="review-card">
+            <img src="https://randomuser.me/api/portraits/men/3.jpg" alt="User Profile">
+            <div class="review-text">
+                <strong>Mike Johnson</strong><br>
+                "Best platform for students looking for affordable housing. 10/10 experience!"
+                <br>★★★★
+            </div>
+        </div>
+        <div class="review-card">
+            <img src="https://randomuser.me/api/portraits/women/4.jpg" alt="User Profile">
+            <div class="review-text">
+                <strong>Emily White</strong><br>
+                "Easy to use and lots of options! I found my dream home in just a few days!"
+                <br>★★★★★
+            </div>
+        </div>
+    </div>
+</section>
+<hr>
+
 <!-- Search Bar for listings -->
+<h3 id="listings-section">Find Your Next Home</h3>
+ <br>
 <div class="search-form">
-    <form id="search-form" method="POST" action="{% url 'search' %}">
+    <form id="search-form" method="POST" action="{% url 'search' %}#listings-section">
         {% csrf_token %}
         <div class="search-bar d-none d-md-flex align-items-center">
             <input type="text" class="form-control me-2" placeholder="Where - Search destinations" name="location">
@@ -72,48 +115,8 @@
     }
 </script>
 
-<hr>
-<!-- Fake Reviews Section -->
-<section class="reviews-section">
-    <h2 class="reviews-title">Reviews from Our Users</h2>
-    <div class="reviews-grid">
-        <div class="review-card">
-            <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User Profile">
-            <div class="review-text">
-                <strong>John Doe</strong><br>
-                "UniVerse helped me find the perfect apartment near my university. Highly recommended!"
-                <br>★★★★★
-            </div>
-        </div>
-        <div class="review-card">
-            <img src="https://randomuser.me/api/portraits/women/2.jpg" alt="User Profile">
-            <div class="review-text">
-                <strong>Jane Smith</strong><br>
-                "I found an amazing roommate through UniVerse. It's super easy and reliable!"
-                <br> ★★★★★
-            </div>
-        </div>
-        <div class="review-card">
-            <img src="https://randomuser.me/api/portraits/men/3.jpg" alt="User Profile">
-            <div class="review-text">
-                <strong>Mike Johnson</strong><br>
-                "Best platform for students looking for affordable housing. 10/10 experience!"
-                <br>★★★★
-            </div>
-        </div>
-        <div class="review-card">
-            <img src="https://randomuser.me/api/portraits/women/4.jpg" alt="User Profile">
-            <div class="review-text">
-                <strong>Emily White</strong><br>
-                "Easy to use and lots of options! I found my dream home in just a few days!"
-                <br>★★★★★
-            </div>
-        </div>
-    </div>
-</section>
-<hr>
-
 <!-- Database Listings Section -->
+ <br>
 <div class="listings">
     {% for listing in listings %}
         <a href="/listing-details/{{listing.id}}">
