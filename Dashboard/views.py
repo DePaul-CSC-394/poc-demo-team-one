@@ -101,7 +101,7 @@ def approve_or_deny (request):
 
         elif action == 'deny':
             booking.is_pending=False
-            booking.was_denied=False
+            booking.was_denied=True
             subject="Your Booking Has Been Denied"
             message=f"Dear {booking.user.username}, \n\n Unfortuneatly, your booking has been denied."
 
@@ -113,7 +113,7 @@ def approve_or_deny (request):
             message,
             'UniVerse@example.com',
             [user_email],
-            fail_silently=TRUE
+            fail_silently=True
         )
         return redirect('dashboard')
 

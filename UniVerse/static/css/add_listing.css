@@ -4,7 +4,7 @@ form {
 }
 
 .photo-box {
-    height: 200px;
+    height: auto;
 }
 
 .card {
@@ -18,4 +18,48 @@ form {
         border-radius:8px;
         border: 1px solid #ccc;
     }
+}
+
+.preview-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 2px solid #ff8c00;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.description-box{
+    height: 100%;
+}
+
+.desc-section{
+    height:85%;
+}
+
+#description{
+    height: 100%;
+}
+
+.submit-btn{
+    padding-inline: 2rem;
+    background-color: #ff8c00;
+    color: white;
+}
+
+.submit-btn:hover{
+    background-color: #e67e22;
+    color: white;
+}
+
+.btn-row{
+    display: flex;
+    justify-content: center;
+}
+
+.desc-col{
+    margin-bottom:15px;
+}
+
+.details-col{
+    margin-bottom:15px;
 }
