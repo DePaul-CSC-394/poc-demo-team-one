@@ -74,7 +74,7 @@
                 <option>Studio</option>
                 <option>Loft</option>
             </select>
-            <button type="submit" class="btn btn-secondary">Search</button>
+            <button type="submit" class="btn btn-secondary me-1">Search</button>
             <button type="button" class="btn btn-secondary" onclick="clearForm()">Clear</button>
         </div>
     </form>
@@ -85,7 +85,7 @@
     <form id="hamburger-search-form" method="POST" action="{% url 'search' %} #listings-section">
         {% csrf_token %}
         <div class="hamburger-menu d-md-none">
-            <button type="button" class="btn btn-secondary w-100" onclick="toggleMenu()">☰ Start Your Search</button>
+            <button type="button" class="btn btn-secondary w-100 mb-2" onclick="toggleMenu()">☰ Start Your Search</button>
             <div class="menu-items" id="searchMenu" style="display: none;">        
                 <input type="text" class="form-control mb-2" placeholder="Where - Search destinations" name="location">
                 <input type="number" class="form-control mb-2" placeholder="Radius (Miles)" min="0" max="10" name="mile-radius">
@@ -100,7 +100,7 @@
                     <option>Studio</option>
                     <option>Loft</option>
                 </select>
-                <button type="submit" class="btn btn-secondary w-100">Search</button>
+                <button type="submit" class="btn btn-secondary w-100 mb-2">Search</button>
                 <button type="button" class="btn btn-secondary w-100" onclick="clearForm()">Clear Filters</button>
             </div>
         </div>
