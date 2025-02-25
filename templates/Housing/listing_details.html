@@ -6,6 +6,7 @@
 
     <div>
         {% if listing %}
+            <h3 class="mb-3">{{ listing.home_type}} in {{listing.city_state|default:""}}</h3>
             <div class="image-row">
                 <img src={{listing.photo_1}} alt="Example Image">
                 <img src={{listing.photo_2}} alt="Example Image">
