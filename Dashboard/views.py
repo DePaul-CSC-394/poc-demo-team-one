@@ -74,6 +74,10 @@ def add_listing(request):
 
         listing.save()
 
+        listing.photo_1 = "/media/" + str(listing.photo_1)
+        listing.photo_2 = "/media/" + str(listing.photo_2)
+        listing.save()
+
         return redirect('dashboard')  # Redirect to dashboard after submission
 
     return render(request, 'Dashboard/add_listing.html')
