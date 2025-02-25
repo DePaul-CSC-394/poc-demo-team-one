@@ -148,6 +148,7 @@ def create_checkout_session(request, listing_id):
     if is_booking_conflict(listing_id, checkin_date_dt, checkout_date_dt):
         return JsonResponse({'error': 'Booking dates conflict with an existing booking.'}, status=400)
     
+        
     # Checkout session using data from listings
     line_items = [
         {
@@ -157,7 +158,6 @@ def create_checkout_session(request, listing_id):
                 'product_data': {
                     'name': str(listing.home_type) + " #"+ str(listing_id),
                     # You can add more product details here if you want
-                    'images': [listing.photo_1] if listing.photo_1 else [],
                 },
             },
             'quantity': 1,
@@ -248,7 +248,3 @@ def is_booking_conflict(listing_id, checkin_date, checkout_date):
     ).exists()
 
     return conflicting_bookings
-
-
-
-
