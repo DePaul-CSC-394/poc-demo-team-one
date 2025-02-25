@@ -166,10 +166,10 @@
                     {% endif %}
                 </div>
 
-                <h3>{{ listing.city_state|default:"" }}</h3>
+                <h3>{{ listing.home_type}} in {{listing.city_state|default:""}}</h3>
                 <p>{{ listing.bedrooms }} beds • {{ listing.bathrooms }} baths • {{ listing.sqFeet }} sqft</p>
-                <p>${{ listing.price }}/month</p>
-                <p>{{ listing.home_type }}</p>
+                <p>${% widthratio listing.price 1 30 %}/month</p>
+                {% comment %} <p>{{ listing.home_type }}</p> {% endcomment %}
             </div>
         </a>
     {% empty %}

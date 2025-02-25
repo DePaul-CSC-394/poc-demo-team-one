@@ -11,3 +11,17 @@ a {
     border-radius: 10px; 
     margin-bottom: 1rem;
 }
+
+.listings{
+    grid-auto-rows: 450px;
+}
+
+.listing{
+    height:100%;
+}
+
+@media (max-width: 768px) {
+  .listings { 
+    grid-auto-rows: 500px;
+  }
+}
