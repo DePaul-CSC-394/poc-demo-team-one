@@ -31,24 +31,15 @@ def dashboard(request):
 
 def add_listing(request):
     if request.method == 'POST':
-        # Handle form submission
         photo1 = request.FILES.get('photo1')
         photo2 = request.FILES.get('photo2')
-        # full_name = request.POST.get('fullName')
-        # email = request.POST.get('email')
-        # phone = request.POST.get('phone')
         home_type = request.POST.get('homeType')
         address = request.POST.get('address')
-        bedrooms = request.POST.get('bedrooms')
-        bathrooms = request.POST.get('bathrooms')
-        sqFeet = request.POST.get('sqFeet')
+        bedrooms = int(request.POST.get('bedrooms', 0))
+        bathrooms = float(request.POST.get('bathrooms', 0))
+        sqFeet = float(request.POST.get('sqFeet', 0))
         description = request.POST.get('description')
-        price = request.POST.get('price')
-
-        if photo1:
-            default_storage.save(photo1.name, photo1)
-        if photo2:
-            default_storage.save(photo2.name, photo2)
+        price = float(request.POST.get('price', 0))
 
         # Geocode the address to get latitude and longitude
         geolocator = Nominatim(user_agent="my_app")
@@ -69,15 +60,11 @@ def add_listing(request):
 
         listing = HousingListing(
             user=request.user,
-            photo_1=photo1,
-            photo_2=photo2,
-            # full_name=full_name,
-            # email=email,
-            # phone=phone,
+            photo_1=photo1 if photo1 else None,
+            photo_2=photo2 if photo2 else None,
             home_type=home_type,
             latitude=latitude,
             longitude=longitude,
-            # address=address,
             bedrooms=bedrooms,
             bathrooms=bathrooms,
             sqFeet=sqFeet,
@@ -85,6 +72,10 @@ def add_listing(request):
             price=price
         )
 
+        listing.save()
+
+        listing.photo_1 = "/media/" + str(listing.photo_1)
+        listing.photo_2 = "/media/" + str(listing.photo_2)
         listing.save()
 
         return redirect('dashboard')  # Redirect to dashboard after submission
