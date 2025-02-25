@@ -1,0 +1,21 @@
+form {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.photo-box {
+    height: 200px;
+}
+
+.card {
+    border-radius:8px;
+    border: 1px solid #ccc;
+}
+
+@media (max-width: 800px){
+    .card{
+        margin-bottom:15px;
+        border-radius:8px;
+        border: 1px solid #ccc;
+    }
+}
