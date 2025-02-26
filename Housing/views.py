@@ -146,13 +146,13 @@ def create_checkout_session(request, listing_id):
         return JsonResponse({'error': 'Booking dates conflict with an existing booking.'}, status=400)
     
     
-    # Ensure the image is an absolute URL
-    def get_absolute_image_url(image_field):
-        if image_field:
-            image_url = str(image_field.url) if hasattr(image_field, "url") else str(image_field)
+    # Ensure the image is properly formatted as an absolute URL
+    def get_absolute_image_url(image_url):
+        if image_url:
+            image_url = str(image_url)  # Ensure it's a string
             if not image_url.startswith("http"):
-                return request.build_absolute_uri(image_url)
-            return image_url
+                return request.build_absolute_uri(image_url)  # Convert relative to absolute
+            return image_url  # Already absolute
         return None
 
     listing_image = get_absolute_image_url(listing.photo_1)
