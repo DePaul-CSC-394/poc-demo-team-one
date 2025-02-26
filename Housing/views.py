@@ -137,10 +137,7 @@ def create_checkout_session(request, listing_id):
     
     # Calculate the total number of days user is looking to stay
     num_days = (checkout_date_dt - checkin_date_dt).days
-    
-    if num_days == 0:
-        num_days = 1
-        
+            
     # Calculate the total price for the stay
     total_price = int(listing.price * num_days * 100)
 
