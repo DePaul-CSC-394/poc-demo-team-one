@@ -145,6 +145,18 @@ def create_checkout_session(request, listing_id):
     if is_booking_conflict(listing_id, checkin_date_dt, checkout_date_dt):
         return JsonResponse({'error': 'Booking dates conflict with an existing booking.'}, status=400)
     
+    
+    # Ensure the image is an absolute URL
+    def get_absolute_image_url(image_field):
+        if image_field:
+            image_url = str(image_field.url) if hasattr(image_field, "url") else str(image_field)
+            if not image_url.startswith("http"):
+                return request.build_absolute_uri(image_url)
+            return image_url
+        return None
+
+    listing_image = get_absolute_image_url(listing.photo_1)
+    
         
     # Checkout session using data from listings
     line_items = [
@@ -154,7 +166,7 @@ def create_checkout_session(request, listing_id):
                 'unit_amount': total_price, 
                 'product_data': {
                     'name': str(listing.home_type) + " #"+ str(listing_id),
-                    # You can add more product details here if you want
+                    'images': [listing_image] if listing_image else [],
                 },
             },
             'quantity': 1,
