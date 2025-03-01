@@ -86,9 +86,12 @@ def detail (request, listing_id):
     offset_range = 0.01
 
     # make the location "approximate"
-    center_lat = listing.latitude  + Decimal(random.uniform(-offset_range, offset_range))
-    center_lon = listing.longitude + Decimal(random.uniform(-offset_range, offset_range))
+    # center_lat = listing.latitude  + Decimal(random.uniform(-offset_range, offset_range))
+    # center_lon = listing.longitude + Decimal(random.uniform(-offset_range, offset_range))
     
+
+    center_lat = listing.latitude  + Decimal(0.007)
+    center_lon = listing.longitude - Decimal(0.007)
 
     #from documentation: https://python-visualization.github.io/folium/latest/user_guide.html
     # Create the map object
