@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% block hero %}{% endblock %}
+
+    <div>
+        {% if listing %}
+            <h3 class="mb-3">{{ listing.supplyName}} in {{listing.city_state|default:""}}</h3>
+            <div class="image-row">
+                <img src={{listing.photo_1}} alt="Example Image">
+                <img src={{listing.photo_2}} alt="Example Image">
+            </div>
+            <div class="details-row mt-3">
+                <div class="info-block">
+                    <p>{{listing.description}}</p>
+                </div>
+                <div class='right-block'>
+                    <div class="info-col">
+                        <div class="icon-val">
+                            <div class="icon-col">
+                                <i class="fa-solid fa-dollar-sign"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <div class="data-col">
+                                <p>{{listing.price}}/day</p>
+                                <p>5.0</p>
+                            </div>
+                        </div>
+
+
+                    {% if user.is_authenticated %}
+                        <button id="book-btn" data-bs-toggle="modal" data-bs-target="#bookingModal" class="btn btn-secondary book-btn">Rent</button>
+                    {% endif %}
+
+                    {% comment %} Book Modal {% endcomment %}
+                    {% comment %} https://getbootstrap.com/docs/5.3/components/modal/ {% endcomment %}
+                    <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Rent Supply</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <label for="checkin">Exchange Date:</label>
+                                    <input type="date" id="checkin" class="form-control"required>
+
+                                    <label class="mt-3"for="checkout">Return Date:</label>
+                                    <input type="date" id="checkout" class="form-control"required>
+                                </div>
+                                 <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="button" id="confirm-book-btn" class="confirm-book-btn btn">Checkout</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        
+                    </div>
+                    <div class="map">
+                        <p class="pickupText">Pick-Up Location</p>
+                        {{ map_html|safe }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+    <script>
+
+        function showToast(message) {
+            Toastify({
+                text: message,
+                duration: 3000,
+                gravity: "top",
+                position: "center",
+                style: {
+                    background: "#e74c3c"
+                }
+            }).showToast();
+        }
+
+        // Set the min attribute for check-in and checkout dates to today's date
+        function setMinDates() {
+            const today = new Date().toISOString().split("T")[0];
+            document.getElementById("checkin").setAttribute("min", today);
+            document.getElementById("checkout").setAttribute("min", today);
+        }
+
+
+    // Function to validate user input (including manually entered dates)
+    function validateDates() {
+        const checkinInput = document.getElementById("checkin").value;
+        const checkoutInput = document.getElementById("checkout").value;
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Normalize today's date to avoid time mismatches
+
+        function parseDate(input) {
+            const parts = input.split("/");
+            if (parts.length === 3) {
+                // Convert mm/dd/yyyy to Date object
+                return new Date(parts[2], parts[0] - 1, parts[1]); 
+            }
+            return new Date(input); // Fallback for proper yyyy-mm-dd format
+        }
+
+        const checkinDate = parseDate(checkinInput);
+        const checkoutDate = parseDate(checkoutInput);
+
+        if (isNaN(checkinDate) || isNaN(checkoutDate)) {
+            showToast("Invalid date format. Please use the calendar.");
+            return false;
+        }
+
+        if (checkinDate < today) {
+            showToast("Exchange date cannot be in the past.");
+            return false;
+        }
+
+        if (checkoutDate <= checkinDate) {
+            showToast("Return date must be after check-in.");
+            return false;
+        }
+
+        return true;
+    }
+
+
+        // Call the function when the modal is shown
+        document.getElementById('bookingModal').addEventListener('shown.bs.modal', setMinDates);
+        
+        {% comment %} document.getElementById("confirm-book-btn").addEventListener("click", function(event) {
+
+            if (!validateDates()) {
+                event.preventDefault();
+                return;
+            }
+            const checkin = document.getElementById("checkin").value;
+            const checkout = document.getElementById("checkout").value;
+        
+            if (!checkin || !checkout) {
+                // https://github.com/apvarun/toastify-js/blob/master/README.md
+                Toastify({
+                    text: "Please select exchange and return dates.",
+                    duration: 3000,
+                    gravity: "top",
+                    position: "center",
+                    style: {
+                        background: "#e74c3c"
+                    }
+                }).showToast();
+                return;
+            }
+        
+            const listingId = "{{ listing.id }}";  
+            fetch(`/create-checkout-session/${listingId}/?checkin=${checkin}&checkout=${checkout}`)
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(error => { throw new Error(error.error); });
+                    }
+                    return response;
+                })
+                .then(() => {
+                    window.location.href = `/create-checkout-session/${listingId}/?checkin=${checkin}&checkout=${checkout}`;
+                })
+                .catch(error => {
+                    //https://github.com/apvarun/toastify-js/blob/master/README.md
+                    Toastify({
+                    text: error.message,
+                    duration: 3000,
+                    gravity: "top",
+                    position: "center",
+                    style: {
+                        background: "#e74c3c"
+                    }
+                }).showToast();  // Show error message to the user
+                });
+        }); {% endcomment %}
+        </script>
+
+{% endblock %}
+
+{% block extrastyle %}
+    <link rel="stylesheet" href="{%static 'css/listing_details.css' %}" />
+{% endblock %}

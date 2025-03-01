@@ -36,6 +36,14 @@
     flex:1;
 }
 
+.pickupText{
+    background-color: #646464;
+    text-align: center;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding: .5rem;
+}
+
 .info-col{
     padding: .5rem;
     margin-right: 1rem;
@@ -61,7 +69,8 @@ p{
 .icon-col{
     display: flex;
     flex-direction: column;
-    margin-right: .5rem;
+    margin-right: .7rem;
+    align-items: center;
 }
 
 .data-col{
