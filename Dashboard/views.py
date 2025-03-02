@@ -159,6 +159,7 @@ def add_supplies(request):
         supplies = SuppliesListing(
             user=request.user,
             pickupLocation=pickup,
+            supplyName=supplyName,
             description=description,
             price=price,
             latitude=s_latitude,
