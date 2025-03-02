@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extrastyle %}
+<link rel="stylesheet" href="{% static 'css/add_listing.css' %}" />
+{% endblock %}
+
+{% block hero %}{% endblock %}
+{% block reviews %}{% endblock %}
+
+
+{% block content %}
+    <h2 class="mb-4">List Your Supplies</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card photo-box">
+                    <div class="card-body">
+                        <h5 class="card-title">Upload Photo 1</h5>
+                        <img id="preview-photo1" class="preview-image" src="{% static 'img/placeholder.png' %}" alt="Image Preview">
+                        <div class="mb-3">
+                            <label for="photo1" class="form-label">Photo 1</label>
+                            <input type="file" class="form-control" id="photo1" name="photo1" accept="image/*" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card photo-box">
+                    <div class="card-body">
+                        <h5 class="card-title">Upload Photo 2</h5>
+                        <img id="preview-photo2" class="preview-image" src="{% static 'img/placeholder.png' %}" alt="Image Preview">
+                        <div class="mb-3">
+                            <label for="photo2" class="form-label">Photo 2</label>
+                            <input type="file" class="form-control" id="photo2" name="photo2" accept="image/*" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-6 desc-col">
+                <div class="card description-box">
+                    <div class="card-body">
+                        <h5 class="card-title">Description</h5>
+                        <div class="mb-3 desc-section">
+                            {% comment %} <label for="description" class="form-label">Description</label> {% endcomment %}
+                            <textarea class="form-control" id="description" name="description" rows="3.5" required></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="col-md-6 details-col">
+                <div class="card home-details-box">
+                    <div class="card-body">
+                        <h5 class="card-title">Supply Information</h5>
+                        <div class="mb-3">
+                            <label for="supplyname" class="form-label">Supply Name</label>
+                            <input type="text" class="form-control" id="supplyname" name="supplyname"  required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Price</label>
+                            <input type="text" class="form-control" id="price" name="price"  required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pickup" class="form-label">Pick Up Location</label>
+                            <input type="text" class="form-control" id="pickup" name="pickup" placeholder="123 Main St, City, Country" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-row">
+            <button type="submit" class="btn submit-btn">Submit</button>
+        </div>
+        
+    </form>
+
+
+    <script>
+        function addPreviewImage(input, previewId) {
+            //chatgpt assistance used
+            if (input.files) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById(previewId);
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        document.getElementById('photo1').addEventListener('change', function() {
+            addPreviewImage(this, 'preview-photo1');
+        });
+        document.getElementById('photo2').addEventListener('change', function() {
+            addPreviewImage(this, 'preview-photo2');
+        });
+    </script>
+
+{% endblock %}
