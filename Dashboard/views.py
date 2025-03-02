@@ -128,3 +128,58 @@ def delete_listing(request, listing_id):
 
     # Redirect back to the dashboard
     return redirect('dashboard')
+
+def add_supplies(request): 
+
+    if request.method == 'POST':
+        photo1 = request.FILES.get('photo1')
+        photo2 = request.FILES.get('photo2')
+        supplyName = request.POST.get('supplyName')
+        pickup = request.POST.get('pickup')
+        description = request.POST.get('description')
+        price = float(request.POST.get('price', 0))
+
+        # Geocode the address to get latitude and longitude
+        geolocator = Nominatim(user_agent="my_app")
+        try:
+            s_location = geolocator.geocode(pickup, timeout=10)  # Geocode the address
+            if s_location:
+                s_latitude = s_location.latitude
+                s_longitude = s_location.longitude
+            else:
+                # Handle case where address cannot be geocoded
+                return render(request, 'Dashboard/add_supplies.html', {
+                    'error': 'Unable to geocode the provided address. Please check the address and try again.'
+                })
+        except GeocoderTimedOut:
+            return render(request, 'Dashboard/add_supplies.html', {
+                'error': 'Geocoding service timed out. Please try again.'
+            })
+
+        supplies = SuppliesListing(
+            user=request.user,
+            pickupLocation=pickup,
+            description=description,
+            price=price,
+            latitude=s_latitude,
+            longitude=s_longitude,
+            photo_1=photo1 if photo1 else None,
+            photo_2=photo2 if photo2 else None,
+        )
+
+        listing.save()
+
+        listing.photo_1 = "/media/" + str(listing.photo_1)
+        listing.photo_2 = "/media/" + str(listing.photo_2)
+        listing.save()
+
+        return redirect('dashboard')  # Redirect to dashboard after submission
+
+    return render(request, 'Supplies/add_supplies.html')
+
+def delete_supplies(request, supplies_id):
+    slisting = get_object_or_404(SuppliesListing, id=supplies_id, user=request.user)
+
+    slisting.delete()
+
+    return redirect('dashboard')
