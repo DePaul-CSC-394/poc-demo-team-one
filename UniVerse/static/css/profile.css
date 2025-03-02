@@ -1,0 +1,78 @@
+.profile-page {
+    background: #1b1b1b;
+}
+  
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+    padding: 1rem;
+}
+  
+.profile-image img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 2px solid rgb(237, 154, 0);
+    object-fit: cover;
+    transition: filter 0.3s ease;
+}
+  
+.profile-image img:hover {
+    filter: brightness(0.7);
+}
+  
+#edit-btn {
+    padding: 0.5rem 1rem;
+    background: rgb(237, 154, 0);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+  
+#edit-btn:hover {
+    background: #ff8c00;
+}
+  
+.profile-details {
+    padding: 1rem;
+}
+
+.profile-category {
+    margin-bottom: 2rem;
+}
+
+.profile-category h3 {
+    margin-bottom: 1rem;
+    color: #bbb;
+    font-size: 1.2rem;
+    border-bottom: 1px solid #444;
+    padding-bottom: 0.5rem;
+}
+
+.profile-field {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+  
+.profile-field h2 {
+    flex: 0 0 150px;
+    margin: 0;
+    color: #bbb;
+    font-size: 1.2rem;
+}
+  
+.profile-field p {
+    flex: 1;
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+#roomate-check{
+    justify-content: center;
+    margin-top: 0;
+    margin-right: 1rem;
+}
