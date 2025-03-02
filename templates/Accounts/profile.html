@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <h2 class="mb-4">Profile</h2>
+        <div class="profile-page">
+            <div class="profile-header">
+            <div class="profile-image">
+                <label for="file-input">
+                <img src="{% static 'img/profile_placeholder.png' %}" alt="Profile Image" id="profile-img">
+                </label>
+                <input type="file" id="file-input" accept="image/*" style="display: none;">
+            </div>                  
+            <div class="edit-container">
+                <button id="edit-btn">Edit</button>
+            </div>
+            </div>
+            <div class="profile-details">
+            <div class="profile-category">
+                <h3>Personal Information</h3>
+                <div class="profile-field" id="name">
+                    <h2>Name</h2>
+                    <p contenteditable="false">{{user.name}}</p>
+                </div>
+                <div class="profile-field" id="address-ln1">
+                    <h2>Address Line 1</h2>
+                    <p contenteditable="false">{{user.address_line1}}</p>
+                </div>
+                <div class="profile-field" id="address-ln2">
+                    <h2>Address Line 2</h2>
+                    <p contenteditable="false">{{user.address_line2}}</p>
+                </div>
+                <div class="profile-field" id="city">
+                    <h2>City</h2>
+                    <p contenteditable="false">{{user.city}}</p>
+                </div>
+                <div class="profile-field" id="state">
+                    <h2>State</h2>
+                    <p contenteditable="false">{{user.state}}</p>
+                </div>
+            </div>
+            <div class="profile-category">
+                <h3>Emergency Contact</h3>
+                <div class="profile-field" id="emergency-name">
+                    <h2>Name</h2>
+                    <p contenteditable="false">{{user.emergency_name}}</p>
+                </div>
+                <div class="profile-field" id="emergency-phone">
+                    <h2>Phone</h2>
+                    <p contenteditable="false">{{user.emergency_phone}}</p>
+                </div>
+            </div>
+            <div class="profile-category">
+                <h3>Contact Information</h3>
+                <div class="profile-field" id="email">
+                    <h2>Email</h2>
+                    <p contenteditable="false">{{basicUser.email}}</p>
+                </div>
+                <div class="profile-field" id="phone">
+                    <h2>Phone</h2>
+                    <p contenteditable="false">{{user.phone}}</p>
+                </div>
+                <div class="profile-field" id="introduction">
+                    <h2>Introduction</h2>
+                    <p contenteditable="false">{{user.intro}}</p>
+                </div>
+                <div class="profile-field" id="looking">
+                    <input class="form-check-input" type="checkbox" value="" id="roomate-check">
+                    <label class="form-check-label" for="roomate-check">
+                        Looking for a roomate
+                    </label>
+                </div>
+            </div>
+            </div>
+        </div>
+        <script>
+            const editBtn = document.getElementById('edit-btn');
+            let editMode = false;
+            editBtn.addEventListener('click', () => {
+            editMode = !editMode;
+            document.querySelectorAll('.profile-field p').forEach(field => {
+                field.contentEditable = editMode;
+                field.style.border = editMode ? '1px solid #555' : 'none';
+                field.style.padding = editMode ? '5px' : '0';
+            });
+            editBtn.textContent = editMode ? 'Save' : 'Edit';
+            });
+        </script>
+    </div>  
+{% endblock %}
+
+{% block extrastyle %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}

@@ -56,3 +56,12 @@ def signup(request):
 def signout(request):
     logout(request)
     return redirect('login')
+
+def profile(request):
+
+    context = {
+        "user" : request.user.profile,
+        "basicUser" : request.user
+    }
+
+    return render(request, 'Accounts/profile.html', context)
