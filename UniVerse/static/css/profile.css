@@ -22,7 +22,7 @@
     filter: brightness(0.7);
 }
   
-#edit-btn {
+#edit-btn, #save-btn {
     padding: 0.5rem 1rem;
     background: rgb(237, 154, 0);
     color: white;
@@ -31,7 +31,7 @@
     cursor: pointer;
 }
   
-#edit-btn:hover {
+#edit-btn:hover, #save-btn:hover {
     background: #ff8c00;
 }
   
@@ -63,16 +63,33 @@
     color: #bbb;
     font-size: 1.2rem;
 }
-  
-.profile-field p {
+
+.profile-field input {
     flex: 1;
     margin: 0;
     font-size: 1rem;
     line-height: 1.5;
+    background: transparent;
+    border: none;
+    color: #fff;
+}
+
+.profile-field input:not([readonly]) {
+    border: 1px solid #555;
+    padding: 5px;
+    background: transparent;
+    color: #fff;
+}
+
+.checkbox-field{
+    display: flex;
+    margin-top: 0;
+    margin-right: 1rem;
+    flex: 0;
+    align-items: center;
 }
 
 #roomate-check{
-    justify-content: center;
     margin-top: 0;
     margin-right: 1rem;
 }
