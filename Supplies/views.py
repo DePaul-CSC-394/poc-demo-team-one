@@ -1,5 +1,5 @@
 from decimal import Decimal
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.conf import settings
@@ -125,3 +125,53 @@ def create_checkout_session(request, listing_id):
     )
     
     return redirect(session.url, code=303)
+
+
+def success(request):
+    # Retrieve the session ID from the query parameters
+    session_id = request.GET.get('session_id')
+    if not session_id:
+        return HttpResponse("Session ID not found.", status=400)
+
+    # Retrieve the session from Stripe
+    try:
+        session = stripe.checkout.Session.retrieve(session_id)
+    except Exception as e:
+        return HttpResponse(f"Error retrieving session: {e}", status=400)
+
+    # Extract metadata
+    listing_id = session.metadata.get('listing_id')
+    checkin_date_str = session.metadata.get('checkin_date')
+    checkout_date_str = session.metadata.get('checkout_date')
+
+    if not listing_id or not checkin_date_str or not checkout_date_str:
+        return HttpResponse("Invalid metadata.", status=400)
+    
+    try:
+        checkin_date = make_aware(datetime.strptime(checkin_date_str, "%Y-%m-%d"))
+        checkout_date = make_aware(datetime.strptime(checkout_date_str, "%Y-%m-%d"))
+    except ValueError as e:
+        return HttpResponse(f"Invalid date format: {e}", status=400)
+    
+    # Check for booking conflicts
+    if is_booking_conflict(listing_id, checkin_date, checkout_date):
+        return HttpResponse("Booking dates conflict with an existing booking.", status=400)
+
+    # Get the user and listing
+    try:
+        user = request.user  # Ensure the user is authenticated
+        listing = SupplyListing.objects.get(id=listing_id)
+
+        # Create the booking
+        SupplyBooking.objects.create(
+            user=user,
+            listing=listing,
+            start_date=checkin_date,
+            end_date=checkout_date,
+            is_pending=True
+        )
+        return render(request, 'Supplies/checkout_success.html')
+    except SupplyListing.DoesNotExist:
+        return HttpResponse("Listing not found.", status=404)
+    except Exception as e:
+        return HttpResponse(f"Error creating booking: {e}", status=500)
