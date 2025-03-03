@@ -60,8 +60,43 @@ def signout(request):
 def profile(request):
 
     context = {
-        "user" : request.user.profile,
-        "basicUser" : request.user
+        "profile" : request.user.profile,
+        "user" : request.user
     }
 
     return render(request, 'Accounts/profile.html', context)
+
+def saveProfile(request):
+    if request.method == "POST":
+
+        photo = request.FILES.get('profile_image')
+
+        profile = request.user.profile
+        user = request.user
+        profile.name = request.POST['name']
+        profile.address_line1 = request.POST['address_line1']
+        profile.address_line2 = request.POST['address_line2']
+        profile.city = request.POST['city']
+        profile.state = request.POST['state']
+        profile.emergency_name = request.POST['city']
+        profile.emergency_phone = request.POST['state']
+        user.email = request.POST['email']
+        profile.phone = request.POST['phone']
+        profile.intro = request.POST['intro']
+        profile.looking_roomate = 'looking' in request.POST
+        profile.image = photo if photo else None
+
+        profile.save()
+        user.save()
+        
+        profile.image = "/media/" + str(profile.image)
+
+        profile.save()
+        user.save()
+
+        context = {
+            "profile" : request.user.profile,
+            "user" : request.user
+        }
+
+        return render(request, 'Accounts/profile.html', context)

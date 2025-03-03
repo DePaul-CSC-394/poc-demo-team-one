@@ -158,7 +158,15 @@
                     {% comment %} <li class="nav-item"><a class="btn btn-outline-light btn-signin" href="{% url 'login' %}">Sign In</a></li> {% endcomment %}
                     {% if user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>
-                        <li class="nav-item"><a class="btn btn-outline-light btn-signin" href="{% url 'signout' %}">Sign Out</a></li>
+                        <li class="nav-item dropdown">
+                            <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                              {{user.username}}
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                <li class="nav-item"><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
+                                <li class="nav-item"><a class="dropdown-item" href="{% url 'signout' %}">Sign Out</a></li>
+                            </ul>
+                          </li>
                     {% else %}
                         <li class="nav-item"><a class="btn btn-outline-light btn-signin" href="{% url 'login' %}">Sign In</a></li>
                     {% endif %}

@@ -18,6 +18,7 @@ class Profile(models.Model):
     intro = models.TextField(blank=True)
     looking_roomate = models.BooleanField(blank=True, default=False)
     name = models.TextField(blank=True)
+    image = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True, max_length=500, default="/media/photos/2025/03/03/profile_placeholder.png")
 
 
 #used chatgpt assistance to figure out how to create profile object everytime a user is created
