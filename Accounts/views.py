@@ -70,6 +70,7 @@ def saveProfile(request):
     if request.method == "POST":
 
         photo = request.FILES.get('profile_image')
+        photoSaved = False
 
         profile = request.user.profile
         user = request.user
@@ -84,15 +85,16 @@ def saveProfile(request):
         profile.phone = request.POST['phone']
         profile.intro = request.POST['intro']
         profile.looking_roomate = 'looking' in request.POST
-        profile.image = photo if photo else None
+        if photo:
+            profile.image = photo
+            photoSaved = True
 
         profile.save()
         user.save()
         
-        profile.image = "/media/" + str(profile.image)
-
-        profile.save()
-        user.save()
+        if photoSaved:
+            profile.image = "/media/" + str(profile.image)
+            profile.save()
 
         context = {
             "profile" : request.user.profile,
