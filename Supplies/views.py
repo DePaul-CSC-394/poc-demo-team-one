@@ -13,6 +13,9 @@ import stripe
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 # Create your views here.
+def supplies(request):
+    supplies_list = SupplyListing.objects.all()  
+    return render(request, 'Supplies/supplies.html', {'supplies': supplies_list})
 
 def detail (request, listing_id):
 
