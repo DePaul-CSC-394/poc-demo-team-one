@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render, redirect
-from Supplies.models import SupplyListing
+from Supplies.models import SupplyListing, SupplyBooking
 from UniVerse import settings
 from Housing.models import HousingListing, HousingBooking
 from django.contrib.auth.models import User
@@ -23,12 +23,19 @@ def dashboard(request):
         listing.pendings=list(
             HousingBooking.objects.filter(listing=listing, is_pending=True)
         )
+        
+    user_supply_listings=SupplyListing.objects.filter(user=user)
 
-
+    for supply in user_supply_listings:
+        supply.pendings=list(
+            SupplyBooking.objects.filter(listing=supply, is_pending=True)
+        )
     user_bookings=HousingBooking.objects.filter(user=user)
 
+    user_supply_bookings=SupplyBooking.objects.filter(user=user)
+
     return render(request, 'Dashboard/dashboard.html', {'user_listings': user_listings, 
-        'user_bookings': user_bookings})
+        'user_bookings': user_bookings, 'user_supply_listings': user_supply_listings, 'user_supply_bookings': user_supply_bookings})
 
 def add_listing(request):
     if request.method == 'POST':
@@ -83,13 +90,19 @@ def add_listing(request):
 
     return render(request, 'Dashboard/add_listing.html')
 
+
 def approve_or_deny (request):
     if request.method == 'POST':
         booking_id=request.POST.get('booking_id')
         action=request.POST.get('action')
+        listing_type = request.POST.get('type')
 
-        booking = get_object_or_404(HousingBooking, id=booking_id)
-        user_email=booking.user.email
+        if listing_type == 'Housing':
+            booking = get_object_or_404(HousingBooking, id=booking_id)
+            user_email=booking.user.email
+        else:
+            booking = get_object_or_404(SupplyBooking, id=booking_id)
+            user_email=booking.user.email
 
         subject=''
         message=''
@@ -104,7 +117,7 @@ def approve_or_deny (request):
             booking.is_pending=False
             booking.was_denied=True
             subject="Your Booking Has Been Denied"
-            message=f"Dear {booking.user.username}, \n\n Unfortuneatly, your booking has been denied."
+            message=f"Dear {booking.user.username}, \n\n Unfortunately, your booking has been denied."
 
         
         booking.save()
@@ -120,10 +133,14 @@ def approve_or_deny (request):
 
     return redirect('dashboard')
 
+
 def delete_listing(request, listing_id):
     # Ensure the user can only delete their own listings
-    listing = get_object_or_404(HousingListing, id=listing_id, user=request.user)
-
+    listing_type = request.POST.get('type')
+    if listing_type == 'Housing':
+        listing = get_object_or_404(HousingListing, id=listing_id, user=request.user)
+    else:
+        listing = get_object_or_404(SupplyListing, id=listing_id, user=request.user)
     # Delete the listing
     listing.delete()
 
@@ -179,10 +196,3 @@ def add_supplies(request):
         return redirect('dashboard')  # Redirect to dashboard after submission
 
     return render(request, 'Supplies/add_supplies.html')
-
-def delete_supplies(request, supplies_id):
-    slisting = get_object_or_404(SupplyListing, id=supplies_id, user=request.user)
-
-    slisting.delete()
-
-    return redirect('dashboard')
