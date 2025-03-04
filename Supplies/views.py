@@ -96,7 +96,7 @@ def create_checkout_session(request, listing_id):
                 'currency': 'usd',
                 'unit_amount': total_price, 
                 'product_data': {
-                    'name': str(listing.supplyName) + " #"+ str(listing_id),
+                    'name': str(listing.supplyName),
                     'images': [listing_image] if listing_image else [],
                 },
             },

@@ -158,7 +158,7 @@
             }
         
             const listingId = "{{ listing.id }}";  
-            fetch(`/create-checkout-session/${listingId}/?checkin=${checkin}&checkout=${checkout}`)
+            fetch(`/create-checkout-session-supply/${listingId}/?checkin=${checkin}&checkout=${checkout}`)
                 .then(response => {
                     if (!response.ok) {
                         return response.json().then(error => { throw new Error(error.error); });
@@ -166,7 +166,7 @@
                     return response;
                 })
                 .then(() => {
-                    window.location.href = `/create-checkout-session/${listingId}/?checkin=${checkin}&checkout=${checkout}`;
+                    window.location.href = `/create-checkout-session-supply/${listingId}/?checkin=${checkin}&checkout=${checkout}`;
                 })
                 .catch(error => {
                     //https://github.com/apvarun/toastify-js/blob/master/README.md
