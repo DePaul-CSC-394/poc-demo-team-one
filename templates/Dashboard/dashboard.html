@@ -10,14 +10,12 @@
 {% block reviews %}{% endblock %}
 {% block content %}
 
-<div class="top row">
-    <div class="col-md-6 col-6">
-        <h2>Your Listings</h2>
-    </div>
-    <div class="col-md-6 col-6 text-end">
-        <a href="{% url 'add_listing' %}" class="btn btn-secondary">Add Listing</a>
-        <a href="{% url 'add_supplies' %}" class="btn btn-secondary">Add Supply</a>
-    </div>
+<div class="text-end mb-3 mb-md-0">
+    <a href="{% url 'add_listing' %}" class="btn btn-secondary me-2">Add Listing</a>
+    <a href="{% url 'add_supplies' %}" class="btn btn-secondary">Add Supply</a>
+</div>
+<div class="col-md-6 col-6">
+    <h1>Your Listings</h1>
 </div>
 <div class="tile" onclick="toggleContent('listings-content')">Show Listings ▼</div>
 <div id="listings-content" class="content">
@@ -89,9 +87,9 @@
         {% endfor %}
     </div>
 </div>
-<div class="top row">
+<div class="top row mt-3">
     <div class="col-md-6 col-6">
-        <h2>Your Bookings</h2>
+        <h1>Your Bookings</h1>
     </div>
 </div>
 <div class="tile" onclick="toggleContent('bookings-content')">Show Bookings ▼</div>
@@ -147,9 +145,9 @@
     </div>
 </div>
 
-<div class="top row">
+<div class="top row mt-3">
     <div class="col-md-6 col-6">
-        <h2>Your Supply Listings</h2>
+        <h1>Your Supply Listings</h1>
     </div>
 </div>
 <div class="tile" onclick="toggleContent('supply-listings-content')">Show Supply Listings ▼</div>
@@ -207,7 +205,8 @@
                             <p><strong>Current Status: Active</strong></p>
                             {% endif %}
                             <!-- Add Remove Button -->
-                            <form method="POST" action="{% url 'delete_supply' supply_listing.id %}" style="display: inline;">
+                            <form method="POST" action="{% url 'delete_supply' supply_listing.id %}"
+                                style="display: inline;">
                                 {% csrf_token %}
                                 <input type="hidden" name="type" value="supply">
                                 <button type="submit" class="btn btn-danger btn-sm"
@@ -225,9 +224,9 @@
 </div>
 
 
-<div class="top row">
+<div class="top row mt-3">
     <div class="col-md-6 col-6">
-        <h2>Your Supply Bookings</h2>
+        <h1>Your Supply Bookings</h1>
     </div>
 </div>
 <div class="tile" onclick="toggleContent('supply-bookings-content')">Show Bookings ▼</div>
