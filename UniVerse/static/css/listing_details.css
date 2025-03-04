@@ -120,3 +120,113 @@ p{
     background-color: #e67e22;
     color: white;
 }
+
+
+/* CSS Changes im trying to make */
+
+/* Main layout
+.details-row {
+    display: flex;
+    flex-direction: row-reverse; 
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+
+.image-slider {
+    flex: 1;
+    width: 50%;
+}
+
+.image-container img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid #ff8c00 !important;
+}
+
+
+.info-block {
+    width: 100%;
+    order: -1; 
+    padding: 0.5rem;
+}
+
+
+.right-block {
+    width: 50%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.map {
+    flex: 1;
+}
+
+.icon-val {
+    display: flex;
+    align-items: center;
+}
+
+.icon-val i,
+.icon-val p {
+    display: inline-flex;
+    align-items: center;
+    height: 2.5em;
+}
+
+.icon-col {
+    display: flex;
+    flex-direction: column;
+    margin-right: 0.7rem;
+    align-items: center;
+}
+
+.data-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.book-btn {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 900px) {
+    .details-row {
+        flex-direction: column;
+    }
+
+    .image-slider {
+        width: 100%;
+    }
+
+    .right-block {
+        width: 100%;
+    }
+
+    .map {
+        width: 100%;
+    }
+}
+
+#bookingModal label {
+    color: black !important;
+}
+
+#bookingModal h1 {
+    color: black !important;
+}
+
+.confirm-book-btn {
+    background-color: #ff8c00;
+    color: white;
+}
+
+.confirm-book-btn:hover {
+    background-color: #e67e22;
+    color: white;
+}
+ */
