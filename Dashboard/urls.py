@@ -7,5 +7,6 @@ urlpatterns = [
     path('add_listing/', views.add_listing, name='add_listing'),
     path('add_supplies/', views.add_supplies, name='add_supplies'),
     path('approve_or_deny', views.approve_or_deny, name='approve_or_deny'),
-    path('delete-listing/<int:listing_id>/', views.delete_listing, name='delete_listing')
+    path('delete-listing/<int:listing_id>/', views.delete_listing, name='delete_listing'),
+    path('delete-supply/<int:supply_id>/', views.delete_supplies, name='delete_supply'),
 ]

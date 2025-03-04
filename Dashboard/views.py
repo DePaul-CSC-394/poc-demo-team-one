@@ -136,11 +136,8 @@ def approve_or_deny (request):
 
 def delete_listing(request, listing_id):
     # Ensure the user can only delete their own listings
-    listing_type = request.POST.get('type')
-    if listing_type == 'Housing':
-        listing = get_object_or_404(HousingListing, id=listing_id, user=request.user)
-    else:
-        listing = get_object_or_404(SupplyListing, id=listing_id, user=request.user)
+    listing = get_object_or_404(HousingListing, id=listing_id, user=request.user)
+
     # Delete the listing
     listing.delete()
 
@@ -196,3 +193,10 @@ def add_supplies(request):
         return redirect('dashboard')  # Redirect to dashboard after submission
 
     return render(request, 'Supplies/add_supplies.html')
+
+def delete_supplies(request, supply_id):
+    slisting = get_object_or_404(SupplyListing, id=supply_id, user=request.user)
+
+    slisting.delete()
+
+    return redirect('dashboard')
