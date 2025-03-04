@@ -176,7 +176,7 @@ def add_supplies(request):
 
         return redirect('dashboard')  # Redirect to dashboard after submission
 
-    return render(request, 'Supplies/add_supplies.html')
+    return render(request, 'Dashboard/add_supplies.html')
 
 def delete_supplies(request, supplies_id):
     slisting = get_object_or_404(SupplyListing, id=supplies_id, user=request.user)
