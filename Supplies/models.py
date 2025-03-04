@@ -11,6 +11,11 @@ from django.db import models
 
 class SupplyListing(models.Model):
 
+    class conditionType(models.TextChoices):
+        NEW= 'New', 'New'
+        USED= 'Used', 'Used',
+        DAMAGED= 'Damaged', 'Damaged'
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
@@ -21,6 +26,12 @@ class SupplyListing(models.Model):
     photo_2 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True, max_length=500)
     pickupLocation = gis_models.PointField(null=True, blank=True, geography=True)
     city_state = models.TextField(blank=True)
+
+    condition= models.CharField(
+        max_length=20,
+        choices=conditionType.choices,
+        default=conditionType.NEW
+    )
 
     #chatGPT helped figure out how to automatically add a point field based on provided lat long
     def save(self, *args, **kwargs):
