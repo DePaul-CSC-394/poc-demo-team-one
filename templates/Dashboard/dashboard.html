@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block extrastyle %}
-    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
 {% endblock %}
 
 {% block hero %}{% endblock %}
@@ -10,84 +10,92 @@
 {% block reviews %}{% endblock %}
 {% block content %}
 
-    <div class="top row">
-        <div class="col-md-6 col-6">
-            <h2>Your Housing Listings</h2>
-        </div>
-        <div class="col-md-6 col-6 text-end">
-            <a href="{% url 'add_listing' %}" class="btn btn-secondary">Add Listing</a>
-            <a href="{% url 'add_supplies' %}" class="btn btn-secondary">Add Supply</a>
-        </div>
+<div class="top row">
+    <div class="col-md-6 col-6">
+        <h2>Your Listings</h2>
     </div>
-
+    <div class="col-md-6 col-6 text-end">
+        <a href="{% url 'add_listing' %}" class="btn btn-secondary">Add Listing</a>
+        <a href="{% url 'add_supplies' %}" class="btn btn-secondary">Add Supply</a>
+    </div>
+</div>
+<div class="tile" onclick="toggleContent('listings-content')">Show Listings ▼</div>
+<div id="listings-content" class="content">
     <div class="second row">
         {% for listing in user_listings %}
-            <div class="col-md-6 mb-4">
-                <div class="card listing-card">
-                    <img src="{{ listing.photo_1 }}" alt="Listing Image" class="card-img-top">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <p class="card-text">{{ listing.description }}</p>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="icon-val">
-                                    <div class="data-row">
-                                        <i class="fa-solid fa-ruler-combined"></i>
-                                        <p>{{ listing.sqFeet }} Sq. Feet</p>
-                                    </div>
-                                    <div class="data-row">
-                                        <i class="fa-solid fa-dollar-sign"></i>
-                                        <p>{{ listing.price }}</p>
-                                    </div>
-                                    <div class="data-row">
-                                        <i class="fa-solid fa-house"></i>
-                                        <p>{{ listing.home_type }}</p>
-                                    </div>
+        <div class="col-md-6 mb-4">
+            <div class="card listing-card">
+                <img src="{{ listing.photo_1 }}" alt="Listing Image" class="card-img-top">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <p class="card-text">{{ listing.description }}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="icon-val">
+                                <div class="data-row">
+                                    <i class="fa-solid fa-ruler-combined"></i>
+                                    <p>{{ listing.sqFeet }} Sq. Feet</p>
+                                </div>
+                                <div class="data-row">
+                                    <i class="fa-solid fa-dollar-sign"></i>
+                                    <p>{{ listing.price }}</p>
+                                </div>
+                                <div class="data-row">
+                                    <i class="fa-solid fa-house"></i>
+                                    <p>{{ listing.home_type }}</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="row mt-3">
-                            <div class="col-md-12">
-                                {% if listing.pendings %}
-                                <p><strong>Current Status: Awaiting Approval</strong></p>
-                                <ul class="list" style="list-style-type:none;">
-                                    {% for booking in listing.pendings %}
-                                    <p>Check In: {{booking.start_date}}</p>
-                                    <p>Check Out: {{booking.end_date}}</p>
-                                    <li class="mb-2 d-flex justify-content-between">Username: {{ booking.user.username }}
-                                        <form method="POST" action="{% url 'approve_or_deny' %}" style="display: inline">
-                                            {% csrf_token %}
-                                            <input type="hidden" name="booking_id" value="{{ booking.id }}">
-                                            <button class="btn btn-success btn-sm ms-2" name="action" value="approve">Approve</button>
-                                            <button class="btn btn-danger btn-sm ms-2" name="action" value="deny">Deny</button>
-                                        </form>
-                                    </li>
-                                    {% endfor %}
-                                </ul>
-                                {% else %}
-                                <p><strong>Current Status: Active</strong></p>
-                                {% endif %}
-                                <!-- Add Remove Button -->
-                                <form method="POST" action="{% url 'delete_listing' listing.id %}" style="display: inline;">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this listing?');">
-                                        Remove Listing
-                                    </button>
-                                </form>
-                            </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            {% if listing.pendings %}
+                            <p><strong>Current Status: Awaiting Approval</strong></p>
+                            <ul class="list" style="list-style-type:none;">
+                                {% for booking in listing.pendings %}
+                                <p>Check In: {{booking.start_date}}</p>
+                                <p>Check Out: {{booking.end_date}}</p>
+                                <li class="mb-2 d-flex justify-content-between">Username: {{ booking.user.username }}
+                                    <form method="POST" action="{% url 'approve_or_deny' %}" style="display: inline">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="type" value="housing">
+                                        <input type="hidden" name="booking_id" value="{{ booking.id }}">
+                                        <button class="btn btn-success btn-sm ms-2" name="action"
+                                            value="approve">Approve</button>
+                                        <button class="btn btn-danger btn-sm ms-2" name="action"
+                                            value="deny">Deny</button>
+                                    </form>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            {% else %}
+                            <p><strong>Current Status: Active</strong></p>
+                            {% endif %}
+                            <!-- Add Remove Button -->
+                            <form method="POST" action="{% url 'delete_listing' listing.id %}" style="display: inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="type" value="housing">
+                                <button type="submit" class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Are you sure you want to delete this listing?');">
+                                    Remove Listing
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
         {% endfor %}
     </div>
-
-    <div class="top row">
-        <div class="col-md-6 col-6">
-            <h2>Your Housing Bookings</h2>
-        </div>
+</div>
+<div class="top row">
+    <div class="col-md-6 col-6">
+        <h2>Your Bookings</h2>
     </div>
+</div>
+<div class="tile" onclick="toggleContent('bookings-content')">Show Bookings ▼</div>
+<div id="bookings-content" class="content">
     <div class="second row">
         {% for booking in user_bookings %}
         <div class="col-md-6 mb-4">
@@ -137,58 +145,163 @@
         </div>
         {% endfor %}
     </div>
+</div>
 
-    <div class="top row">
-        <div class="col-md-6 col-6">
-            <h2>Your Supplies Listing</h2>
-        </div>
+<div class="top row">
+    <div class="col-md-6 col-6">
+        <h2>Your Supply Listings</h2>
     </div>
-
+</div>
+<div class="tile" onclick="toggleContent('supply-listings-content')">Show Supply Listings ▼</div>
+<div id="supply-listings-content" class="content">
     <div class="second row">
-        {% for supply in user_supplies %}
-            <div class="col-md-6 mb-4">
-                <div class="card listing-card">
-                    <img src="{{ supply.photo_1 }}" alt="Supply Image" class="card-img-top">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <p class="card-text">{{ supply.description }}</p>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="icon-val">
-                                    <div class="data-row">
-                                        <i class="fa-solid fa-ruler-combined"></i>
-                                        <p>{{ supply.supplyName }} Supply Name</p>
-                                    </div>
-                                    <div class="data-row">
-                                        <i class="fa-solid fa-dollar-sign"></i>
-                                        <p>{{ supply.price }}</p>
-                                    </div>
-                                    <div class="data-row">
-                                        <i class="fa-solid fa-house"></i>
-                                        <p>{{ supply.condition }}</p>
-                                    </div>
+        {% for supply_listing in user_supply_listings %}
+        <div class="col-md-6 mb-4">
+            <div class="card listing-card">
+                <img src="{{ supply_listing.photo_1 }}" alt="Supply Listing Image" class="card-img-top">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <p class="card-text">{{ supply_listing.description }}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="icon-val">
+                                <div class="data-row">
+                                    <i class="fa-solid fa-book"></i>
+                                    <p>{{ supply_listing.supplyName }}</p>
+                                </div>
+                                <div class="data-row">
+                                    <i class="fa-solid fa-dollar-sign"></i>
+                                    <p>{{ supply_listing.price }}</p>
+                                </div>
+                                <div class="data-row">
+                                    <i class="fa-solid fa-star"></i>
+                                    <p>{{ supply_listing.condition }}</p>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            {% if supply_listing.pendings %}
+                            <p><strong>Current Status: Awaiting Approval</strong></p>
+                            <ul class="list" style="list-style-type:none;">
+                                {% for supply_booking in supply_listing.pendings %}
+                                <p>Check In: {{supply_booking.start_date}}</p>
+                                <p>Check Out: {{supply_booking.end_date}}</p>
+                                <li class="mb-2 d-flex justify-content-between">Username: {{
+                                    supply_booking.user.username }}
+                                    <form method="POST" action="{% url 'approve_or_deny' %}" style="display: inline">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="type" value="supply">
+                                        <input type="hidden" name="booking_id" value="{{ supply_booking.id }}">
+                                        <button class="btn btn-success btn-sm ms-2" name="action"
+                                            value="approve">Approve</button>
+                                        <button class="btn btn-danger btn-sm ms-2" name="action"
+                                            value="deny">Deny</button>
+                                    </form>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            {% else %}
+                            <p><strong>Current Status: Active</strong></p>
+                            {% endif %}
                             <!-- Add Remove Button -->
-                            <form method="POST" action="{% url 'delete_supply' supplies.id %}" style="display: inline;">
+                            <form method="POST" action="{% url 'delete_listing' supply_listing.id %}"
+                                style="display: inline;">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this listing?');">
-                                    Remove Supply
+                                <input type="hidden" name="type" value="supply">
+                                <button type="submit" class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Are you sure you want to delete this listing?');">
+                                    Remove Listing
                                 </button>
                             </form>
-                        </div>                        
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
         {% endfor %}
     </div>
+</div>
 
-    <div class="top row">
-        <div class="col-md-6 col-6">
-            <h2>Your Supplies Booking</h2>
-        </div>
+
+<div class="top row">
+    <div class="col-md-6 col-6">
+        <h2>Your Supply Bookings</h2>
     </div>
+</div>
+<div class="tile" onclick="toggleContent('supply-bookings-content')">Show Bookings ▼</div>
+<div id="supply-bookings-content" class="content">
+    <div class="second row">
+        {% for supply_booking in user_supply_bookings %}
+        <div class="col-md-6 mb-4">
+            <div class="card listing-card">
+                <img src="{{ supply_booking.listing.photo_1 }}" alt="Supply Booking Image" class="card-img-top">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <p class="card-text">{{ supply_booking.listing.description }}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="icon-val">
+                                <div class="data-row">
+                                    <i class="fa-solid fa-ruler-combined"></i>
+                                    <p>{{supply_booking.listing.sqFeet}} Sq. Feet</p>
+                                </div>
+                                <div class="data-row">
+                                    <i class="fa-solid fa-dollar-sign"></i>
+                                    <p>{{supply_booking.listing.price}}</p>
+                                </div>
+                                <div class="data-row">
+                                    <i class="fa-solid fa-house"></i>
+                                    <p>{{supply_booking.listing.home_type}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <p><strong>Check In: </strong> {{supply_booking.start_date}}</p>
+                            <p><strong>Check Out: </strong> {{supply_booking.end_date}}</p>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            {% if supply_booking.is_pending %}
+                            <p><strong>Current Status: Awaiting Approval</strong></p>
+                            {% elif supply_booking.was_denied %}
+                            <p><strong>Current Status: Denied</strong></p>
+                            {% else %}
+                            <p><strong>Current Status: Approved</strong></p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+<script>
+    function toggleContent(id) {
+        var content = document.getElementById(id);
+        var tile = content.previousElementSibling;
+
+        if (content.style.display === "none" || content.style.display === "") {
+            content.style.display = "block";
+            tile.innerHTML = tile.innerHTML.replace("▼", "▲");
+            tile.innerHTML = tile.innerHTML.replace("Show", "Hide");
+        } else {
+            content.style.display = "none";
+            tile.innerHTML = tile.innerHTML.replace("▲", "▼");
+            tile.innerHTML = tile.innerHTML.replace("Hide", "Show");
+        }
+    }
+</script>
+
 
 
 {% endblock %}
