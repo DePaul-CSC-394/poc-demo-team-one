@@ -170,7 +170,7 @@ def success(request):
             end_date=checkout_date,
             is_pending=True
         )
-        return render(request, 'Supplies/checkout_success.html')
+        return render(request, 'Supplies/checkout_success_supplies.html')
     except SupplyListing.DoesNotExist:
         return HttpResponse("Listing not found.", status=404)
     except Exception as e:
