@@ -134,7 +134,7 @@
         // Call the function when the modal is shown
         document.getElementById('bookingModal').addEventListener('shown.bs.modal', setMinDates);
         
-        {% comment %} document.getElementById("confirm-book-btn").addEventListener("click", function(event) {
+        document.getElementById("confirm-book-btn").addEventListener("click", function(event) {
 
             if (!validateDates()) {
                 event.preventDefault();
@@ -180,7 +180,7 @@
                     }
                 }).showToast();  // Show error message to the user
                 });
-        }); {% endcomment %}
+        }); 
         </script>
 
 {% endblock %}

@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404, render, redirect
+from Supplies.models import SupplyListing
 from UniVerse import settings
 from Housing.models import HousingListing, HousingBooking
 from django.contrib.auth.models import User
@@ -157,7 +158,7 @@ def add_supplies(request):
                 'error': 'Geocoding service timed out. Please try again.'
             })
 
-        supplies = SuppliesListing(
+        supply = SupplyListing(
             user=request.user,
             supplyName=supplyName,
             condition=condition,
@@ -169,18 +170,18 @@ def add_supplies(request):
             photo_2=photo2 if photo2 else None,
         )
 
-        listing.save()
+        supply.save()
 
-        listing.photo_1 = "/media/" + str(listing.photo_1)
-        listing.photo_2 = "/media/" + str(listing.photo_2)
-        listing.save()
+        supply.photo_1 = "/media/" + str(supply.photo_1)
+        supply.photo_2 = "/media/" + str(supply.photo_2)
+        supply.save()
 
         return redirect('dashboard')  # Redirect to dashboard after submission
 
     return render(request, 'Supplies/add_supplies.html')
 
 def delete_supplies(request, supplies_id):
-    slisting = get_object_or_404(SuppliesListing, id=supplies_id, user=request.user)
+    slisting = get_object_or_404(SupplyListing, id=supplies_id, user=request.user)
 
     slisting.delete()
 
