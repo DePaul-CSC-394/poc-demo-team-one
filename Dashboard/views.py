@@ -137,7 +137,7 @@ def add_supplies(request):
         photo2 = request.FILES.get('photo2')
         supplyName = request.POST.get('supplyname')
         condition = request.POST.get('conditionType')
-        pickup = request.POST.get('pickup')
+        pickup = request.POST.get('pickupLocation')
         description = request.POST.get('description')
         price = float(request.POST.get('price', 0))
 
