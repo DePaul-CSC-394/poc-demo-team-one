@@ -37,70 +37,24 @@
 
         html {scroll-behavior: smooth;}
 
-        .image-slider {
-    position: relative;
-    width: 100%;
-    max-width: 400px;
-    height: 250px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+        .image-slider {position: relative;width: 100%;max-width: 400px;height: 250px;overflow: hidden;display: flex;align-items: center;justify-content: center;}
 
-.image-container {
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
+.image-container {width: 100%;height: 100%;position: relative; }
 
-.slider-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: none;
-    position: absolute;
-    left: 0;
-    top: 0;
-    transition: opacity 0.3s ease-in-out;
-}
+.slider-img {width: 100%;height: 100%;object-fit: cover;display: none;position: absolute;left: 0;top: 0;transition: opacity 0.3s ease-in-out;}
 
-.slider-img.active {
-    display: block;
-    opacity: 1;
-}
+.slider-img.active {display: block;opacity: 1;}
 
 /* Ensure arrows are visible and stay in place */
-.prev-btn, .next-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: transparent;
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    font-size: 18px;
-    z-index: 10;
-    opacity: 1; /* Ensure they never disappear */
-    transition: opacity 0.2s ease-in-out;
-}
+.prev-btn, .next-btn {position: absolute;top: 50%;transform: translateY(-50%);background-color: transparent;color: white;border: none;padding: 10px;cursor: pointer;font-size: 18px;z-index: 10;opacity: 1; /* Ensure they never disappear */transition: opacity 0.2s ease-in-out;}
 
-.prev-btn {
-    left: 10px;
-}
+.prev-btn {left: 10px;}
 
-.next-btn {
-    right: 10px;
-}
+.next-btn {right: 10px;}
 
 .image-slider:hover .prev-btn, 
-.image-slider:hover .next-btn {
-    opacity: 1;
+.image-slider:hover .next-btn {opacity: 1;
 }
-
-
-
         @media (max-width: 768px) {
             .hero-text { font-size: 1.5rem; }
             .listings { grid-template-columns: 1fr; }
@@ -151,7 +105,7 @@
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a class="nav-link" href="{% url 'listings' %}#listings-section">Find Your Next Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Roommates</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{#}">Supplies</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Supplies</a></li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
