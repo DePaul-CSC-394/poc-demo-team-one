@@ -20,10 +20,18 @@
                         <div class="icon-val">
                             <div class="icon-col">
                                 <i class="fa-solid fa-dollar-sign"></i>
+                                {% if listing.condition == "New" %}
+                                    <i class="fa-solid fa-check-circle"></i>
+                                {% elif listing.condition == "Used" %}
+                                    <i class="fa-solid fa-exclamation-triangle"></i>
+                                {% else %}
+                                    <i class="fa-solid fa-times-circle"></i>
+                                {% endif %}
                                 <i class="fa-solid fa-star"></i>
                             </div>
                             <div class="data-col">
                                 <p>{{listing.price}}/day</p>
+                                <p>{{listing.condition}}</p>
                                 <p>5.0</p>
                             </div>
                         </div>
