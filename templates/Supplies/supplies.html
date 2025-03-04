@@ -131,7 +131,7 @@
 
 <hr>
 <div class="listings">
-    {% for listing in listings %}
+    {% comment %} {% for listing in listings %}
         <a href="{% url 'supply-details' listing.id %}">
             <div class="listing">
                 <div class="image-slider">
@@ -147,7 +147,7 @@
                 <p>Price: ${{ listing.price|default:"TBD" }}</p>
             </div>
         </a>
-    {% empty %}
+    {% empty %} {% endcomment %}
 
 
 <!-- Display fake listings -->
@@ -163,7 +163,7 @@
                 <p>Price: ${{ 10|add:i }} per Week</p>
             </div>
         {% endfor %}
-    {% endfor %}
+    {% comment %} {% endfor %} {% endcomment %}
 </div>
 
 
@@ -172,7 +172,7 @@
  <br>
  <div class="listings">
     {% for listing in listings %}
-        <a href="/listing-details/{{listing.id}}">
+        <a href="/supply-details/{{listing.id}}">
             <div class="listing">
                 <div class="image-slider">
                     
@@ -197,7 +197,7 @@
 
                 </div>
 
-                <h3>{{ listing.home_type }} in {{ listing.city_state|default:"" }}</h3>
+                <h3>{{ listing.supplyName }} in {{ listing.city_state|default:"" }}</h3>
                 <p>{{ listing.bedrooms }} beds • {{ listing.bathrooms }} baths • {{ listing.sqFeet }} sqft</p>
                 <p>${% widthratio listing.price 1 30 %}/month</p>
             </div>
