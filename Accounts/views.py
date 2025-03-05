@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, logout, login as django_login
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -79,8 +79,8 @@ def saveProfile(request):
         profile.address_line2 = request.POST['address_line2']
         profile.city = request.POST['city']
         profile.state = request.POST['state']
-        profile.emergency_name = request.POST['city']
-        profile.emergency_phone = request.POST['state']
+        profile.emergency_name = request.POST['emergency_name']
+        profile.emergency_phone = request.POST['emergency_phone']
         user.email = request.POST['email']
         profile.phone = request.POST['phone']
         profile.intro = request.POST['intro']
@@ -102,3 +102,14 @@ def saveProfile(request):
         }
 
         return render(request, 'Accounts/profile.html', context)
+    
+def staticProfile(request, user_id):
+
+    user = get_object_or_404(User, id=user_id)
+
+    context = {
+        "profile" : user.profile,
+        "user" : user
+    }
+
+    return render(request, 'Accounts/static-profile.html', context)

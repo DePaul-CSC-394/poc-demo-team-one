@@ -13,18 +13,13 @@ a {
 }
 
 .listings{
-    grid-auto-rows: 500px;
+    grid-auto-rows: auto;
 }
 
 .listing{
     height:100%;
 }
 
-@media (max-width: 768px) {
-  .listings { 
-    grid-auto-rows: 500px;
-  }
-}
 
 .listing h3{
   margin-top: 1rem;

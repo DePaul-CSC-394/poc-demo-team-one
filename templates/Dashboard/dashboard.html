@@ -15,9 +15,9 @@
     <a href="{% url 'add_supplies' %}" class="btn btn-secondary">Add Supply</a>
 </div>
 <div class="col-md-6 col-6">
-    <h1>Your Listings</h1>
+    <h1>Your Home Listings</h1>
 </div>
-<div class="tile" onclick="toggleContent('listings-content')">Show Listings ▼</div>
+<div class="tile" onclick="toggleContent('listings-content')">Show Home Listings ▼</div>
 <div id="listings-content" class="content">
     <div class="second row">
         {% for listing in user_listings %}
@@ -89,10 +89,10 @@
 </div>
 <div class="top row mt-3">
     <div class="col-md-6 col-6">
-        <h1>Your Bookings</h1>
+        <h1>Your Home Bookings</h1>
     </div>
 </div>
-<div class="tile" onclick="toggleContent('bookings-content')">Show Bookings ▼</div>
+<div class="tile" onclick="toggleContent('bookings-content')">Show Home Bookings ▼</div>
 <div id="bookings-content" class="content">
     <div class="second row">
         {% for booking in user_bookings %}
@@ -193,7 +193,7 @@
                                 {% for supply_booking in supply_listing.pendings %}
                                 <p>Check In: {{supply_booking.start_date}}</p>
                                 <p>Check Out: {{supply_booking.end_date}}</p>
-                                <li class="mb-2 d-flex justify-content-between">Username: {{supply_booking.user.username }}
+                                <li class="mb-2 d-flex justify-content-between"><a href="{% url 'view-profile' supply_booking.user.id %}">Username: {{supply_booking.user.username }}</a>
                                     <form method="POST" action="{% url 'approve_or_deny' %}" style="display: inline">
                                         {% csrf_token %}
                                         <input type="hidden" name="type" value="supply">
@@ -249,7 +249,7 @@
                         <div class="col-md-4">
                             <div class="icon-val">
                                 <div class="data-row">
-                                    <i class="fa-solid fa-ruler-combined"></i>
+                                    <i class="fa-solid fa-book"></i>
                                     <p>{{supply_booking.listing.supplyName}}</p>
                                 </div>
                                 <div class="data-row">
@@ -257,7 +257,7 @@
                                     <p>{{supply_booking.listing.price}}</p>
                                 </div>
                                 <div class="data-row">
-                                    {% if supply_listing.condition == "New" %}
+                                    {% if supply_booking.listing.condition == "New" %}
                                         <i class="fa-solid fa-check-circle"></i>
                                     {% elif supply_listing.condition == "Used" %}
                                         <i class="fa-solid fa-exclamation-triangle"></i>
