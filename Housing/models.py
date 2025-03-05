@@ -27,6 +27,8 @@ class HousingListing(models.Model):
     description = models.TextField(blank=True)
     photo_1 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True, max_length=500)
     photo_2 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True, max_length=500)
+    photo_3 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True, max_length=500)
+    photo_4 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True, max_length=500)
     location = gis_models.PointField(null=True, blank=True, geography=True)
     city_state = models.TextField(blank=True)
 

@@ -20,20 +20,50 @@
         {% csrf_token %}
 
         <div class="row mb-4">
-            <div class="col-md-6">
+            <div class="col">
                 <div class="card photo-box">
                     <div class="card-body">
-                        <h5 class="card-title">Upload Photo 1</h5>
-                        <img id="preview-photo1" class="preview-image" src="{% static 'img/placeholder.png' %}" alt="Image Preview">
+                        <h5 class="card-title">Upload Photos</h5>
+                        {% comment %} https://getbootstrap.com/docs/5.3/components/carousel/ {% endcomment %}
+                        <div id="photoCarousel" class="carousel slide">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img id="preview-photo1" src="{% static 'img/placeholder.png' %}" class="d-block w-100" alt="Photo 1">
+                                </div>
+                                <div class="carousel-item">
+                                    <img id="preview-photo2" src="{% static 'img/placeholder.png' %}" class="d-block w-100" alt="Photo 2">
+                                </div>
+                                <div class="carousel-item">
+                                    <img id="preview-photo3" src="{% static 'img/placeholder.png' %}" class="d-block w-100" alt="Photo 3">
+                                </div>
+                                <div class="carousel-item">
+                                    <img id="preview-photo4" src="{% static 'img/placeholder.png' %}" class="d-block w-100" alt="Photo 4">
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#photoCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#photoCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
                         <div class="mb-3">
                             <label for="photo1" class="form-label">Photo 1</label>
                             <input type="file" class="form-control" id="photo1" name="photo1" accept="image/*" required>
+                            <label for="photo2" class="form-label mt-2">Photo 2</label>
+                            <input type="file" class="form-control" id="photo2" name="photo2" accept="image/*" required>
+                            <label for="photo3" class="form-label mt-2">Photo 3</label>
+                            <input type="file" class="form-control" id="photo3" name="photo3" accept="image/*" >
+                            <label for="photo4" class="form-label mt-2">Photo 4</label>
+                            <input type="file" class="form-control" id="photo4" name="photo4" accept="image/*" >
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-6">
+            {% comment %} <div class="col-md-6">
                 <div class="card photo-box">
                     <div class="card-body">
                         <h5 class="card-title">Upload Photo 2</h5>
@@ -44,7 +74,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> {% endcomment %}
         </div>
 
         <div class="row mb-4">
@@ -115,6 +145,26 @@
         document.getElementById('photo2').addEventListener('change', function() {
             addPreviewImage(this, 'preview-photo2');
         });
+
+        //used chatgpt to figure out how to update preview as images are uploaded
+        function updatePreview(inputId, previewId) {
+            const input = document.getElementById(inputId);
+            const preview = document.getElementById(previewId);
+            input.addEventListener('change', function(e) {
+              if (e.target.files && e.target.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                  preview.src = event.target.result;
+                }
+                reader.readAsDataURL(e.target.files[0]);
+              }
+            });
+          }
+        
+          updatePreview('photo1', 'preview-photo1');
+          updatePreview('photo2', 'preview-photo2');
+          updatePreview('photo3', 'preview-photo3');
+          updatePreview('photo4', 'preview-photo4');
     </script>
 
 {% endblock %}

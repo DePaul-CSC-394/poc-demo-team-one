@@ -20,7 +20,7 @@ form {
     }
 }
 
-.preview-image {
+.carousel-inner img {
     width: 100%;
     aspect-ratio: 16 / 9;
     border: 2px solid #ff8c00;
