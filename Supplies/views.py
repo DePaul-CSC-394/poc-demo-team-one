@@ -212,7 +212,7 @@ def search(request):
                 print(f"Date parsing error: {e}")
 
         if (len(item)>0):
-            listings = [listing for listing in listings if listing.supplyName == item]
+            listings = [listing for listing in listings if item.lower() in listing.supplyName.lower()]
 
         context={
             'listings': listings,

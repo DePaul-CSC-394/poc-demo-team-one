@@ -85,8 +85,7 @@ p{
 }
 
 .book-btn{
-    margin-top: 1rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 
 /* used chatgpt to help make it responsive by putting the map at the bottom for smaller screens */
@@ -151,4 +150,14 @@ h4{
     font-size: 1.2rem;
     border-bottom: 1px solid #444;
     padding-bottom: 0.5rem;
+}
+
+.header-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.header-row h3{
+    width: auto !important;
 }
