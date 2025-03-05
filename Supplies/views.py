@@ -3,12 +3,12 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.conf import settings
-from Housing.views import is_booking_conflict
 from .models import SupplyBooking, SupplyListing
 from datetime import datetime
 from django.utils.timezone import make_aware
 import folium
 import stripe
+from .helpers import get_nearby_listings, get_available_listings
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -77,7 +77,7 @@ def create_checkout_session(request, listing_id):
 
     # Check for booking conflicts
     if is_booking_conflict(listing_id, checkin_date_dt, checkout_date_dt):
-        return JsonResponse({'error': 'Booking dates conflict with an existing booking.'}, status=400)
+        return JsonResponse({'error': 'Rental dates conflict with an existing rental.'}, status=400)
     
     
     # Ensure the image is properly formatted as an absolute URL
@@ -158,7 +158,7 @@ def success(request):
     
     # Check for booking conflicts
     if is_booking_conflict(listing_id, checkin_date, checkout_date):
-        return HttpResponse("Booking dates conflict with an existing booking.", status=400)
+        return HttpResponse("Rental dates conflict with an existing rental.", status=400)
 
     # Get the user and listing
     try:
@@ -178,3 +178,57 @@ def success(request):
         return HttpResponse("Listing not found.", status=404)
     except Exception as e:
         return HttpResponse(f"Error creating booking: {e}", status=500)
+    
+
+def search(request):
+    if request.method == 'POST':
+
+        location = request.POST['location']
+        mileRadius = request.POST['mile-radius']
+        item = request.POST['item-name']
+        start_date_str = request.POST['start_date']
+        end_date_str = request.POST['end_date']
+        
+        if mileRadius:
+            mileRadiusFlt = float(mileRadius)
+        else:
+            mileRadiusFlt = 1
+
+        if not location:
+            listings = SupplyListing.objects.all()
+        else:
+            # Test PostGIS (toggle the flag)
+            settings.USE_POSTGIS = True
+            listings_postgis = get_nearby_listings(location, mileRadiusFlt)
+
+            listings = listings_postgis
+        
+        if start_date_str and end_date_str:
+            try:
+                desired_start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
+                desired_end_date = datetime.strptime(end_date_str, "%Y-%m-%d")
+                listings = get_available_listings(listings, desired_start_date, desired_end_date)
+            except ValueError as e:
+                print(f"Date parsing error: {e}")
+
+        if (len(item)>0):
+            listings = [listing for listing in listings if listing.supplyName == item]
+
+        context={
+            'listings': listings,
+        }
+
+        return render(request, 'Supplies/supplies.html', context)
+    
+def is_booking_conflict(listing_id, checkin_date, checkout_date):
+    """
+    Check if there is a booking conflict for the given listing and dates.
+    """
+    # Query for overlapping bookings
+    conflicting_bookings = SupplyBooking.objects.filter(
+        listing_id=listing_id,
+        start_date__lt=checkout_date,  # Existing booking starts before the new booking ends
+        end_date__gt=checkin_date,     # Existing booking ends after the new booking starts
+    ).exists()
+
+    return conflicting_bookings

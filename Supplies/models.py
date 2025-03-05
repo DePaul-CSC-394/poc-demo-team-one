@@ -36,7 +36,7 @@ class SupplyListing(models.Model):
     #chatGPT helped figure out how to automatically add a point field based on provided lat long
     def save(self, *args, **kwargs):
         if self.latitude and self.longitude:
-            self.location = Point(float(self.longitude), float(self.latitude), srid=4326)
+            self.pickupLocation = Point(float(self.longitude), float(self.latitude), srid=4326)
 
         geolocator = Nominatim(user_agent="my_app")
         location = geolocator.reverse(f"{self.latitude}, {self.longitude}", exactly_one=True)
