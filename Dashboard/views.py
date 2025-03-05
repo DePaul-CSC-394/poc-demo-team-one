@@ -41,6 +41,8 @@ def add_listing(request):
     if request.method == 'POST':
         photo1 = request.FILES.get('photo1')
         photo2 = request.FILES.get('photo2')
+        photo3 = request.FILES.get('photo3')
+        photo4 = request.FILES.get('photo4')
         home_type = request.POST.get('homeType')
         address = request.POST.get('address')
         bedrooms = int(request.POST.get('bedrooms', 0))
@@ -70,6 +72,8 @@ def add_listing(request):
             user=request.user,
             photo_1=photo1 if photo1 else None,
             photo_2=photo2 if photo2 else None,
+            photo_3=photo3 if photo3 else None,
+            photo_4=photo4 if photo4 else None,
             home_type=home_type,
             latitude=latitude,
             longitude=longitude,
@@ -84,6 +88,10 @@ def add_listing(request):
 
         listing.photo_1 = "/media/" + str(listing.photo_1)
         listing.photo_2 = "/media/" + str(listing.photo_2)
+        if photo3:
+            listing.photo_3 = "/media/" + str(listing.photo_3)
+        if photo4:
+            listing.photo_4 = "/media/" + str(listing.photo_4)
         listing.save()
 
         return redirect('dashboard')  # Redirect to dashboard after submission
@@ -149,6 +157,8 @@ def add_supplies(request):
     if request.method == 'POST':
         photo1 = request.FILES.get('photo1')
         photo2 = request.FILES.get('photo2')
+        photo3 = request.FILES.get('photo3')
+        photo4 = request.FILES.get('photo4')
         supplyName = request.POST.get('supplyname')
         condition = request.POST.get('conditionType')
         pickup = request.POST.get('pickupLocation')
@@ -182,12 +192,18 @@ def add_supplies(request):
             longitude=s_longitude,
             photo_1=photo1 if photo1 else None,
             photo_2=photo2 if photo2 else None,
+            photo_3=photo3 if photo3 else None,
+            photo_4=photo4 if photo4 else None,
         )
 
         supply.save()
 
         supply.photo_1 = "/media/" + str(supply.photo_1)
         supply.photo_2 = "/media/" + str(supply.photo_2)
+        if photo3:
+            supply.photo_3 = "/media/" + str(supply.photo_3)
+        if photo4:
+            supply.photo_4 = "/media/" + str(supply.photo_4)
         supply.save()
 
         return redirect('dashboard')  # Redirect to dashboard after submission

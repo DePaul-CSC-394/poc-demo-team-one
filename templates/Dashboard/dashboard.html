@@ -193,8 +193,7 @@
                                 {% for supply_booking in supply_listing.pendings %}
                                 <p>Check In: {{supply_booking.start_date}}</p>
                                 <p>Check Out: {{supply_booking.end_date}}</p>
-                                <li class="mb-2 d-flex justify-content-between">Username: {{
-                                    supply_booking.user.username }}
+                                <li class="mb-2 d-flex justify-content-between">Username: {{supply_booking.user.username }}
                                     <form method="POST" action="{% url 'approve_or_deny' %}" style="display: inline">
                                         {% csrf_token %}
                                         <input type="hidden" name="type" value="supply">
