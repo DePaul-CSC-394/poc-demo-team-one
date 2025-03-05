@@ -45,3 +45,29 @@ body { background: var(--bg); color: var(--text); overflow-x: hidden; margin: 0;
             .listings { grid-template-columns: 1fr; }
             .reviews-grid { grid-template-columns: 1fr; }
         }
+
+a {
+        text-decoration: none;
+}
+
+.image-slider img {
+        flex: 1;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+        border: 2px solid #ff8c00 !important;
+        border-radius: 10px; 
+        margin-bottom: 1rem;
+}
+
+.listing h3{
+        margin-top: 1rem;
+}
+
+.listings{
+        grid-auto-rows: 500px;
+}
+
+.listing{
+        height: 100%;
+}

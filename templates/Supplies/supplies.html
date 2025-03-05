@@ -15,12 +15,14 @@
 <h3 id="listings-section">Rent Out Supplies!</h3>
 <br>
 <div class="search-form">
-    <form id="search-form" method="POST" action="{% url 'search' %}#listings-section">
+    <form id="search-form" method="POST" action="{% url 'searchSupplies' %}#listings-section">
         {% csrf_token %}
         <div class="search-bar d-none d-md-flex align-items-center">
-            <input type="text" class="form-control me-2" placeholder="Search Item" name="item_name">
+            <input type="text" class="form-control me-2" placeholder="Search Item" name="item-name">
             <input type="text" class="form-control me-2" placeholder="Where - Search destinations" name="location">
-            <input type="number" class="form-control me-2" placeholder="Radius (Miles)" min="0" max="10" name="mile_radius">
+            <input type="number" class="form-control me-2" placeholder="Radius (Miles)" min="0" max="10" name="mile-radius">
+            <input type="text" class="form-control me-2" placeholder="Exchange Date" name="start_date" onfocus="(this.type='date')">
+            <input type="text" class="form-control me-2" placeholder="Return Date" name="end_date" onfocus="(this.type='date')">
             
             <button type="submit" class="btn btn-secondary me-1">Search</button>
             <button type="button" class="btn btn-secondary" onclick="clearForm()">Clear</button>
@@ -31,14 +33,16 @@
 
 <!-- Hamburger Menu -->
 <div class="search-form">
-    <form id="hamburger-search-form" method="POST" action="{% url 'search' %} #listings-section">
+    <form id="hamburger-search-form" method="POST" action="{% url 'searchSupplies' %} #listings-section">
         {% csrf_token %}
         <div class="hamburger-menu d-md-none">
             <button type="button" class="btn btn-secondary w-100 mb-2" onclick="toggleMenu()">☰ Start Your Search</button>
             <div class="menu-items" id="searchMenu" style="display: none;">        
-                <input type="text" class="form-control mb-2" placeholder="Search Items" name="location">
+                <input type="text" class="form-control mb-2" placeholder="Search Items" name="item-name">
                 <input type="text" class="form-control mb-2" placeholder="Where - Search destinations" name="location">
                 <input type="number" class="form-control mb-2" placeholder="Radius (Miles)" min="0" max="10" name="mile-radius">
+                <input type="text" class="form-control mb-2" placeholder="Exchange Date" name="start_date" onfocus="(this.type='date')">
+                <input type="text" class="form-control mb-2" placeholder="Return Date" name="end_date" onfocus="(this.type='date')">
                 
                 <button type="submit" class="btn btn-secondary w-100 mb-2">Search</button>
                 <button type="button" class="btn btn-secondary w-100" onclick="clearForm()">Clear Filters</button>
@@ -130,8 +134,8 @@
 </script>
 
 <hr>
-<div class="listings">
-    {% comment %} {% for listing in listings %}
+{% comment %} <div class="listings">
+    {% for listing in listings %}
         <a href="{% url 'supply-details' listing.id %}">
             <div class="listing">
                 <div class="image-slider">
@@ -147,7 +151,7 @@
                 <p>Price: ${{ listing.price|default:"TBD" }}</p>
             </div>
         </a>
-    {% empty %} {% endcomment %}
+    {% empty %} 
 
 
 <!-- Display fake listings -->
@@ -163,8 +167,8 @@
                 <p>Price: ${{ 10|add:i }} per Week</p>
             </div>
         {% endfor %}
-    {% comment %} {% endfor %} {% endcomment %}
-</div>
+    {% endfor %}
+</div> {% endcomment %}
 
 
 
@@ -198,8 +202,7 @@
                 </div>
 
                 <h3>{{ listing.supplyName }} in {{ listing.city_state|default:"" }}</h3>
-                <p>{{ listing.bedrooms }} beds • {{ listing.bathrooms }} baths • {{ listing.sqFeet }} sqft</p>
-                <p>${% widthratio listing.price 1 30 %}/month</p>
+                <p>${{listing.price}}/day</p>
             </div>
         </a>
     {% empty %}
