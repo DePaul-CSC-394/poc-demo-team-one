@@ -257,8 +257,14 @@
                                     <p>{{supply_booking.listing.price}}</p>
                                 </div>
                                 <div class="data-row">
-                                    <i class="fa-solid fa-house"></i>
-                                    <p>{{supply_booking.listing.condition}}</p>
+                                    {% if supply_listing.condition == "New" %}
+                                        <i class="fa-solid fa-check-circle"></i>
+                                    {% elif supply_listing.condition == "Used" %}
+                                        <i class="fa-solid fa-exclamation-triangle"></i>
+                                    {% else %}
+                                        <i class="fa-solid fa-times-circle"></i>
+                                    {% endif %}
+                                    <p>{{ supply_booking.listing.condition }}</p>
                                 </div>
                             </div>
                         </div>
