@@ -59,3 +59,9 @@ class HousingBooking(models.Model):
     is_pending=models.BooleanField(blank=True, default=True)
     was_denied=models.BooleanField(blank=True, default=True)
 
+class HomeReview(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    listing = models.ForeignKey(HousingListing, on_delete=models.CASCADE)
+    date = models.DateTimeField(default=datetime.now, blank=True)
+    rating = models.IntegerField()
+    description = models.TextField(blank=True)
