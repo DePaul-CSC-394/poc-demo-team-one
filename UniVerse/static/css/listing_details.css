@@ -85,6 +85,11 @@ p{
     flex-direction: column;
 }
 
+a {
+    color: white;
+    /* text-decoration: none; */
+}
+
 .book-btn{
     margin-bottom: 1rem;
 }
@@ -161,4 +166,14 @@ h4{
 
 .header-row h3{
     width: auto !important;
+}
+
+#reviews{
+    margin-top: 1rem;
+    border-top: 1px solid #444;
+    padding-top: 0.5rem;
+}
+
+.no-reviews{
+    color: #918989;
 }

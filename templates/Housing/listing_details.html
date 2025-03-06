@@ -101,6 +101,18 @@
                     </div>
                 </div>
             </div>
+
+            <div class="reviews" id="reviews">
+                <h3>Reviews</h3>
+                {% if reviews %}
+                    {% for review in reviews %}
+                        {% include "Components/review.html" with review=review %}
+                    {% endfor %}
+                {% else %}
+                    <p class="no-reviews">No reviews yet.</p>
+                {% endif %}
+            </div>
+
         {% endif %}
     </div>
 
