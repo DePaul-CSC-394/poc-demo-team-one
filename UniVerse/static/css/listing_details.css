@@ -4,7 +4,7 @@
 
 .image-slider{
     max-width: 60% !important;
-    height: 400px;
+    height: 500px;
 }
   
 .image-slider img {
@@ -13,6 +13,7 @@
     object-fit: cover;
     border: 2px solid #ff8c00 !important;
     border-radius: 10px; 
+    height: 500px !important;
 }
 
 .info-block {
