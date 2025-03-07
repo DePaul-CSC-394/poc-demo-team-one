@@ -117,7 +117,7 @@ def create_checkout_session(request, listing_id):
         mode='payment',
         allow_promotion_codes=True,  # displays "Add promotion code" link
         billing_address_collection='required',
-        success_url=request.build_absolute_uri(reverse('success')) + "?session_id={CHECKOUT_SESSION_ID}",
+        success_url=request.build_absolute_uri(reverse('success-supplies')) + "?session_id={CHECKOUT_SESSION_ID}",
         cancel_url=request.build_absolute_uri(reverse('listing-details', kwargs={'listing_id': listing_id})),
         
         metadata={

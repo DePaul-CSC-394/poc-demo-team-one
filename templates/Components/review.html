@@ -1,4 +1,6 @@
 {% load static %}
+{% load tz %}
+
 
 {% block extrastyle %}
     <link rel="stylesheet" href="{% static 'css/review.css' %}" />
@@ -20,7 +22,7 @@
                     {% endif %}
                 {% endfor %}
             </div>
-            <p>{{ review.date|date:"F j, Y" }}</p>
+            <p>{{ review.date|localtime|date:"F j, Y" }}</p>
         </div>
         <p>{{review.description}}</p>
     </div>
