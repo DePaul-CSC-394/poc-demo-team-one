@@ -46,3 +46,56 @@ ul.list {
     padding-left: 0;
 }
 
+.review-button{
+    background-color: #ff8c00 !important;
+    color: white;
+}
+
+.review-button:hover{
+    color:white;
+}
+
+
+.star-rating {
+    direction: rtl; 
+    font-size: 2em;
+    display: flex;
+    justify-content: left;
+  }
+  .star-rating input {
+    display: none;
+  }
+  .star-rating label {
+    color: #ccc;
+    cursor: pointer;
+  }
+  .star-rating input:checked ~ label,
+  .star-rating label:hover,
+  .star-rating label:hover ~ label {
+    color: #ff8c00;
+  }
+
+.review-text textarea{
+    flex: 1;
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    border: 1px solid #555;
+    padding: 5px;
+    width:100%;
+}
+
+.listing-buttons{
+    display: flex;
+    justify-content: space-between;
+}
+
+.view-reviews-btn{
+    background-color: #ff8c00;
+    color: white;
+}
+
+.view-reviews-btn:hover{
+    background-color: #ff8c00;
+    color: white;
+}

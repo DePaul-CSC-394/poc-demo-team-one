@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, render, redirect
-from Supplies.models import SupplyListing, SupplyBooking
+from Supplies.models import SupplyListing, SupplyBooking, SupplyReview
 from UniVerse import settings
-from Housing.models import HousingListing, HousingBooking
+from Housing.models import HomeReview, HousingListing, HousingBooking
 from django.contrib.auth.models import User
 from django.core.files.storage import default_storage
 from django.core.mail import send_mail
@@ -104,8 +104,7 @@ def approve_or_deny (request):
         booking_id=request.POST.get('booking_id')
         action=request.POST.get('action')
         listing_type = request.POST.get('type')
-
-        if listing_type == 'Housing':
+        if listing_type == 'housing':
             booking = get_object_or_404(HousingBooking, id=booking_id)
             user_email=booking.user.email
         else:
@@ -216,3 +215,39 @@ def delete_supplies(request, supply_id):
     slisting.delete()
 
     return redirect('dashboard')
+
+
+def reviewSupply(request, listing_id):
+
+    if request.method == 'POST':
+        rating=request.POST.get('rating')
+        review=request.POST.get('review')
+
+        reviewObject = SupplyReview(
+            rating = rating,
+            description = review,
+            user = request.user,
+            listing_id = listing_id,
+        )
+
+        reviewObject.save()
+
+    return redirect('dashboard')
+
+def reviewHome(request, listing_id):
+    
+    if request.method == 'POST':
+        rating=request.POST.get('rating')
+        review=request.POST.get('review')
+
+        reviewObject = HomeReview(
+            rating = rating,
+            description = review,
+            user = request.user,
+            listing_id = listing_id,
+        )
+
+        reviewObject.save()
+
+    return redirect('dashboard')
+
