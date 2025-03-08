@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Find Your Next Home{% endblock %}
+{% block hero %}{% endblock %}
+{% block content %}
+
+<div class="container-fluid vh-100">
+    <div class="row h-100 align-items-start">
+        <!-- Left Form Section -->
+        <div class="col-md-6 d-flex flex-column justify-content-start form-section pt-4n">
+            <h4 class="mb-4 text-center">Answer some lifestyle questions:</h4>
+            
+            <div class="question mb-3 d-flex justify-content-between" data-key="clean_house">
+                <p>Do you clean your house often?</p>
+                <div>
+                    <button class="btn btn-outline-success btn-sm" onclick="saveAnswer('clean_house', true)">Yes</button>
+                    <button class="btn btn-outline-danger btn-sm" onclick="saveAnswer('clean_house', false)">No</button>
+                </div>
+            </div>
+            
+            <div class="question mb-3 d-flex justify-content-between" data-key="host_party">
+                <p>Do you host parties often?</p>
+                <div>
+                    <button class="btn btn-outline-success btn-sm" onclick="saveAnswer('host_party', true)">Yes</button>
+                    <button class="btn btn-outline-danger btn-sm" onclick="saveAnswer('host_party', false)">No</button>
+                </div>
+            </div>
+            
+            <div class="question mb-3 d-flex justify-content-between" data-key="pets">
+                <p>Would you mind having pets in the home?</p>
+                <div>
+                    <button class="btn btn-outline-success btn-sm" onclick="saveAnswer('pets', true)">Yes</button>
+                    <button class="btn btn-outline-danger btn-sm" onclick="saveAnswer('pets', false)">No</button>
+                </div>
+            </div>
+            
+            <div class="question mb-3 d-flex justify-content-between" data-key="smoke_vape">
+                <p>Do you smoke or vape?</p>
+                <div>
+                    <button class="btn btn-outline-success btn-sm" onclick="saveAnswer('smoke_vape', true)">Yes</button>
+                    <button class="btn btn-outline-danger btn-sm" onclick="saveAnswer('smoke_vape', false)">No</button>
+                </div>
+            </div>
+
+            <div class="question mb-3 d-flex justify-content-between" data-key="smoke_vape">
+              <p>Question?</p>
+              <div>
+                  <button class="btn btn-outline-success btn-sm" onclick="saveAnswer('smoke_vape', true)">Yes</button>
+                  <button class="btn btn-outline-danger btn-sm" onclick="saveAnswer('smoke_vape', false)">No</button>
+              </div>
+          </div>
+
+          <div class="question mb-3 d-flex justify-content-between" data-key="smoke_vape">
+            <p>Question?</p>
+            <div>
+                <button class="btn btn-outline-success btn-sm" onclick="saveAnswer('smoke_vape', true)">Yes</button>
+                <button class="btn btn-outline-danger btn-sm" onclick="saveAnswer('smoke_vape', false)">No</button>
+            </div>
+        </div>
+
+            <h5 class="mt-3">Your Likes, Interests, and Hobbies:</h5>
+            <input type="text" id="tagInput" class="form-control" placeholder="Type and press enter">
+            <div id="tagsContainer" class="mt-2"></div>
+            
+            <button class="btn btn-dark mt-3">Find a Match</button>
+        </div>
+
+        <!-- Right Image Section -->
+        <div class="col-md-6 image-section d-none d-md-block vh-100" style="background: url('https://i.pinimg.com/1200x/83/15/bd/8315bd9b94c114394ae5b9ff6090b3e9.jpg') center/cover; border-radius: 0;"></div>
+    </div>
+</div>
+
+<script>
+    // Save Yes/No answers in localStorage
+    function saveAnswer(key, value) {
+        let answers = JSON.parse(localStorage.getItem("roommateAnswers")) || {};
+        answers[key] = value;
+        localStorage.setItem("roommateAnswers", JSON.stringify(answers));
+    }
+    
+    // Tag input functionality
+    document.getElementById("tagInput").addEventListener("keypress", function(event) {
+        if (event.key === "Enter" && event.target.value.trim() !== "") {
+            let tagText = event.target.value.trim();
+            let tagElement = document.createElement("span");
+            tagElement.classList.add("tag");
+            tagElement.innerHTML = `${tagText} <span class="remove-tag" onclick="removeTag(this)">&times;</span>`;
+            document.getElementById("tagsContainer").appendChild(tagElement);
+            event.target.value = "";
+        }
+    });
+    
+    function removeTag(element) {
+        element.parentElement.remove();
+    }
+</script>
+
+{% endblock %}
+{% block extrastyle %}
+    <style>
+        .form-section {
+            padding: 20px;
+            background: black;
+            border-radius: 0;
+            height: 100vh;
+            overflow-y: auto;
+            top: 0%;
+        }
+        .tag {
+            display: inline-block;
+            background-color: rgb(57, 57, 57);
+            color: white;
+            padding: 5px 10px;
+            margin: 5px;
+            border-radius: 15px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .remove-tag {
+            margin-left: 5px;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+        }
+        .tag:hover {
+            background-color: rgb(49, 49, 49);
+        }
+    </style>
+{% endblock %}
