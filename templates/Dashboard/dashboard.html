@@ -23,7 +23,7 @@
     <div class="col-md-3">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Pending Bookings</h5>
+                <h5 class="card-title">Total Bookings</h5>
                 <p class="card-text">{{ user_bookings.count }} Homes, {{ user_supply_bookings.count }}
                     Supplies</p>
             </div>
@@ -33,8 +33,8 @@
 
 <!-- Action Buttons -->
 <div class="text-end mb-4">
-    <a href="{% url 'add_listing' %}" class="btn btn-primary me-2">Add Listing</a>
     <a href="{% url 'add_supplies' %}" class="btn btn-primary">Add Supply</a>
+    <a href="{% url 'add_listing' %}" class="btn btn-primary">Add Listing</a>
 </div>
 
 <!-- Tabs for Navigation -->
@@ -105,55 +105,51 @@
                                         </div>
 
                                         <!-- Pending Bookings for Supply Listings -->
-                                        {% if supply_listing.pendings %}
-                                        <div class="mt-3">
-                                            <p><strong>Pending Bookings:</strong></p>
-                                            <ul class="list" style="list-style-type:none;">
-                                                {% for supply_booking in supply_listing.pendings %}
-                                                <li class="mb-2">
-                                                    <p>Check In: {{ supply_booking.start_date }}</p>
-                                                    <p>Check Out: {{ supply_booking.end_date }}</p>
-                                                    <p>Username: {{ supply_booking.user.username }}</p>
-                                                    <form method="POST" action="{% url 'approve_or_deny' %}"
+                                        <div class="row mt-3">
+                                            <div class="col-md-12">
+                                                {% if supply_listing.pendings %}
+                                                <p><strong>Current Status: Awaiting Approval</strong></p>
+                                                <ul class="list" style="list-style-type:none;">
+                                                    {% for supply_booking in supply_listing.pendings %}
+                                                    <p>Check In: {{supply_booking.start_date}}</p>
+                                                    <p>Check Out: {{supply_booking.end_date}}</p>
+                                                    <li class="mb-2 d-flex justify-content-between"><div>Username: <a href="{% url 'view-profile' supply_booking.user.id %}">{{supply_booking.user.username }}</a></div>
+                                                        <form method="POST" action="{% url 'approve_or_deny' %}" style="display: inline">
+                                                            {% csrf_token %}
+                                                            <input type="hidden" name="type" value="supply">
+                                                            <input type="hidden" name="booking_id" value="{{ supply_booking.id }}">
+                                                            <button class="btn btn-success btn-sm ms-2" name="action"
+                                                                value="approve">Approve</button>
+                                                            <button class="btn btn-danger btn-sm ms-2" name="action"
+                                                                value="deny">Deny</button>
+                                                        </form>
+                                                    </li>
+                                                    {% endfor %}
+                                                </ul>
+                                                {% else %}
+                                                <p><strong>Current Status: Active</strong></p>
+                                                {% endif %}
+                    
+                                                <div class="listing-buttons">
+                                                    <form method="POST" action="{% url 'supply-details' supply_listing.id %}#reviews" style="display: inline;">
+                                                        {% csrf_token %}
+                                                        <button type="submit" class="btn btn-sm view-reviews-btn">
+                                                            View Reviews
+                                                        </button>
+                                                    </form>
+                    
+                                                    <!-- Add Remove Button -->
+                                                    <form method="POST" action="{% url 'delete_supply' supply_listing.id %}"
                                                         style="display: inline;">
                                                         {% csrf_token %}
                                                         <input type="hidden" name="type" value="supply">
-                                                        <input type="hidden" name="booking_id"
-                                                            value="{{ supply_booking.id }}">
-                                                        <button class="btn btn-success btn-sm me-2" name="action"
-                                                            value="approve">Approve</button>
-                                                        <button class="btn btn-danger btn-sm" name="action"
-                                                            value="deny">Deny</button>
+                                                        <button type="submit" class="btn btn-danger btn-sm"
+                                                            onclick="return confirm('Are you sure you want to delete this supply?');">
+                                                            Remove Supply
+                                                        </button>
                                                     </form>
-                                                </li>
-                                                {% endfor %}
-                                            </ul>
-                                        </div>
-                                        {% else %}
-                                        <p><strong>Current Status: Active</strong></p>
-                                        {% endif %}
-
-                                        <!-- Listing Management Buttons -->
-                                        <div class="listing-buttons mt-3">
-                                            <form method="POST"
-                                                action="{% url 'supply-details' supply_listing.id %}#reviews"
-                                                style="display: inline;">
-                                                {% csrf_token %}
-                                                <button type="submit" class="btn btn-sm view-reviews-btn">
-                                                    View Reviews
-                                                </button>
-                                            </form>
-
-                                            <!-- Delete Supply Listing Button -->
-                                            <form method="POST" action="{% url 'delete_supply' supply_listing.id %}"
-                                                style="display: inline;">
-                                                {% csrf_token %}
-                                                <input type="hidden" name="type" value="supply">
-                                                <button type="submit" class="btn btn-danger btn-sm"
-                                                    onclick="return confirm('Are you sure you want to delete this supply listing?');">
-                                                    Delete
-                                                </button>
-                                            </form>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -184,17 +180,53 @@
                     aria-labelledby="supplyBookingsHeading" data-bs-parent="#supplyBookingsAccordion">
                     <div class="accordion-body">
                         {% if user_supply_bookings %}
-                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                             {% for supply_booking in user_supply_bookings %}
-                            <div class="col">
-                                <div class="card h-100">
-                                    <img src="{{ supply_booking.listing.photo_1 }}" class="card-img-top"
-                                        alt="Supply Booking Image">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ supply_booking.listing.supplyName }}</h5>
-                                        <p class="card-text">{{ supply_booking.start_date }} to {{
-                                            supply_booking.end_date }}</p>
-
+        <div class="col-md-6 mb-4">
+            <div class="card listing-card">
+                <img src="{{ supply_booking.listing.photo_1 }}" alt="Supply Booking Image" class="card-img-top">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <p class="card-text">{{ supply_booking.listing.description }}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="icon-val">
+                                <div class="data-row">
+                                    <i class="fa-solid fa-book"></i>
+                                    <p>{{supply_booking.listing.supplyName}}</p>
+                                </div>
+                                <div class="data-row">
+                                    <i class="fa-solid fa-dollar-sign"></i>
+                                    <p>{{supply_booking.listing.price}}</p>
+                                </div>
+                                <div class="data-row">
+                                    {% if supply_booking.listing.condition == "New" %}
+                                        <i class="fa-solid fa-check-circle"></i>
+                                    {% elif supply_listing.condition == "Used" %}
+                                        <i class="fa-solid fa-exclamation-triangle"></i>
+                                    {% else %}
+                                        <i class="fa-solid fa-times-circle"></i>
+                                    {% endif %}
+                                    <p>{{ supply_booking.listing.condition }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <p><strong>Check In: </strong> {{supply_booking.start_date}}</p>
+                            <p><strong>Check Out: </strong> {{supply_booking.end_date}}</p>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            {% if supply_booking.is_pending %}
+                                <p><strong>Current Status: Awaiting Approval</strong></p>
+                            {% elif supply_booking.was_denied %}
+                                <p><strong>Current Status: Denied</strong></p>
+                            {% else %}
+                                <p><strong>Current Status: Approved</strong></p>
+                            {% endif %}
                                         <!-- Review Button for Approved Supply Bookings -->
                                         {% if not supply_booking.is_pending and not supply_booking.was_denied %}
                                         <div class="mt-3">
@@ -277,7 +309,8 @@
                             {% for listing in user_listings %}
                             <div class="col">
                                 <div class="card h-100">
-                                    <img src="{{ listing.photo_1 }}" class="card-img-top" alt="Listing Image">
+                                    <img src="{{ listing.photo_1 }}" class="card-img-top"
+                                        alt="Home Listing Image">
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-8">
@@ -302,53 +335,50 @@
                                         </div>
 
                                         <!-- Pending Bookings for Home Listings -->
-                                        {% if listing.pendings %}
-                                        <div class="mt-3">
-                                            <p><strong>Pending Bookings:</strong></p>
-                                            <ul class="list" style="list-style-type:none;">
-                                                {% for booking in listing.pendings %}
-                                                <li class="mb-2">
-                                                    <p>Check In: {{ booking.start_date }}</p>
-                                                    <p>Check Out: {{ booking.end_date }}</p>
-                                                    <p>Username: {{ booking.user.username }}</p>
-                                                    <form method="POST" action="{% url 'approve_or_deny' %}"
-                                                        style="display: inline;">
+                                        <div class="row mt-3">
+                                            <div class="col-md-12">
+                                                {% if listing.pendings %}
+                                                <p><strong>Current Status: Awaiting Approval</strong></p>
+                                                <ul class="list" style="list-style-type:none;">
+                                                    {% for booking in listing.pendings %}
+                                                    <p>Check In: {{booking.start_date}}</p>
+                                                    <p>Check Out: {{booking.end_date}}</p>
+                                                    <li class="mb-2 d-flex justify-content-between"><div>Username: <a href="{% url 'view-profile' booking.user.id %}">{{booking.user.username }}</a></div>
+                                                        <form method="POST" action="{% url 'approve_or_deny' %}" style="display: inline">
+                                                            {% csrf_token %}
+                                                            <input type="hidden" name="type" value="housing">
+                                                            <input type="hidden" name="booking_id" value="{{ booking.id }}">
+                                                            <button class="btn btn-success btn-sm ms-2" name="action"
+                                                                value="approve">Approve</button>
+                                                            <button class="btn btn-danger btn-sm ms-2" name="action"
+                                                                value="deny">Deny</button>
+                                                        </form>
+                                                    </li>
+                                                    {% endfor %}
+                                                </ul>
+                                                {% else %}
+                                                <p><strong>Current Status: Active</strong></p>
+                                                {% endif %}
+                    
+                                                <div class="listing-buttons">
+                                                    <form method="POST" action="{% url 'listing-details' listing.id %}#reviews" style="display: inline;">
+                                                        {% csrf_token %}
+                                                        <button type="submit" class="btn btn-sm view-reviews-btn">
+                                                            View Reviews
+                                                        </button>
+                                                    </form>
+                    
+                                                    <!-- Add Remove Button -->
+                                                    <form method="POST" action="{% url 'delete_listing' listing.id %}" style="display: inline;">
                                                         {% csrf_token %}
                                                         <input type="hidden" name="type" value="housing">
-                                                        <input type="hidden" name="booking_id" value="{{ booking.id }}">
-                                                        <button class="btn btn-success btn-sm me-2" name="action"
-                                                            value="approve">Approve</button>
-                                                        <button class="btn btn-danger btn-sm" name="action"
-                                                            value="deny">Deny</button>
+                                                        <button type="submit" class="btn btn-danger btn-sm"
+                                                            onclick="return confirm('Are you sure you want to delete this listing?');">
+                                                            Remove Listing
+                                                        </button>
                                                     </form>
-                                                </li>
-                                                {% endfor %}
-                                            </ul>
-                                        </div>
-                                        {% else %}
-                                        <p><strong>Current Status: Active</strong></p>
-                                        {% endif %}
-
-                                        <!-- Listing Management Buttons -->
-                                        <div class="listing-buttons mt-3">
-                                            <form method="POST" action="{% url 'listing-details' listing.id %}#reviews"
-                                                style="display: inline;">
-                                                {% csrf_token %}
-                                                <button type="submit" class="btn btn-sm view-reviews-btn">
-                                                    View Reviews
-                                                </button>
-                                            </form>
-
-                                            <!-- Delete Home Listing Button -->
-                                            <form method="POST" action="{% url 'delete_listing' listing.id %}"
-                                                style="display: inline;">
-                                                {% csrf_token %}
-                                                <input type="hidden" name="type" value="housing">
-                                                <button type="submit" class="btn btn-danger btn-sm"
-                                                    onclick="return confirm('Are you sure you want to delete this home listing?');">
-                                                    Delete
-                                                </button>
-                                            </form>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -369,69 +399,86 @@
         <div class="accordion mb-4" id="homeBookingsAccordion">
             <div class="accordion-item">
                 <h2 class="accordion-header" id="homeBookingsHeading">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#homeBookingsCollapse" aria-expanded="true"
-                        aria-controls="homeBookingsCollapse">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#homeBookingsCollapse" aria-expanded="true" aria-controls="homeBookingsCollapse">
                         Your Home Bookings
                     </button>
                 </h2>
-                <div id="homeBookingsCollapse" class="accordion-collapse collapse show"
-                    aria-labelledby="homeBookingsHeading" data-bs-parent="#homeBookingsAccordion">
+                <div id="homeBookingsCollapse" class="accordion-collapse collapse show" aria-labelledby="homeBookingsHeading" data-bs-parent="#homeBookingsAccordion">
                     <div class="accordion-body">
                         {% if user_bookings %}
                         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                             {% for booking in user_bookings %}
-                            <div class="col">
-                                <div class="card h-100">
-                                    <img src="{{ booking.listing.photo_1 }}" class="card-img-top" alt="Booking Image">
+                            <div class="col-md-6 mb-4">
+                                <div class="card listing-card">
+                                    <img src="{{ booking.listing.photo_1 }}" alt="Booking Image" class="card-img-top">
                                     <div class="card-body">
-                                        <h5 class="card-title">{{ booking.listing.description }}</h5>
-                                        <p class="card-text">{{ booking.start_date }} to {{ booking.end_date }}</p>
-                                        <p class="card-text">{{ booking.listing.price }}</p>
-                                        <p class="card-text">{{ booking.listing.home_type }}</p>
-                                        <p class="card-text">{{ booking.listing.sqFeet }} Sq. Feet</p>
-
-                                        <!-- Review Button for Approved Home Bookings -->
-                                        {% if not booking.is_pending and not booking.was_denied %}
-                                        <div class="mt-3">
-                                            <button class="btn btn-sm review-button" type="button"
-                                                data-bs-toggle="collapse"
-                                                data-bs-target="#collapseHomeReview{{ booking.id }}"
-                                                aria-expanded="false"
-                                                aria-controls="collapseHomeReview{{ booking.id }}">
-                                                Leave a Review
-                                            </button>
-                                            <div class="collapse" id="collapseHomeReview{{ booking.id }}">
-                                                <div class="card card-body mt-2">
-                                                    <form method="POST"
-                                                        action="{% url 'review-home' booking.listing.id %}">
-                                                        {% csrf_token %}
-                                                        <div class="star-rating">
-                                                        {% comment %} /* chatgpt helped with the star logic */ {%endcomment %}
-                                                            <input type="radio" name="rating" id="star5" value="5">
-                                                            <label for="star5" title="5 stars">&#9733;</label>
-                                                            <input type="radio" name="rating" id="star4" value="4">
-                                                            <label for="star4" title="4 stars">&#9733;</label>
-                                                            <input type="radio" name="rating" id="star3" value="3">
-                                                            <label for="star3" title="3 stars">&#9733;</label>
-                                                            <input type="radio" name="rating" id="star2" value="2">
-                                                            <label for="star2" title="2 stars">&#9733;</label>
-                                                            <input type="radio" name="rating" id="star1" value="1">
-                                                            <label for="star1" title="1 star">&#9733;</label>
-                                                        </div>
-                                                        <div class="review-text">
-                                                            <textarea class="form-control" name="review" rows="5"
-                                                                placeholder="Write your review..."></textarea>
-                                                        </div>
-                                                        <div class="button-row d-flex justify-content-end">
-                                                            <button class="btn btn-sm btn-secondary mt-2"
-                                                                type="submit">Submit</button>
-                                                        </div>
-                                                    </form>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <p class="card-text">{{ booking.listing.description }}</p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="icon-val">
+                                                    <div class="data-row">
+                                                        <i class="fa-solid fa-ruler-combined"></i>
+                                                        <p>{{booking.listing.sqFeet}} Sq. Feet</p>
+                                                    </div>
+                                                    <div class="data-row">
+                                                        <i class="fa-solid fa-dollar-sign"></i>
+                                                        <p>{{booking.listing.price}}</p>
+                                                    </div>
+                                                    <div class="data-row">
+                                                        <i class="fa-solid fa-house"></i>
+                                                        <p>{{booking.listing.home_type}}</p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        {% endif %}
+                                        <div class="row mt-3">
+                                            <div class="col-md-12">
+                                                <p><strong>Check In: </strong> {{booking.start_date}}</p>
+                                                <p><strong>Check Out: </strong> {{booking.end_date}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-md-12">
+                                                {% if booking.is_pending %}
+                                                <p><strong>Current Status: Awaiting Approval</strong></p>
+                                                {% elif booking.was_denied %}
+                                                <p><strong>Current Status: Denied</strong></p>
+                                                {% else %}
+                                                <p><strong>Current Status: Approved</strong></p>
+                                                <button class="btn btn-sm review-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                                    Leave a review
+                                                </button>
+                                                <div class="collapse" id="collapseExample">
+                                                    <div class="card card-body mt-2">
+                                                        <form method="POST" action="{% url 'review-home' booking.listing.id %}">
+                                                            {% csrf_token %}
+                                                            <div class="star-rating">
+                                                                {% comment %} /* chatgpt helped with the star logic */ {% endcomment %}
+                                                                <input type="radio" name="rating" id="star5" value="5">
+                                                                <label for="star5" title="5 stars">&#9733;</label>
+                                                                <input type="radio" name="rating" id="star4" value="4">
+                                                                <label for="star4" title="4 stars">&#9733;</label>
+                                                                <input type="radio" name="rating" id="star3" value="3">
+                                                                <label for="star3" title="3 stars">&#9733;</label>
+                                                                <input type="radio" name="rating" id="star2" value="2">
+                                                                <label for="star2" title="2 stars">&#9733;</label>
+                                                                <input type="radio" name="rating" id="star1" value="1">
+                                                                <label for="star1" title="1 star">&#9733;</label>
+                                                            </div>
+                                                            <div class="review-text">
+                                                                <textarea class="form-control" name="review" rows="5" placeholder="Write your review..."></textarea>
+                                                            </div>
+                                                            <div class="button-row d-flex justify-content-end">
+                                                                <button class="btn btn-sm btn-secondary mt-2" type="submit">Submit</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
