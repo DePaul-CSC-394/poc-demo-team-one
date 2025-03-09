@@ -6,7 +6,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from UniVerse import settings
-from .models import HousingBooking, HousingListing
+from .models import HousingBooking, HousingListing, HomeReview
 from .helpers import get_available_listings, get_nearby_listings, get_type_listings
 from datetime import datetime
 from django.utils.timezone import make_aware
@@ -83,6 +83,8 @@ def detail (request, listing_id):
 
     listing = get_object_or_404(HousingListing, pk=listing_id)
 
+    reviews = HomeReview.objects.filter(listing=listing)
+
     offset_range = 0.01
 
     # make the location "approximate"
@@ -117,6 +119,7 @@ def detail (request, listing_id):
     context = {
         'listing' : listing,
         'map_html': map_html,
+        'reviews' : reviews,
     }
 
     return render(request, 'Housing/listing_details.html', context)

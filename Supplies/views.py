@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.conf import settings
-from .models import SupplyBooking, SupplyListing
+from .models import SupplyBooking, SupplyListing, SupplyReview
 from datetime import datetime
 from django.utils.timezone import make_aware
 import folium
@@ -20,6 +20,8 @@ def supplies(request):
 def detail (request, listing_id):
 
     listing = get_object_or_404(SupplyListing, pk=listing_id)
+
+    reviews = SupplyReview.objects.filter(listing=listing)
 
     center_lat = listing.latitude  + Decimal(0.007)
     center_lon = listing.longitude - Decimal(0.007)
@@ -48,6 +50,7 @@ def detail (request, listing_id):
     context = {
         'listing' : listing,
         'map_html': map_html,
+        'reviews' : reviews,
     }
 
     return render(request, 'Supplies/listing_details.html', context)
@@ -114,7 +117,7 @@ def create_checkout_session(request, listing_id):
         mode='payment',
         allow_promotion_codes=True,  # displays "Add promotion code" link
         billing_address_collection='required',
-        success_url=request.build_absolute_uri(reverse('success')) + "?session_id={CHECKOUT_SESSION_ID}",
+        success_url=request.build_absolute_uri(reverse('success-supplies')) + "?session_id={CHECKOUT_SESSION_ID}",
         cancel_url=request.build_absolute_uri(reverse('listing-details', kwargs={'listing_id': listing_id})),
         
         metadata={

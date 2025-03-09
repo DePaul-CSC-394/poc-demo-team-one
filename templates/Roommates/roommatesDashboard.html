@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extrastyle %}
+<link rel="stylesheet" href="{% static 'css/roommatesDashboard.css' %}" />
+{% endblock %}
+
+{% block hero %}{% endblock %}
+
+{% block reviews %}{% endblock %}
+{% block content %}
+
+
+<div class="col-md-12 col-12">
+    <h1>We Might Have A Match For You!</h1>
+</div>
+
+<div class="second row">
+    {% if roommates %}
+    {% for roommate in roommates %}
+    <div class="col-md-6 mb-4">
+        <div class="roommate-card card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="left col-md-6">
+                        <img src="{{roommate.image}}" alt="Roommate Photo" class="roommate-img">
+                    </div>
+                    <div class="right col-md-6">
+                        <div class="card-name mb-2">
+                            Name: {{ roommate.name }}
+                        </div>
+                        <div class="card-text mb-2">
+                            Intro: {{ roommate.intro }}
+                        </div>
+                        <div class="text-center mb-3">
+                            <a href="{%  url 'view-profile' roommate.user.id %}"
+                                class="btn btn-md btn-secondary">Roommate
+                                With Them</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <h2>No matches, sorry!</h2>
+    {% endif %}
+</div>
+
+{% endblock %}
