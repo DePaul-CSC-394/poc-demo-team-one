@@ -26,6 +26,7 @@ urlpatterns = [
     path('dashboard/', include('Dashboard.urls')),
     path('', include('Accounts.urls')),
     path('', include('Supplies.urls')),
+    path('about/', views.about, name='about'),
 ]
 
 if settings.DEBUG:
