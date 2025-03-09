@@ -1,0 +1,29 @@
+@media (max-width: 550px) {
+    h1 {
+        text-align: center;
+    }
+
+    
+}
+
+
+.second {
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+
+
+.roommate-img {
+    flex-grow:1;
+    width:100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+
+.right {
+    justify-content: space-between;
+    gap:10px;
+}
+
