@@ -1,16 +1,31 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from Accounts.models import Profile
 from Roommates.models import RoommateResponses
+from .matching import calculate_match_score 
 
 def roommates(request):
     return render(request, 'Roommates/roommate.html')  
 
 def roommatesDashboard(request):
-    users = User.objects.all()
-    roommates = Profile.objects.filter(user__in=users)
-    return render(request, 'Roommates/roommatesDashboard.html', {'roommates': roommates})
+    
+    # roommates = Profile.objects.all()
+
+    responses = RoommateResponses.objects.all()
+    userResponse = get_object_or_404(RoommateResponses, user=request.user)
+
+    results = dict() 
+
+    for response in responses:
+        if response.user != request.user:
+            score = calculate_match_score(userResponse, response)
+            if score!=0:
+                results.update({response.user.profile : score})
+    
+
+
+    return render(request, 'Roommates/roommatesDashboard.html', {'roommates': results})
 
 @login_required
 def questionnaire_view(request):

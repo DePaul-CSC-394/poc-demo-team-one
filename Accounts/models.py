@@ -19,6 +19,7 @@ class Profile(models.Model):
     looking_roomate = models.BooleanField(blank=True, default=False)
     name = models.TextField(blank=True)
     image = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True, max_length=500, default="/media/photos/2025/03/03/profile_placeholder.png")
+    gender = models.TextField(default="female", max_length=6)
 
 #used chatgpt assistance to figure out how to create profile object everytime a user is created
 @receiver(post_save, sender=User)
