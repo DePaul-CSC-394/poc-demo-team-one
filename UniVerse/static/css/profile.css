@@ -93,3 +93,22 @@
     margin-top: 0;
     margin-right: 1rem;
 }
+
+.profile-field select {
+    flex: 1;
+    font-size: 1rem;
+    line-height: 1.5;
+    background: transparent;
+    border: none;
+    color: white;
+
+    /* remove arrow */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;   
+}
+
+.profile-field select:not([disabled]) {
+    border: 1px solid #555;
+    padding: 5px;
+}

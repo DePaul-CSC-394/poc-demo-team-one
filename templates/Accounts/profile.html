@@ -26,6 +26,14 @@
                             <h2>Name</h2>
                             <input type="text" name="name" value="{{ profile.name }}" readonly>
                         </div>
+                        <div class="profile-field" id="gender">
+                            <h2>Gender</h2>
+                            <select id="gender-select" disabled>
+                                <option value="male" {% if profile.gender == "male" %}selected{% endif %}>Male</option>
+                                <option value="female" {% if profile.gender == "female" %}selected{% endif %}>Female</option>
+                            </select>
+                            <input type="hidden" name="gender" id="gender-hidden" value="{{ profile.gender }}">
+                        </div>
                         <div class="profile-field" id="address-ln1">
                             <h2>Address Line 1</h2>
                             <input type="text" name="address_line1" value="{{ profile.address_line1 }}" readonly>
@@ -88,6 +96,12 @@
                     input.style.padding = '5px';
                 });
 
+                document.querySelectorAll('.profile-field select').forEach(select => {
+                    select.removeAttribute('disabled');
+                    select.style.border = '1px solid #555';
+                    select.style.padding = '5px';
+                });
+
                 document.getElementById('roomate-check').removeAttribute('disabled');
 
                 editBtn.style.display = 'none';
@@ -100,15 +114,28 @@
                     input.style.padding = '0';
                 });
 
+                document.querySelectorAll('.profile-field select').forEach(select => {
+                    select.setAttribute('disabled', 'disabled');
+                    select.style.border = 'none';
+                    select.style.padding = '0';
+                });
+
                 document.getElementById('roomate-check').setAttribute('disabled', 'disabled');
 
                 saveBtn.style.display = 'none';
                 editBtn.style.display = 'inline-block';
             });
 
+            document.getElementById('gender-select').addEventListener('change', function() {
+                document.getElementById('gender-hidden').value = this.value;
+            });
+
             //remove disabled so it can still be updated in db
             document.getElementById('profile-form').addEventListener('submit', function() {
                 document.getElementById('roomate-check').removeAttribute('disabled');
+                document.querySelectorAll('.profile-field select').forEach(select => {
+                    select.removeAttribute('disabled');
+                });
             });
 
             function addPreviewImage(input, previewId) {

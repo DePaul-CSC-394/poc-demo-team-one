@@ -84,6 +84,7 @@ def saveProfile(request):
         user.email = request.POST['email']
         profile.phone = request.POST['phone']
         profile.intro = request.POST['intro']
+        profile.gender = request.POST['gender']
         profile.looking_roomate = 'looking' in request.POST
         if photo:
             profile.image = photo
