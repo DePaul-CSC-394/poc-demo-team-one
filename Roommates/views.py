@@ -23,9 +23,9 @@ def roommatesDashboard(request):
             if score!=0:
                 results.update({response.user.profile : score})
     
+    sortedMatches = sorted(results.items(), key=lambda score: score[1], reverse=True)
 
-
-    return render(request, 'Roommates/roommatesDashboard.html', {'roommates': results})
+    return render(request, 'Roommates/roommatesDashboard.html', {'roommates': sortedMatches})
 
 @login_required
 def questionnaire_view(request):
