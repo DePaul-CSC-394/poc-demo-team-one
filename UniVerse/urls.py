@@ -27,6 +27,7 @@ urlpatterns = [
     path('', include('Accounts.urls')),
     path('', include('Supplies.urls')),
     path('', include('Roommates.urls')),
+    path('about/', views.about, name='about'),
 ]
 
 if settings.DEBUG:
