@@ -18,6 +18,9 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 # Create your views here.
 
+def about(request):
+    return render(request, 'about.html')
+
 def listings(request):
     listings = HousingListing.objects.all()
 
