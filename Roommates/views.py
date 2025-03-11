@@ -49,6 +49,6 @@ def questionnaire_view(request):
         roommate_responses.save()
 
 
-        return redirect("roomatesDashboard")  # Redirect to Roomate Dashboard page after submission
+        return redirect("roommatesDashboard")  # Redirect to Roomate Dashboard page after submission
 
-    return render(request, "roommates.html")
+    return render(request, "Roomates/roommates.html")
