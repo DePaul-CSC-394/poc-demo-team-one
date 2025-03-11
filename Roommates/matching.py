@@ -6,7 +6,7 @@ def calculate_match_score(responses1, responses2):
     base_score = 50
 
     weights = {
-        # "owns_pets": 15,
+        "owns_pets": 15,
         "cleanliness": 10,
         "work_study": 10,
         "quiet_night": 10,
