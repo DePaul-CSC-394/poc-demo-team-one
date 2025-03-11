@@ -7,7 +7,21 @@ from .matching import calculate_match_score
 from django.core.cache import cache
 
 def roommates(request):
-    return render(request, 'Roommates/roommate.html')  
+
+    userResponse = RoommateResponses.objects.filter(user=request.user).first()
+
+    if not userResponse:
+        return render(request, 'Roommates/roommate.html') 
+
+    cache_key=f"sorted_matches_{request.user.id}_{userResponse.updated_at.timestamp()}"
+
+    cached_matches=cache.get(cache_key)
+
+    sortedMatches= cached_matches
+    return render(request, 'Roommates/roommatesDashboard.html', {'roommates': sortedMatches})
+
+def editResponses(request):
+    return render(request, 'Roommates/roommate.html') 
 
 def roommatesDashboard(request):
     userResponse = get_object_or_404(RoommateResponses, user=request.user)

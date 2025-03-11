@@ -33,12 +33,12 @@
 
 <!-- Action Buttons -->
 <div class="text-end mb-4">
-    <a href="{% url 'add_supplies' %}" class="btn btn-primary">Add Supply</a>
-    <a href="{% url 'add_listing' %}" class="btn btn-primary">Add Listing</a>
+    <a href="{% url 'add_supplies' %}" class="btn btn-secondary">Add Supply</a>
+    <a href="{% url 'add_listing' %}" class="btn btn-secondary">Add Listing</a>
 </div>
 
 <!-- Tabs for Navigation -->
-<ul class="nav nav-tabs mb-4" id="dashboardTabs" role="tablist">
+<ul class="nav nav-tabs mb-4 dashboard-tabs" id="dashboardTabs" role="tablist">
     <!-- Supplies Tab Button -->
     <li class="nav-item" role="presentation">
         <button class="nav-link active" id="supplies-tab" data-bs-toggle="tab" data-bs-target="#supplies" type="button"
@@ -157,7 +157,7 @@
                             {% endfor %}
                         </div>
                         {% else %}
-                        <div class="alert alert-info" role="alert">
+                        <div class="alert alert-dark" role="alert">
                             You have no supply listings. <a href="{% url 'add_supplies' %}">Add one now!</a>
                         </div>
                         {% endif %}
@@ -266,7 +266,7 @@
                             {% endfor %}
                         </div>      
                         {% else %}
-                        <div class="alert alert-info" role="alert">
+                        <div class="alert alert-dark" role="alert">
                             You have no supply bookings.
                         </div>
                         {% endif %}
@@ -373,7 +373,7 @@
                             {% endfor %}
                         </div>
                         {% else %}
-                        <div class="alert alert-info" role="alert">
+                        <div class="alert alert-dark" role="alert">
                             You have no home listings. <a href="{% url 'add_listing' %}">Add one now!</a>
                         </div>
                         {% endif %}
@@ -473,7 +473,7 @@
                             {% endfor %}
                         </div>
                         {% else %}
-                        <div class="alert alert-info" role="alert">
+                        <div class="alert alert-dark" role="alert">
                             You have no home bookings.
                         </div>
                         {% endif %}

@@ -99,3 +99,15 @@ ul.list {
     background-color: #ff8c00;
     color: white;
 }
+
+.dashboard-tabs .nav-link{
+    color: rgb(237, 154, 0);
+}
+
+.accordion-button{
+    background-color: #ff8c00b6 !important;
+    border-color: #ff8c00b6 !important;
+}
+.accordion-item{
+    border-color: #ff8c00b6 !important;
+}

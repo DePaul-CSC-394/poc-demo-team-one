@@ -85,3 +85,9 @@
 .connect-btn-section{
     margin-bottom:0 !important;
 }
+
+.top-row{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
