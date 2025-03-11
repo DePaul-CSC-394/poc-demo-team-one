@@ -152,3 +152,13 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'csc394teamone@gmail.com'
 EMAIL_HOST_PASSWORD = 'mftb vasn llxe ssjc'
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",  
+        "LOCATION": "redis://redis_universe_cache:6379/1", 
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}

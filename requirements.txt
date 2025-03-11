@@ -8,3 +8,4 @@ python-dateutil==2.8.2
 geopy==2.4.0
 folium==0.19.4
 stripe
+django-redis==5.2.0
