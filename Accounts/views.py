@@ -29,9 +29,10 @@ def signup(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         confirmPassword = request.POST.get('confirm-password')
+        gender = request.POST.get('gender')
 
         #all fields are required
-        if not username or not password or not confirmPassword:
+        if not username or not password or not confirmPassword or not gender:
             context = {"error_msg" : "Please enter all fields"}
             return render(request, 'Accounts/signup.html', context)
         
@@ -47,6 +48,9 @@ def signup(request):
         
         user = User.objects.create_user(username=username, password=password)
         user.save()
+
+        user.profile.gender = gender
+        user.profile.save()
 
         messages.success(request, "Account Created!")
         return redirect("login")
