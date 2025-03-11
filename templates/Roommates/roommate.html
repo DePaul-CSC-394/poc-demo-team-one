@@ -140,6 +140,20 @@
         }
         populateFormInputs();
     };
+
+    // Ensure localStorage clears when user sign's out and doesn't reappear when another account logs in
+    document.addEventListener("DOMContentLoaded", function() {
+        let storedUser = localStorage.getItem("loggedInUser");
+
+        let currentUser = "{{ request.user.username }}";
+
+        if (storedUser !== currentUser) {
+            console.log("🔹 New user detected. Clearing localStorage...");
+            localStorage.clear();
+            localStorage.setItem("loggedInUser", currentUser);
+        }
+    });
+
 </script>
 
 {% endblock %}
