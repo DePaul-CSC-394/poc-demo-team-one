@@ -15,6 +15,15 @@ services:
     networks:
       - webapp_network
 
+  redis:
+     image: redis:latest
+     container_name: redis_universe_cache
+     restart: always 
+     ports:
+       - "6379:6379"
+     networks:
+       - webapp_network
+
   web:
     build:
       context: .
@@ -26,6 +35,7 @@ services:
       - "8000:8000"
     depends_on:
       - db
+      - redis
     environment:
       - DJANGO_DB_NAME=universe_db
       - DJANGO_DB_USER=universe_user

@@ -4,26 +4,37 @@ from django.contrib.auth.models import User
 from Accounts.models import Profile
 from Roommates.models import RoommateResponses
 from .matching import calculate_match_score 
+from django.core.cache import cache
 
 def roommates(request):
     return render(request, 'Roommates/roommate.html')  
 
 def roommatesDashboard(request):
+   
+    cache_key=f"sorted_matches_{request.user.id}"
+
+    cached_matches=cache.get(cache_key)
+
+    if cached_matches:
+        sortedMatches= cached_matches
+    else:     
     
     # roommates = Profile.objects.all()
 
-    responses = RoommateResponses.objects.all()
-    userResponse = get_object_or_404(RoommateResponses, user=request.user)
+        responses = RoommateResponses.objects.all()
+        userResponse = get_object_or_404(RoommateResponses, user=request.user)
 
-    results = dict() 
+        results = dict() 
 
-    for response in responses:
-        if response.user != request.user:
-            score = calculate_match_score(userResponse, response)
-            if score!=0:
-                results.update({response.user.profile : score})
+        for response in responses:
+            if response.user != request.user:
+                score = calculate_match_score(userResponse, response)
+                if score!=0:
+                    results.update({response.user.profile : score})
     
-    sortedMatches = sorted(results.items(), key=lambda score: score[1], reverse=True)
+        sortedMatches = sorted(results.items(), key=lambda score: score[1], reverse=True)
+
+        cache.set(cache_key, sortedMatches, timeout=3600)
 
     return render(request, 'Roommates/roommatesDashboard.html', {'roommates': sortedMatches})
 
