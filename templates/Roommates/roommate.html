@@ -1,12 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block extrastyle %}
+    <link rel="stylesheet" href="{% static 'css/roommates.css' %}" />
+{% endblock %}
+
 {% block title %}Find Your Next Roommate{% endblock %}
 {% block hero %}{% endblock %}
 {% block content %}
 
-<div class="container-fluid vh-100">
-    <div class="row h-100 align-items-start">
+<div class="container-fluid vh-100 main-section">
         <!-- Left Form Section -->
         <div class="col-md-6 d-flex flex-column justify-content-start form-section pt-4">
             <h4 class="mb-4 text-center">Answer some lifestyle questions:</h4>
@@ -17,93 +20,112 @@
 
                 <div class="question mb-3 d-flex justify-content-between">
                     <p>Do you own pets?</p>
-                    <div>
-                        <input type="radio" name="owns_pets" value="Yes" 
-                            {% if roommate_responses and roommate_responses.owns_pets is True %} checked {% endif %}> Yes
-                        <input type="radio" name="owns_pets" value="No"
-                            {% if roommate_responses and roommate_responses.owns_pets is False %} checked {% endif %}> No
+                    <div class="radio-buttons">
+                        <input class="btn-check" type="radio" name="owns_pets" id="owns_pets_yes" value="Yes" autocomplete="off"
+                            {% if roommate_responses and roommate_responses.owns_pets is True %} checked {% endif %}>
+                        <label class="answer-radio px-3" for="owns_pets_yes">Yes</label>
+                        <input class="btn-check" type="radio" name="owns_pets" id="owns_pets_no" value="No"
+                            {% if roommate_responses and roommate_responses.owns_pets is False %} checked {% endif %}>
+                        <label class="answer-radio px-3" for="owns_pets_no">No</label>
                     </div>
                 </div>
-
+                
                 <div class="question mb-3 d-flex justify-content-between">
                     <p>Are you okay with pets?</p>
-                    <div>
-                        <input type="radio" name="okay_with_pets" value="Yes" 
-                            {% if roommate_responses and roommate_responses.okay_with_pets is True %} checked {% endif %}> Yes
-                        <input type="radio" name="okay_with_pets" value="No" 
-                            {% if roommate_responses and roommate_responses.okay_with_pets is False %} checked {% endif %}> No
+                    <div class="radio-buttons">
+                        <input class="btn-check" type="radio" name="okay_with_pets" id="okay_with_pets_yes" value="Yes" autocomplete="off"
+                            {% if roommate_responses and roommate_responses.okay_with_pets is True %} checked {% endif %}>
+                        <label class="answer-radio px-3" for="okay_with_pets_yes">Yes</label>
+                        <input class="btn-check" type="radio" name="okay_with_pets" id="okay_with_pets_no" value="No"
+                            {% if roommate_responses and roommate_responses.okay_with_pets is False %} checked {% endif %}>
+                        <label class="answer-radio px-3" for="okay_with_pets_no">No</label>
                     </div>
                 </div>
-
+                
                 <div class="question mb-3 d-flex justify-content-between">
                     <p>Are you looking for a Female Roommate?</p>
-                    <div>
-                        <input type="radio" name="okay_with_female" value="Yes"
-                            {% if roommate_responses and roommate_responses.okay_with_female is True %} checked {% endif %}> Yes
-                        <input type="radio" name="okay_with_female" value="No"
-                            {% if roommate_responses and roommate_responses.okay_with_female is False %} checked {% endif %}> No
+                    <div class="radio-buttons">
+                        <input class="btn-check" type="radio" name="okay_with_female" id="okay_with_female_yes" value="Yes" autocomplete="off"
+                            {% if roommate_responses and roommate_responses.okay_with_female is True %} checked {% endif %}>
+                        <label class="answer-radio px-3" for="okay_with_female_yes">Yes</label>
+                        <input class="btn-check" type="radio" name="okay_with_female" id="okay_with_female_no" value="No"
+                            {% if roommate_responses and roommate_responses.okay_with_female is False %} checked {% endif %}>
+                        <label class="answer-radio px-3" for="okay_with_female_no">No</label>
                     </div>
                 </div>
-
+                
                 <div class="question mb-3 d-flex justify-content-between">
                     <p>Are you looking for a Male Roommate?</p>
-                    <div>
-                        <input type="radio" name="okay_with_male" value="Yes"
-                            {% if roommate_responses and roommate_responses.okay_with_male is True %} checked {% endif %}> Yes
-                        <input type="radio" name="okay_with_male" value="No"
-                            {% if roommate_responses and roommate_responses.okay_with_male is False %} checked {% endif %}> No
+                    <div class="radio-buttons">
+                        <input class="btn-check" type="radio" name="okay_with_male" id="okay_with_male_yes" value="Yes" autocomplete="off"
+                            {% if roommate_responses and roommate_responses.okay_with_male is True %} checked {% endif %}>
+                        <label class="answer-radio px-3" for="okay_with_male_yes">Yes</label>
+                        <input class="btn-check" type="radio" name="okay_with_male" id="okay_with_male_no" value="No"
+                            {% if roommate_responses and roommate_responses.okay_with_male is False %} checked {% endif %}>
+                        <label class="answer-radio px-3" for="okay_with_male_no">No</label>
                     </div>
                 </div>
-
+                
                 <div class="question mb-3 d-flex justify-content-between">
                     <p>Do you keep a clean living space?</p>
-                    <div>
-                        <input type="radio" name="cleanliness" value="Yes"
-                            {% if roommate_responses and roommate_responses.cleanliness is True %} checked {% endif %}> Yes
-                        <input type="radio" name="cleanliness" value="No"
-                            {% if roommate_responses and roommate_responses.cleanliness is False %} checked {% endif %}> No
+                    <div class="radio-buttons">
+                        <input class="btn-check" type="radio" name="cleanliness" id="cleanliness_yes" value="Yes" autocomplete="off"
+                            {% if roommate_responses and roommate_responses.cleanliness is True %} checked {% endif %}>
+                        <label class="answer-radio px-3" for="cleanliness_yes">Yes</label>
+                        <input class="btn-check" type="radio" name="cleanliness" id="cleanliness_no" value="No"
+                            {% if roommate_responses and roommate_responses.cleanliness is False %} checked {% endif %}>
+                        <label class="answer-radio px-3" for="cleanliness_no">No</label>
                     </div>
                 </div>
-
+                
                 <div class="question mb-3 d-flex justify-content-between">
                     <p>Do you prefer studying at home?</p>
-                    <div>
-                        <input type="radio" name="work_study" value="Yes"
-                            {% if roommate_responses and roommate_responses.work_study is True %} checked {% endif %}> Yes
-                        <input type="radio" name="work_study" value="No"
-                            {% if roommate_responses and roommate_responses.work_study is False %} checked {% endif %}> No
+                    <div class="radio-buttons">
+                        <input class="btn-check" type="radio" name="work_study" id="work_study_yes" value="Yes" autocomplete="off"
+                            {% if roommate_responses and roommate_responses.work_study is True %} checked {% endif %}>
+                        <label class="answer-radio px-3" for="work_study_yes">Yes</label>
+                        <input class="btn-check" type="radio" name="work_study" id="work_study_no" value="No"
+                            {% if roommate_responses and roommate_responses.work_study is False %} checked {% endif %}>
+                        <label class="answer-radio px-3" for="work_study_no">No</label>
                     </div>
                 </div>
-
+                
                 <div class="question mb-3 d-flex justify-content-between">
                     <p>Do you prefer quiet nights?</p>
-                    <div>
-                        <input type="radio" name="quiet_night" value="Yes"
-                            {% if roommate_responses and roommate_responses.quiet_night is True %} checked {% endif %}> Yes
-                        <input type="radio" name="quiet_night" value="No"
-                            {% if roommate_responses and roommate_responses.quiet_night is False %} checked {% endif %}> No
+                    <div class="radio-buttons">
+                        <input class="btn-check" type="radio" name="quiet_night" id="quiet_night_yes" value="Yes" autocomplete="off"
+                            {% if roommate_responses and roommate_responses.quiet_night is True %} checked {% endif %}>
+                        <label class="answer-radio px-3" for="quiet_night_yes">Yes</label>
+                        <input class="btn-check" type="radio" name="quiet_night" id="quiet_night_no" value="No"
+                            {% if roommate_responses and roommate_responses.quiet_night is False %} checked {% endif %}>
+                        <label class="answer-radio px-3" for="quiet_night_no">No</label>
                     </div>
                 </div>
-
+                
                 <div class="question mb-3 d-flex justify-content-between">
                     <p>Do you host parties at your home?</p>
-                    <div>
-                        <input type="radio" name="host_gatherings" value="Yes"
-                            {% if roommate_responses and roommate_responses.host_gatherings is True %} checked {% endif %}> Yes
-                        <input type="radio" name="host_gatherings" value="No"
-                            {% if roommate_responses and roommate_responses.host_gatherings is False %} checked {% endif %}> No
+                    <div class="radio-buttons">
+                        <input class="btn-check" type="radio" name="host_gatherings" id="host_gatherings_yes" value="Yes" autocomplete="off"
+                            {% if roommate_responses and roommate_responses.host_gatherings is True %} checked {% endif %}>
+                        <label class="answer-radio px-3" for="host_gatherings_yes">Yes</label>
+                        <input class="btn-check" type="radio" name="host_gatherings" id="host_gatherings_no" value="No"
+                            {% if roommate_responses and roommate_responses.host_gatherings is False %} checked {% endif %}>
+                        <label class="answer-radio px-3" for="host_gatherings_no">No</label>
                     </div>
                 </div>
-
+                
                 <div class="question mb-3 d-flex justify-content-between">
                     <p>Are you open to sharing supplies?</p>
-                    <div>
-                        <input type="radio" name="share_supplies" value="Yes"
-                            {% if roommate_responses and roommate_responses.share_supplies is True %} checked {% endif %}> Yes
-                        <input type="radio" name="share_supplies" value="No"
-                            {% if roommate_responses and roommate_responses.share_supplies is False %} checked {% endif %}> No
+                    <div class="radio-buttons">
+                        <input class="btn-check" type="radio" name="share_supplies" id="share_supplies_yes" value="Yes" autocomplete="off"
+                            {% if roommate_responses and roommate_responses.share_supplies is True %} checked {% endif %}>
+                        <label class="answer-radio px-3" for="share_supplies_yes">Yes</label>
+                        <input class="btn-check" type="radio" name="share_supplies" id="share_supplies_no" value="No"
+                            {% if roommate_responses and roommate_responses.share_supplies is False %} checked {% endif %}>
+                        <label class="answer-radio px-3" for="share_supplies_no">No</label>
                     </div>
                 </div>
+                
 
                 <!-- Hidden Inputs for Submission -->
                 <input type="hidden" name="owns_pets" id="input_owns_pets">
@@ -120,10 +142,9 @@
             </form>
         </div>
         <!-- Right Image Section -->
-        <div class="col-md-6 image-section d-none d-md-block vh-100"
+        <div class="col-md-6 image-section d-none d-md-block"
             style="background: url('https://i.pinimg.com/1200x/83/15/bd/8315bd9b94c114394ae5b9ff6090b3e9.jpg') center/cover; border-radius: 0;">
         </div>
-    </div>
 </div>
 
 {% endblock %}
