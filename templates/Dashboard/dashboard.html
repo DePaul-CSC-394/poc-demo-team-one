@@ -180,10 +180,10 @@
                     aria-labelledby="supplyBookingsHeading" data-bs-parent="#supplyBookingsAccordion">
                     <div class="accordion-body">
                         {% if user_supply_bookings %}
-                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 supply-bookings">
                             {% for supply_booking in user_supply_bookings %}
                                 <div class="col-md-6 mb-4">
-                                    <div class="card listing-card">
+                                    <div class="card listing-card h-100">
                                         <img src="{{ supply_booking.listing.photo_1 }}" alt="Supply Booking Image" class="card-img-top">
                                         <div class="card-body">
                                             <div class="row">
@@ -220,7 +220,7 @@
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
-                                                <div class="col-md-12">
+                                                <div class="col-md-12 bottom-row">
                                                     {% if supply_booking.is_pending %}
                                                         <p><strong>Current Status: Awaiting Approval</strong></p>
                                                     {% elif supply_booking.was_denied %}
@@ -228,36 +228,40 @@
                                                     {% else %}
                                                         <p><strong>Current Status: Approved</strong></p>
                                                         
-                                                        <button class="btn btn-sm review-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSupplyReivew" aria-expanded="false" aria-controls="collapseExample">
-                                                            Leave a review
+                                                        <button class="btn btn-sm review-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSupplyReivew{{supply_booking.id}}" aria-expanded="false" aria-controls="collapseExample">
+                                                            
+                                                            <i class="fa-regular fa-comment-alt fa-xl"></i>
+
                                                         </button>
-                                                        <div class="collapse" id="collapseSupplyReivew">
-                                                            <div class="card card-body mt-2">
-                                                                <form method="POST" action="{% url 'review-supply' supply_booking.listing.id %}">
-                                                                    {% csrf_token %}
-                                                                    <div class="star-rating">
-                                                                        {% comment %} /* chatgpt helped with the star logic */ {% endcomment %}
-                                                                        <input type="radio" name="rating" id="star5supply" value="5">
-                                                                        <label for="star5supply" title="5 stars">&#9733;</label>
-                                                                        <input type="radio" name="rating" id="star4supply" value="4">
-                                                                        <label for="star4supply" title="4 stars">&#9733;</label>
-                                                                        <input type="radio" name="rating" id="star3supply" value="3">
-                                                                        <label for="star3supply" title="3 stars">&#9733;</label>
-                                                                        <input type="radio" name="rating" id="star2supply" value="2">
-                                                                        <label for="star2supply" title="2 stars">&#9733;</label>
-                                                                        <input type="radio" name="rating" id="star1supply" value="1">
-                                                                        <label for="starsupply1" title="1 star">&#9733;</label>
-                                                                    </div>
-                                                                    <div class="review-text">
-                                                                        <textarea class="form-control" name="review" rows="5" placeholder="Write your review..."></textarea>
-                                                                    </div>
-                                                                    <div class="button-row d-flex justify-content-end">
-                                                                        <button class="btn btn-sm btn-secondary mt-2" type="submit">Submit</button>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
+                                                        
                                                     {% endif %}
+                                                </div>
+                                                <div class="collapse" id="collapseSupplyReivew{{supply_booking.id}}">
+                                                    <div class="card card-body mt-2">
+                                                        <form method="POST" action="{% url 'review-supply' supply_booking.listing.id %}">
+                                                            {% csrf_token %}
+                                                            <div class="star-rating">
+                                                                {% comment %} /* chatgpt helped with the star logic */ {% endcomment %}
+                                                                <input type="radio" name="rating" id="star5supply{{ supply_booking.id }}" value="5">
+                                                                <label for="star5supply{{ supply_booking.id }}" title="5 stars">&#9733;</label>
+                                                                <input type="radio" name="rating" id="star4supply{{ supply_booking.id }}" value="4">
+                                                                <label for="star4supply{{ supply_booking.id }}" title="4 stars">&#9733;</label>
+                                                                <input type="radio" name="rating" id="star3supply{{ supply_booking.id }}" value="3">
+                                                                <label for="star3supply{{ supply_booking.id }}" title="3 stars">&#9733;</label>
+                                                                <input type="radio" name="rating" id="star2supply{{ supply_booking.id }}" value="2">
+                                                                <label for="star2supply{{ supply_booking.id }}" title="2 stars">&#9733;</label>
+                                                                <input type="radio" name="rating" id="star1supply{{ supply_booking.id }}" value="1">
+                                                                <label for="star1supply{{ supply_booking.id }}" title="1 star">&#9733;</label>
+                                                              </div>
+                                                              
+                                                            <div class="review-text">
+                                                                <textarea class="form-control" name="review" rows="5" placeholder="Write your review..."></textarea>
+                                                            </div>
+                                                            <div class="button-row d-flex justify-content-end">
+                                                                <button class="btn btn-sm btn-secondary mt-2" type="submit">Submit</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -396,7 +400,7 @@
                         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                             {% for booking in user_bookings %}
                             <div class="col-md-6 mb-4">
-                                <div class="card listing-card">
+                                <div class="card listing-card h-100">
                                     <img src="{{ booking.listing.photo_1 }}" alt="Booking Image" class="card-img-top">
                                     <div class="card-body">
                                         <div class="row">
@@ -427,7 +431,7 @@
                                             </div>
                                         </div>
                                         <div class="row mt-3">
-                                            <div class="col-md-12">
+                                            <div class="col-md-12 bottom-row">
                                                 {% if booking.is_pending %}
                                                 <p><strong>Current Status: Awaiting Approval</strong></p>
                                                 {% elif booking.was_denied %}
@@ -435,36 +439,37 @@
                                                 
                                                 {% else %}
                                                 <p><strong>Current Status: Approved</strong></p>
-                                                <button class="btn btn-sm review-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                                                    Leave a review
+                                                <button class="btn btn-sm review-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample{{booking.id}}" aria-expanded="false" aria-controls="collapseExample">
+                                                    <i class="fa-regular fa-comment-alt fa-xl"></i>
                                                 </button>
-                                                <div class="collapse" id="collapseExample">
-                                                    <div class="card card-body mt-2">
-                                                        <form method="POST" action="{% url 'review-home' booking.listing.id %}">
-                                                            {% csrf_token %}
-                                                            <div class="star-rating">
-                                                                {% comment %} /* chatgpt helped with the star logic */ {% endcomment %}
-                                                                <input type="radio" name="rating" id="star5" value="5">
-                                                                <label for="star5" title="5 stars">&#9733;</label>
-                                                                <input type="radio" name="rating" id="star4" value="4">
-                                                                <label for="star4" title="4 stars">&#9733;</label>
-                                                                <input type="radio" name="rating" id="star3" value="3">
-                                                                <label for="star3" title="3 stars">&#9733;</label>
-                                                                <input type="radio" name="rating" id="star2" value="2">
-                                                                <label for="star2" title="2 stars">&#9733;</label>
-                                                                <input type="radio" name="rating" id="star1" value="1">
-                                                                <label for="star1" title="1 star">&#9733;</label>
-                                                            </div>
-                                                            <div class="review-text">
-                                                                <textarea class="form-control" name="review" rows="5" placeholder="Write your review..."></textarea>
-                                                            </div>
-                                                            <div class="button-row d-flex justify-content-end">
-                                                                <button class="btn btn-sm btn-secondary mt-2" type="submit">Submit</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
+                                                
                                                 {% endif %}
+                                            </div>
+                                            <div class="collapse" id="collapseExample{{booking.id}}">
+                                                <div class="card card-body mt-2">
+                                                    <form method="POST" action="{% url 'review-home' booking.listing.id %}">
+                                                        {% csrf_token %}
+                                                        <div class="star-rating">
+                                                            {% comment %} /* chatgpt helped with the star logic */ {% endcomment %}
+                                                            <input type="radio" name="rating" id="star5{{ booking.id }}" value="5">
+                                                            <label for="star5{{ booking.id }}" title="5 stars">&#9733;</label>
+                                                            <input type="radio" name="rating" id="star4{{ booking.id }}" value="4">
+                                                            <label for="star4{{ booking.id }}" title="4 stars">&#9733;</label>
+                                                            <input type="radio" name="rating" id="star3{{ booking.id }}" value="3">
+                                                            <label for="star3{{ booking.id }}" title="3 stars">&#9733;</label>
+                                                            <input type="radio" name="rating" id="star2{{ booking.id }}" value="2">
+                                                            <label for="star2{{ booking.id }}" title="2 stars">&#9733;</label>
+                                                            <input type="radio" name="rating" id="star1{{ booking.id }}" value="1">
+                                                            <label for="star1{{ booking.id }}" title="1 star">&#9733;</label>
+                                                        </div>
+                                                        <div class="review-text">
+                                                            <textarea class="form-control" name="review" rows="5" placeholder="Write your review..."></textarea>
+                                                        </div>
+                                                        <div class="button-row d-flex justify-content-end">
+                                                            <button class="btn btn-sm btn-secondary mt-2" type="submit">Submit</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
