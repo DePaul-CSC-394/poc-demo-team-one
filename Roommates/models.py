@@ -19,6 +19,7 @@ class RoommateResponses(models.Model):
     quiet_night = models.BooleanField(null=True, blank=True)
     host_gatherings = models.BooleanField(null=True, blank=True)
     share_supplies = models.BooleanField(null=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"RoommateResponses for {self.user.username}"
