@@ -10,8 +10,8 @@ def roommates(request):
     return render(request, 'Roommates/roommate.html')  
 
 def roommatesDashboard(request):
-   
-    cache_key=f"sorted_matches_{request.user.id}"
+    userResponse = get_object_or_404(RoommateResponses, user=request.user)
+    cache_key=f"sorted_matches_{request.user.id}_{userResponse.updated_at.timestamp()}"
 
     cached_matches=cache.get(cache_key)
 
@@ -22,7 +22,6 @@ def roommatesDashboard(request):
     # roommates = Profile.objects.all()
 
         responses = RoommateResponses.objects.all()
-        userResponse = get_object_or_404(RoommateResponses, user=request.user)
 
         results = dict() 
 
