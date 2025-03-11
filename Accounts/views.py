@@ -30,6 +30,7 @@ def signup(request):
         password = request.POST.get('password')
         confirmPassword = request.POST.get('confirm-password')
         gender = request.POST.get('gender')
+        name = request.POST.get('name')
 
         #all fields are required
         if not username or not password or not confirmPassword or not gender:
@@ -50,6 +51,7 @@ def signup(request):
         user.save()
 
         user.profile.gender = gender
+        user.profile.name = name
         user.profile.save()
 
         messages.success(request, "Account Created!")
