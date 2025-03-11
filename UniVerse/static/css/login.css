@@ -52,6 +52,35 @@ body { background: var(--bg); color: var(--text); overflow-x: hidden; }
     color: white;
 }
 
+.gender-row{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.gender-radio{
+    border: 2px solid white;
+    padding: .5rem;
+    border-radius: 5px;
+    width: 42%;
+    text-align: center;
+}
+
+.gender-radio:hover{
+    border: 2px solid var(--btn-hover);
+    padding: .5rem;
+    border-radius: 5px;
+    background-color: var(--btn-hover);
+}
+
+.login-form .btn-check {
+    display: none;
+}
+
+input[type="radio"]:checked+label {
+    background-color: var(--btn-hover);
+}
+
 .login-form .btn:hover {
     background-color: var(--btn-hover);
 }
