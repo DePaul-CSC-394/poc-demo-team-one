@@ -10,9 +10,9 @@
 }
 
 .card-body {
-    /* display:flex; */
-    /* justify-content: space-between; */
-    gap:20px;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .card-body .col-md-4 {
@@ -41,18 +41,24 @@ i {
     object-fit: cover;
 }
 
+.card img{
+    flex: 1;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+
 ul.list {
     list-style-type: none;
     padding-left: 0;
 }
 
 .review-button{
-    background-color: #ff8c00 !important;
-    color: white;
+    color: #ff8c00;
 }
 
 .review-button:hover{
-    color:white;
+    color:#ff8c00;
 }
 
 
@@ -111,3 +117,15 @@ ul.list {
 .accordion-item{
     border-color: #ff8c00b6 !important;
 }
+
+.bottom-row{
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+}
+
+.bottom-row p{
+    margin-bottom: 0;
+    text-align: center;
+}
+
