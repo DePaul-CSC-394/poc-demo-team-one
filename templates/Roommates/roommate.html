@@ -11,79 +11,97 @@
         <div class="col-md-6 d-flex flex-column justify-content-start form-section pt-4">
             <h4 class="mb-4 text-center">Answer some lifestyle questions:</h4>
 
-            <form id="questionnaireForm" method="POST" action="{% url 'questionnaire' %}" onsubmit="populateFormInputs()">
+            <form id="questionnaireForm" method="POST" action="{% url 'questionnaire' %}">
             
                 {% csrf_token %}
 
                 <div class="question mb-3 d-flex justify-content-between">
                     <p>Do you own pets?</p>
                     <div>
-                        <input type="radio" name="owns_pets" value="Yes" onclick="saveAnswer('owns_pets', 'Yes')"> Yes
-                        <input type="radio" name="owns_pets" value="No" onclick="saveAnswer('owns_pets', 'No')"> No
+                        <input type="radio" name="owns_pets" value="Yes" 
+                            {% if roommate_responses and roommate_responses.owns_pets is True %} checked {% endif %}> Yes
+                        <input type="radio" name="owns_pets" value="No"
+                            {% if roommate_responses and roommate_responses.owns_pets is False %} checked {% endif %}> No
                     </div>
                 </div>
 
                 <div class="question mb-3 d-flex justify-content-between">
                     <p>Are you okay with pets?</p>
                     <div>
-                        <input type="radio" name="okay_with_pets" value="Yes" onclick="saveAnswer('okay_with_pets', 'Yes')"> Yes
-                        <input type="radio" name="okay_with_pets" value="No" onclick="saveAnswer('okay_with_pets', 'No')"> No
+                        <input type="radio" name="okay_with_pets" value="Yes" 
+                            {% if roommate_responses and roommate_responses.okay_with_pets is True %} checked {% endif %}> Yes
+                        <input type="radio" name="okay_with_pets" value="No" 
+                            {% if roommate_responses and roommate_responses.okay_with_pets is False %} checked {% endif %}> No
                     </div>
                 </div>
 
                 <div class="question mb-3 d-flex justify-content-between">
                     <p>Are you looking for a Female Roommate?</p>
                     <div>
-                        <input type="radio" name="okay_with_female" value="Yes" onclick="saveAnswer('okay_with_female', 'Yes')"> Yes
-                        <input type="radio" name="okay_with_female" value="No" onclick="saveAnswer('okay_with_female', 'No')"> No
+                        <input type="radio" name="okay_with_female" value="Yes"
+                            {% if roommate_responses and roommate_responses.okay_with_female is True %} checked {% endif %}> Yes
+                        <input type="radio" name="okay_with_female" value="No"
+                            {% if roommate_responses and roommate_responses.okay_with_female is False %} checked {% endif %}> No
                     </div>
                 </div>
 
                 <div class="question mb-3 d-flex justify-content-between">
                     <p>Are you looking for a Male Roommate?</p>
                     <div>
-                        <input type="radio" name="okay_with_male" value="Yes" onclick="saveAnswer('okay_with_male', 'Yes')"> Yes
-                        <input type="radio" name="okay_with_male" value="No" onclick="saveAnswer('okay_with_male', 'No')"> No
+                        <input type="radio" name="okay_with_male" value="Yes"
+                            {% if roommate_responses and roommate_responses.okay_with_male is True %} checked {% endif %}> Yes
+                        <input type="radio" name="okay_with_male" value="No"
+                            {% if roommate_responses and roommate_responses.okay_with_male is False %} checked {% endif %}> No
                     </div>
                 </div>
 
                 <div class="question mb-3 d-flex justify-content-between">
                     <p>Do you keep a clean living space?</p>
                     <div>
-                        <input type="radio" name="cleanliness" value="Yes" onclick="saveAnswer('cleanliness', 'Yes')"> Yes
-                        <input type="radio" name="cleanliness" value="No" onclick="saveAnswer('cleanliness', 'No')"> No
+                        <input type="radio" name="cleanliness" value="Yes"
+                            {% if roommate_responses and roommate_responses.cleanliness is True %} checked {% endif %}> Yes
+                        <input type="radio" name="cleanliness" value="No"
+                            {% if roommate_responses and roommate_responses.cleanliness is False %} checked {% endif %}> No
                     </div>
                 </div>
 
                 <div class="question mb-3 d-flex justify-content-between">
                     <p>Do you prefer studying at home?</p>
                     <div>
-                        <input type="radio" name="work_study" value="Yes" onclick="saveAnswer('work_study', 'Yes')"> Yes
-                        <input type="radio" name="work_study" value="No" onclick="saveAnswer('work_study', 'No')"> No
+                        <input type="radio" name="work_study" value="Yes"
+                            {% if roommate_responses and roommate_responses.work_study is True %} checked {% endif %}> Yes
+                        <input type="radio" name="work_study" value="No"
+                            {% if roommate_responses and roommate_responses.work_study is False %} checked {% endif %}> No
                     </div>
                 </div>
 
                 <div class="question mb-3 d-flex justify-content-between">
                     <p>Do you prefer quiet nights?</p>
                     <div>
-                        <input type="radio" name="quiet_night" value="Yes" onclick="saveAnswer('quiet_night', 'Yes')"> Yes
-                        <input type="radio" name="quiet_night" value="No" onclick="saveAnswer('quiet_night', 'No')"> No
+                        <input type="radio" name="quiet_night" value="Yes"
+                            {% if roommate_responses and roommate_responses.quiet_night is True %} checked {% endif %}> Yes
+                        <input type="radio" name="quiet_night" value="No"
+                            {% if roommate_responses and roommate_responses.quiet_night is False %} checked {% endif %}> No
                     </div>
                 </div>
 
                 <div class="question mb-3 d-flex justify-content-between">
                     <p>Do you host parties at your home?</p>
                     <div>
-                        <input type="radio" name="host_gatherings" value="Yes" onclick="saveAnswer('host_gatherings', 'Yes')"> Yes
-                        <input type="radio" name="host_gatherings" value="No" onclick="saveAnswer('host_gatherings', 'No')"> No
+                        <input type="radio" name="host_gatherings" value="Yes"
+                            {% if roommate_responses and roommate_responses.host_gatherings is True %} checked {% endif %}> Yes
+                        <input type="radio" name="host_gatherings" value="No"
+                            {% if roommate_responses and roommate_responses.host_gatherings is False %} checked {% endif %}> No
                     </div>
                 </div>
 
                 <div class="question mb-3 d-flex justify-content-between">
                     <p>Are you open to sharing supplies?</p>
                     <div>
-                        <input type="radio" name="share_supplies" value="Yes" onclick="saveAnswer('share_supplies', 'Yes')"> Yes
-                        <input type="radio" name="share_supplies" value="No" onclick="saveAnswer('share_supplies', 'No')"> No
+                        <input type="radio" name="share_supplies" value="Yes"
+                            {% if roommate_responses and roommate_responses.share_supplies is True %} checked {% endif %}> Yes
+                        <input type="radio" name="share_supplies" value="No"
+                            {% if roommate_responses and roommate_responses.share_supplies is False %} checked {% endif %}> No
                     </div>
                 </div>
 
@@ -107,53 +125,5 @@
         </div>
     </div>
 </div>
-
-<script>
-    function saveAnswer(key, value) {
-        let answers = JSON.parse(localStorage.getItem("roommateAnswers")) || {};
-        answers[key] = value;
-        localStorage.setItem("roommateAnswers", JSON.stringify(answers));
-
-        let inputField = document.getElementById(`input_${key}`);
-        if (inputField) {
-            inputField.value = value;
-        }
-    }
-
-    function populateFormInputs() {
-        let answers = JSON.parse(localStorage.getItem("roommateAnswers")) || {};
-        for (const [key, value] of Object.entries(answers)) {
-            let inputField = document.getElementById(`input_${key}`);
-            if (inputField) {
-                inputField.value = value;
-            }
-        }
-    }
-
-    window.onload = function() {
-        let answers = JSON.parse(localStorage.getItem("roommateAnswers")) || {};
-        for (const [key, value] of Object.entries(answers)) {
-            let radio = document.querySelector(`input[name="${key}"][value="${value}"]`);
-            if (radio) {
-                radio.checked = true;
-            }
-        }
-        populateFormInputs();
-    };
-
-    // Ensure localStorage clears when user sign's out and doesn't reappear when another account logs in
-    document.addEventListener("DOMContentLoaded", function() {
-        let storedUser = localStorage.getItem("loggedInUser");
-
-        let currentUser = "{{ request.user.username }}";
-
-        if (storedUser !== currentUser) {
-            console.log("🔹 New user detected. Clearing localStorage...");
-            localStorage.clear();
-            localStorage.setItem("loggedInUser", currentUser);
-        }
-    });
-
-</script>
 
 {% endblock %}
