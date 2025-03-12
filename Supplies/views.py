@@ -23,6 +23,18 @@ def detail (request, listing_id):
 
     reviews = SupplyReview.objects.filter(listing=listing)
 
+
+    if not reviews:
+        avg = "No Reivews"
+
+    else:
+        sum = 0
+
+        for review in reviews:
+            sum+=review.rating
+
+        avg = sum/reviews.count()
+
     center_lat = listing.latitude  + Decimal(0.007)
     center_lon = listing.longitude - Decimal(0.007)
 
@@ -51,6 +63,7 @@ def detail (request, listing_id):
         'listing' : listing,
         'map_html': map_html,
         'reviews' : reviews,
+        'rating' : avg,
     }
 
     return render(request, 'Supplies/listing_details.html', context)

@@ -55,6 +55,29 @@ def roommatesDashboard(request):
 
     return render(request, 'Roommates/roommatesDashboard.html', {'roommates': sortedMatches})
 
+def refreshResults(request):
+    userResponse = get_object_or_404(RoommateResponses, user=request.user)
+    cache_key=f"sorted_matches_{request.user.id}_{userResponse.updated_at.timestamp()}"
+
+    
+    # roommates = Profile.objects.all()
+
+    responses = RoommateResponses.objects.all()
+
+    results = dict() 
+
+    for response in responses:
+        if response.user != request.user:
+            score = calculate_match_score(userResponse, response)
+            if score!=0:
+                results.update({response.user.profile : score})
+
+    sortedMatches = sorted(results.items(), key=lambda score: score[1], reverse=True)
+
+    cache.set(cache_key, sortedMatches, timeout=3600)
+
+    return render(request, 'Roommates/roommatesDashboard.html', {'roommates': sortedMatches})
+
 @login_required
 def questionnaire_view(request):
     """

@@ -29,10 +29,10 @@
                         </div>
                         <div class="profile-field" id="introduction">
                             <h2>Introduction</h2>
-                            <input type="text" name="intro" value="{{ profile.intro }}" readonly>
+                            <textarea name="intro" readonly>{{ profile.intro }}</textarea>
                         </div>
                         <div class="checkbox-field" id="looking">
-                            <input class="form-check-input" type="checkbox" name="looking" id="roomate-check" disabled {% if profile.looking_roomate %}checked{% endif %}>
+                            <input class="form-check-input" type="checkbox" name="looking" id="roomate-check" disabled checked>
                             <label class="form-check-label" for="roomate-check">
                                 Looking for a roommate
                             </label>

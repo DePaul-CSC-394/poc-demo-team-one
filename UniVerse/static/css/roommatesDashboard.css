@@ -43,6 +43,7 @@
 .card-text{
     text-align: center;
     font-size: 1.25rem;
+    flex-grow: 1;
 }
 
 .roommate-btn{
@@ -71,7 +72,9 @@
 }
 
 .profile-bottom{
-    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .match-score-section{

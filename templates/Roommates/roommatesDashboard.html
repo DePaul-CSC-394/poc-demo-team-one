@@ -13,7 +13,10 @@
 
 <div class="col-md-12 col-12 top-row">
     <h1>We Might Have A Match For You!</h1>
-    <a href="{% url 'editResponses' %}" class="btn btn-secondary">Edit Responses</a>
+    <div class="right-side-btns">
+        <a href="{% url 'refreshResults' %}" class="btn btn-secondary"><i class="fa fa-refresh" aria-hidden="true"></i></a>
+        <a href="{% url 'editResponses' %}" class="btn btn-secondary">Edit Responses</a>
+    </div>
 </div>
 
 <div class="second row">
@@ -34,7 +37,7 @@
                             {{ roommate.name }}
                         </div>
                         <div class="profile-bottom">
-                            <div class="card-text mb-2">
+                            <div class="card-text">
                                 {{ roommate.intro }}
                             </div>
                             {% comment %} <div class="progress match-score-section" role="progressbar"  aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
