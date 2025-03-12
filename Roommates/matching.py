@@ -7,11 +7,11 @@ def calculate_match_score(responses1, responses2):
 
     weights = {
         "owns_pets": 5,
-        "cleanliness": 15,
-        "work_study": 12,
-        "quiet_night": 13,
+        "cleanliness": 16,
+        "work_study": 9,
+        "quiet_night": 14,
         "host_gatherings": 7,
-        "share_supplies": 8
+        "share_supplies": 9
     }
 
     if (responses1.owns_pets and not responses2.okay_with_pets)  or (responses2.owns_pets and not responses1.okay_with_pets):
