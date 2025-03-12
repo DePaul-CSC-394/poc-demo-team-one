@@ -17,7 +17,26 @@ def roommates(request):
 
     cached_matches=cache.get(cache_key)
 
-    sortedMatches= cached_matches
+    if cached_matches:
+        sortedMatches= cached_matches
+    else:     
+    
+    # roommates = Profile.objects.all()
+
+        responses = RoommateResponses.objects.all()
+
+        results = dict() 
+
+        for response in responses:
+            if response.user != request.user:
+                score = calculate_match_score(userResponse, response)
+                if score!=0:
+                    results.update({response.user.profile : score})
+    
+        sortedMatches = sorted(results.items(), key=lambda score: score[1], reverse=True)
+
+        cache.set(cache_key, sortedMatches, timeout=3600)
+
     return render(request, 'Roommates/roommatesDashboard.html', {'roommates': sortedMatches})
 
 @login_required
