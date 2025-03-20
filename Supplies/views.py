@@ -25,7 +25,7 @@ def detail (request, listing_id):
 
 
     if not reviews:
-        avg = "No Reivews"
+        avg = "No Reviews"
 
     else:
         sum = 0
