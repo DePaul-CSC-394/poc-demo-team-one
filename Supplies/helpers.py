@@ -22,7 +22,7 @@ def get_nearby_listings(location_name, radius_miles=10):
     try:
         location = geolocator.geocode(location_name)
     except (GeocoderUnavailable, GeocoderTimedOut) as e:
-        print("Error")
+        print(e)
         return SupplyListing.objects.none()
     
     if not location:
@@ -36,7 +36,7 @@ def get_nearby_listings(location_name, radius_miles=10):
         user_location = Point(lon, lat, srid=4326)
         #annotate adds extra distance column
         return SupplyListing.objects.annotate(
-            distance=Distance("location", user_location)
+            distance=Distance("pickupLocation", user_location)
         ).filter(distance__lte=D(mi=radius_miles))
     else:
         listings = SupplyListing.objects.all()
