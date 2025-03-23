@@ -1,0 +1,26 @@
+a {
+    text-decoration: none;
+  }
+
+  .image-slider img {
+    flex: 1;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border: 2px solid #ff8c00 !important;
+    border-radius: 10px; 
+    margin-bottom: 1rem;
+}
+
+.listings{
+    grid-auto-rows: auto;
+}
+
+.listing{
+    height:100%;
+}
+
+
+.listing h3{
+  margin-top: 1rem;
+}

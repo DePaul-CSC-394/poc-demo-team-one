@@ -1,0 +1,179 @@
+.top-row{
+    display: flex;
+}
+
+.image-slider{
+    max-width: 60% !important;
+    height: 500px;
+}
+  
+.image-slider img {
+    flex: 1;
+    width: 100%;
+    object-fit: cover;
+    border: 2px solid #ff8c00 !important;
+    border-radius: 10px; 
+    height: 500px !important;
+}
+
+.info-block {
+    flex: 1;
+    width: 50%;
+    padding: .5rem;
+    margin-left: .5rem;
+}
+
+.details-row {
+    display: flex;
+    width:100%;
+}
+
+.right-block{
+    /* flex: 1; */
+    display: flex;
+    width: 100%;
+}
+
+.map{
+    flex:1;
+    width: 40%;
+    border: 2px solid #ff8c00 !important;
+    border-radius: 10px; 
+    height: fit-content;
+}
+
+.pickupText{
+    background-color: #646464;
+    text-align: center;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding: .5rem;
+}
+
+.info-col{
+    padding: .5rem;
+    margin-right: 1rem;
+    width: 60%;
+}
+
+
+p{
+    margin-bottom: 0;
+}
+
+.icon-val{
+    display: flex;
+    align-items: center;
+}
+
+.icon-val i,
+.icon-val p {
+  display: inline-flex;
+  align-items: center;
+  height: 2.5em;
+}
+
+.icon-col{
+    display: flex;
+    flex-direction: column;
+    margin-right: .7rem;
+    align-items: center;
+}
+
+.data-col{
+    display: flex;
+    flex-direction: column;
+}
+
+a {
+    color: white;
+    /* text-decoration: none; */
+}
+
+.book-btn{
+    margin-bottom: 1rem;
+}
+
+/* used chatgpt to help make it responsive by putting the map at the bottom for smaller screens */
+@media (max-width: 900px) {
+    .top-row { 
+        flex-direction: column;
+    }
+
+    .image-slider{
+        max-width: 100% !important;
+    }
+
+
+    .right-block {
+        flex-direction: column;
+    }
+    
+    .details-row {
+         flex-direction: column;
+    }
+    .info-block,
+    .right-block {
+         width: 100%;
+    }
+    .map {
+         width: 100%;
+    }
+
+    .info-block{
+        margin-top:1rem;
+        margin-left:0;
+    }
+
+    .info-col{
+        width: 100%;
+    }
+}
+
+#bookingModal{
+    label{
+        color: black !important;
+    }
+
+    h1{
+        color: black !important;
+    }
+}
+
+.confirm-book-btn{
+    background-color: #ff8c00;
+    color: white;
+}
+
+.confirm-book-btn:hover{
+    background-color: #e67e22;
+    color: white;
+}
+
+h4{
+    margin-bottom: 1rem;
+    color: #bbb;
+    font-size: 1.2rem;
+    border-bottom: 1px solid #444;
+    padding-bottom: 0.5rem;
+}
+
+.header-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.header-row h3{
+    width: auto !important;
+}
+
+#reviews{
+    margin-top: 1rem;
+    border-top: 1px solid #444;
+    padding-top: 0.5rem;
+}
+
+.no-reviews{
+    color: #918989;
+}

@@ -1,0 +1,96 @@
+@media (max-width: 550px) {
+    h1 {
+        text-align: center;
+    }
+
+    
+}
+
+
+.second {
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    grid-auto-rows: auto;
+}
+
+
+
+.roommate-img {
+    width: 100%;
+    height:auto;
+    max-width:240px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    border: 2px solid rgb(237, 154, 0);
+    object-fit: cover;
+}
+
+.profile{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height:100%;
+}
+
+.card-name{
+    margin-top: 1rem;
+    text-align: center;
+    font-weight: 700;
+    font-size: 3rem;
+}
+
+.card-text{
+    text-align: center;
+    font-size: 1.25rem;
+    flex-grow: 1;
+}
+
+.roommate-btn{
+    margin-top: 1rem;
+    border-color: rgb(237, 154, 0);
+}
+
+.roommate-btn:hover{
+    background-color: #ff8c00;
+    border-color: #ff8c00;
+}
+
+.roommate-card{
+    height:100%;
+    background-color: #646464;
+    color: white;
+    transition: transform 0.2s;
+}
+
+.roommate-card:hover { transform: scale(1.02); }
+
+.profile-info{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.profile-bottom{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.match-score-section{
+    margin-bottom: 1.5rem;
+}
+
+.match-score{
+    background-color: #ff8c00;
+}
+
+.connect-btn-section{
+    margin-bottom:0 !important;
+}
+
+.top-row{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

@@ -1,0 +1,50 @@
+.reviews .container{
+    margin: 0;
+    width: 100%;
+    margin-top: 1rem;
+    border: 1px solid #ff8c00;
+    border-radius: 5px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.profile-image img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid rgb(237, 154, 0);
+    object-fit: cover;
+}
+
+.profile-row{
+    display:flex;
+    align-items: center;
+    border-bottom: 1px solid #444;
+    padding-bottom: 0.5rem;
+}
+
+.profile-row h5{
+    margin-bottom: 0;
+    margin-left: .5rem;
+}
+
+.rating-row{
+    display:flex;
+    align-items: end;
+    justify-content: space-between;
+    border-bottom: 1px solid #444;
+    padding-bottom: 0.5rem;
+    margin-top: .5rem;
+}
+
+.rating-row h3{
+    margin-bottom: 0;
+}
+
+.rating-row p{
+    color: #918989;
+}
+
+.col p{
+    margin-top: .5rem;
+}

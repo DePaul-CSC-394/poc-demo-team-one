@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <h2 class="mb-4">Profile</h2>
+        <div class="profile-page">
+            <form id="profile-form" method="POST" action="{% url 'save-profile' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="profile-header">
+                    <div class="profile-image">
+                        <label for="file-input">
+                            <img src="{{profile.image}}" alt="Profile Image" id="profile-img">
+                        </label>
+                        <input type="file" id="file-input" name="profile_image" accept="image/*" style="display: none;">
+                    </div>                  
+                    <div class="edit-container">
+                        <button type="button" id="edit-btn">Edit</button>
+                        <button type="submit" id="save-btn" style="display: none;">Save</button>
+                    </div>
+                </div>
+                <div class="profile-details">
+                    <div class="profile-category">
+                        <h3>Personal Information</h3>
+                        <div class="profile-field" id="name">
+                            <h2>Name</h2>
+                            <input type="text" name="name" value="{{ profile.name }}" readonly>
+                        </div>
+                        <div class="profile-field" id="gender">
+                            <h2>Gender</h2>
+                            <select id="gender-select" disabled>
+                                <option value="male" {% if profile.gender == "male" %}selected{% endif %}>Male</option>
+                                <option value="female" {% if profile.gender == "female" %}selected{% endif %}>Female</option>
+                            </select>
+                            <input type="hidden" name="gender" id="gender-hidden" value="{{ profile.gender }}">
+                        </div>
+                        <div class="profile-field" id="address-ln1">
+                            <h2>Address Line 1</h2>
+                            <input type="text" name="address_line1" value="{{ profile.address_line1 }}" readonly>
+                        </div>
+                        <div class="profile-field" id="address-ln2">
+                            <h2>Address Line 2</h2>
+                            <input type="text" name="address_line2" value="{{ profile.address_line2 }}" readonly>
+                        </div>
+                        <div class="profile-field" id="city">
+                            <h2>City</h2>
+                            <input type="text" name="city" value="{{ profile.city }}" readonly>
+                        </div>
+                        <div class="profile-field" id="state">
+                            <h2>State</h2>
+                            <input type="text" name="state" value="{{ profile.state }}" maxlength="2" readonly>
+                        </div>
+                    </div>
+                    <div class="profile-category">
+                        <h3>Emergency Contact</h3>
+                        <div class="profile-field" id="emergency-name">
+                            <h2>Name</h2>
+                            <input type="text" name="emergency_name" value="{{ profile.emergency_name }}" readonly>
+                        </div>
+                        <div class="profile-field" id="emergency-phone">
+                            <h2>Phone</h2>
+                            <input type="text" name="emergency_phone" value="{{ profile.emergency_phone }}" readonly>
+                        </div>
+                    </div>
+                    <div class="profile-category">
+                        <h3>Contact Information</h3>
+                        <div class="profile-field" id="email">
+                            <h2>Email</h2>
+                            <input type="email" name="email" value="{{ user.email }}" readonly>
+                        </div>
+                        <div class="profile-field" id="phone">
+                            <h2>Phone</h2>
+                            <input type="text" name="phone" value="{{ profile.phone }}" readonly>
+                        </div>
+                        <div class="profile-field" id="introduction">
+                            <h2>Introduction</h2>
+                            <input type="text" name="intro" value="{{ profile.intro }}" readonly>
+                        </div>
+                        <div class="checkbox-field" id="looking">
+                            <input class="form-check-input" type="checkbox" name="looking" id="roomate-check" disabled {% if profile.looking_roomate %}checked{% endif %}>
+                            <label class="form-check-label" for="roomate-check">
+                                Looking for a roommate
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <script>
+            const editBtn = document.getElementById('edit-btn');
+            const saveBtn = document.getElementById('save-btn');
+            editBtn.addEventListener('click', () => {
+                document.querySelectorAll('.profile-field input').forEach(input => {
+                    input.removeAttribute('readonly');
+                    input.style.border = '1px solid #555';
+                    input.style.padding = '5px';
+                });
+
+                document.querySelectorAll('.profile-field select').forEach(select => {
+                    select.removeAttribute('disabled');
+                    select.style.border = '1px solid #555';
+                    select.style.padding = '5px';
+                });
+
+                document.getElementById('roomate-check').removeAttribute('disabled');
+
+                editBtn.style.display = 'none';
+                saveBtn.style.display = 'inline-block';
+            });
+            saveBtn.addEventListener('click', () => {
+                document.querySelectorAll('.profile-field input').forEach(input => {
+                    input.setAttribute('readonly', 'readonly');
+                    input.style.border = 'none';
+                    input.style.padding = '0';
+                });
+
+                document.querySelectorAll('.profile-field select').forEach(select => {
+                    select.setAttribute('disabled', 'disabled');
+                    select.style.border = 'none';
+                    select.style.padding = '0';
+                });
+
+                document.getElementById('roomate-check').setAttribute('disabled', 'disabled');
+
+                saveBtn.style.display = 'none';
+                editBtn.style.display = 'inline-block';
+            });
+
+            document.getElementById('gender-select').addEventListener('change', function() {
+                document.getElementById('gender-hidden').value = this.value;
+            });
+
+            //remove disabled so it can still be updated in db
+            document.getElementById('profile-form').addEventListener('submit', function() {
+                document.getElementById('roomate-check').removeAttribute('disabled');
+                document.querySelectorAll('.profile-field select').forEach(select => {
+                    select.removeAttribute('disabled');
+                });
+            });
+
+            function addPreviewImage(input, previewId) {
+                //chatgpt assistance used
+                if (input.files) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const preview = document.getElementById(previewId);
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            document.getElementById('file-input').addEventListener('change', function() {
+                addPreviewImage(this, 'profile-img');
+            });
+        </script>
+    </div>  
+{% endblock %}
+
+{% block extrastyle %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}

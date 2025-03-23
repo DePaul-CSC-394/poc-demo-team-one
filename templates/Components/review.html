@@ -1,0 +1,29 @@
+{% load static %}
+{% load tz %}
+
+
+{% block extrastyle %}
+    <link rel="stylesheet" href="{% static 'css/review.css' %}" />
+{% endblock %}
+
+<div class="container">
+    <div class="profile-row">
+        <div class="profile-image">
+            <img src="{{review.user.profile.image}}" alt="Profile Image" id="profile-img">
+        </div> 
+        <h5>{{review.user.profile.name}}</h5>
+    </div>
+    <div class="col">
+        <div class="rating-row">
+            <div class="stars">
+                {% for star in "12345" %}
+                    {% if forloop.counter <= review.rating %}
+                        <i class="fa fa-star"></i>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <p>{{ review.date|localtime|date:"F j, Y" }}</p>
+        </div>
+        <p>{{review.description}}</p>
+    </div>
+</div>

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extrastyle %}
+<link rel="stylesheet" href="{% static 'css/roommatesDashboard.css' %}" />
+{% endblock %}
+
+{% block hero %}{% endblock %}
+
+{% block reviews %}{% endblock %}
+{% block content %}
+
+
+<div class="col-md-12 col-12 top-row">
+    <h1>We Might Have A Match For You!</h1>
+    <div class="right-side-btns">
+        <a href="{% url 'refreshResults' %}" class="btn btn-secondary"><i class="fa fa-refresh" aria-hidden="true"></i></a>
+        <a href="{% url 'editResponses' %}" class="btn btn-secondary">Edit Responses</a>
+    </div>
+</div>
+
+<div class="second row">
+    {% if roommates %}
+    {% for roommate, score in roommates %}
+    <div class="col-md-4 mb-4 roomate">
+        <div class="roommate-card card">
+            <div class="card-body">
+                <div class="profile">
+                    <div class="progress match-score-section w-100" role="progressbar"  aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar match-score" style="width: {{ score }}%">{{ score }}% Match</div>
+                    </div>
+                    <div class="profile-icon">
+                        <img src="{{roommate.image}}" alt="Roommate Photo" class="roommate-img">
+                    </div>
+                    <div class="profile-info w-100">
+                        <div class="card-name mb-1">
+                            {{ roommate.name }}
+                        </div>
+                        <div class="profile-bottom">
+                            <div class="card-text">
+                                {{ roommate.intro }}
+                            </div>
+                            {% comment %} <div class="progress match-score-section" role="progressbar"  aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar match-score" style="width: 75%">75% Match</div>
+                            </div> {% endcomment %}
+                            <div class="text-center mb-3 connect-btn-section">
+                                <a href="{%  url 'view-profile' roommate.user.id %}"
+                                    class="btn btn-md btn-outline-light roommate-btn w-100">Connect</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <h2>No matches, sorry!</h2>
+    {% endif %}
+</div>
+
+{% endblock %}
